@@ -1,0 +1,543 @@
+<%- include("navbar.ejs") %>
+
+<!-- home slider section -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual White Flame - Home</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+<body>
+
+<div class="main-wrapper">
+    <div class="slider-container">
+        <div class="slider-wrapper" id="sliderWrapper">
+            <div class="slide">
+                <img src="/img/slider1img.png" alt="Image 1">
+            </div>
+            <div class="slide">
+                <img src="/img/slider2img.png" alt="Image 2">
+            </div>
+            <div class="slide">
+                <img src="/img/slider3img.png" alt="Image 3">
+            </div>
+        </div>
+
+        <div class="dots-container">
+            <span class="dot active" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+     <!-- section 1 -->
+    <section class="vwf-about" id="aboutSection">
+        <div class="vwf-top-grid">
+            <div class="vwf-video-col reveal from-left" id="videoCol">
+                <div class="vwf-video-frame">
+                    <video src="/img/video1.mp4" autoplay muted loop playsinline preload="auto"></video>
+                </div>
+                <div class="vwf-badges">
+                    <span class="badge">Biomass Briquettes</span>
+                    <span class="badge">Biomass Pellets</span>
+                </div>
+            </div>
+
+            <div class="reveal from-right" id="textCol">
+                <div class="about-eyebrow">About Us</div>
+                <h2 class="vwf-company-name">Virtual White Flame PVT. LTD.</h2>
+                <p class="vwf-para">
+                    Virtual White Flame PVT. LTD. is a leading Biomass Briquettes/Biomass Pellets manufacturer &amp; supplier covering major regions of India. The company is established in Year 2011 by the name of Seva Bio Brikets with the dynamics of a mixed management. All directors are having more than 12 years of business experience. We help in converting all types of industrial, agriculture and forestry waste into solid fuel. Considering market demand of Briquettes &amp; to improve the customer service, established Virtual White Flame PVT. LTD. in Year 2017.
+                </p>
+                <button class="read-more-btn" id="readMoreBtn" onclick="vwfToggleAll()">
+                    Read More <span class="btn-arrow" id="btnArrow">&#9660;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="vwf-extra-text" id="extraText">
+            <div class="extra-inner">
+                <p>Virtual White Flame PVT. LTD. now produces and promotes sales of 10,000+ Biomass fuel per month. Our long-term experience in the industry has taught us how to meet and exceed each customer's expectation. The company has developed new technology resources for handling solid fuel to improve efficiency.</p>
+                <p>Virtual White Flame PVT. LTD. plays important roles for new vendor development and agriculture raw material collection and supplier development to huge scale aggregation and supply chain consulting.</p>
+            </div>
+        </div>
+
+        <div class="vwf-faq" id="faqSection">
+            <hr class="faq-divider"/>
+            <h3 class="faq-heading">Frequently Asked Questions</h3>
+
+            <div class="faq-item">
+                <button class="faq-btn" onclick="vwfToggleFaq(this)">
+                    <span>Q1. What different services do we provide?</span>
+                    <span class="faq-plus-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <ul>
+                        <li>We offer consultation services for start-up plant setup. Our primary focus is to educate start-up teams by providing valuable insights and expert advice to ensure their successful establishment. We also support with legal procedures such as licensing, subsidies, and certifications.</li>
+                        <li>We provide guidance on manufacturing processes, ensuring efficiency and effectiveness. Our organisation ensures every entity in our partnership experiences a growing sales graph. We assist in branding and provide strategic consultancy for sales growth, marketing techniques, and brand establishment planning.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-btn" onclick="vwfToggleFaq(this)">
+                    <span>Q2. Why choose us?</span>
+                    <span class="faq-plus-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <ul>
+                        <li>We have been working in the biomass sector for the last 12 years.</li>
+                        <li>We have implemented new innovative ideas for raw material collection and manufacturing units.</li>
+                        <li>We manufacture all types of briquettes and pellets at our own manufacturing company. We have a total of 15 manufacturing companies installed at various locations.</li>
+                        <li>Our aim is to make biomass briquettes &amp; pellets available at a minimum price compared to market rate while maintaining good quality.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-btn" onclick="vwfToggleFaq(this)">
+                    <span>Q3. What do we do?</span>
+                    <span class="faq-plus-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <ul>
+                        <li>We ensure the timely availability of biomass fuel to our customers, meeting their requirements and adhering to scheduled delivery times.</li>
+                        <li>Our commitment extends to supplying customers with high-quality materials at competitive prices, ensuring satisfaction with every transaction.</li>
+                        <li>We offer comprehensive technical guidance to customers, equipping them with the knowledge and systems to efficiently operate boilers and related equipment.</li>
+                        <li>Our energy solutions prioritise efficiency and sustainability, harnessing the power of renewable resources to meet environmental and operational needs.</li>
+                        <li>We provide comprehensive service including ash disposal, ensuring a seamless and hassle-free process from start to finish.</li>
+                        <li>Customers have access to a wide range of materials from our facilities. Our extensive network allows us to fulfil orders from multiple locations, ensuring consistent supply and flexibility.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-btn" onclick="vwfToggleFaq(this)">
+                    <span>Q4. What's ahead?</span>
+                    <span class="faq-plus-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <ul>
+                        <li><strong>Production Capacity Enhancement:</strong> Within the next three months we are upgrading our production capacity near groundnut shell resources at Lasur Station and Vahimandawa to meet growing demand.</li>
+                        <li><strong>GPS Integration for Transport Vehicles:</strong> We are implementing a GPS system across all transport vehicles to enhance shipment tracking and ensure punctual delivery.</li>
+                        <li><strong>Quality Inspection Laboratories:</strong> We are developing in-house quality inspection laboratories at all manufacturing locations to strengthen quality control and facilitate continuous product improvement.</li>
+                        <li><strong>Business Expansion:</strong> We are establishing new offices in Pune &amp; Delhi to enhance our service offerings and strengthen our market presence across India.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+     <!-- section 2 -->
+    <section class="vwf-plants" id="plantsSection">
+        <div class="vwf-plants-hero p-reveal" id="plantsHero">
+            <div class="vwf-plants-eyebrow">
+                <span class="dot"></span>
+                Manufacturing Network
+                <span class="dot"></span>
+            </div>
+            <h2 class="vwf-plants-title">
+                Our <span class="highlight">Plants</span>
+            </h2>
+            <p class="vwf-plants-subtitle">
+                15+ manufacturing units spread across Maharashtra — delivering quality biomass briquettes &amp; pellets at your doorstep.
+            </p>
+        </div>
+
+        <div class="vwf-cards-grid" id="plantsGrid">
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants1.png" alt="Balaji Bio Fuels Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">BBF</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Balaji Bio Fuels</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gut No.89, Ghosapuri, NH-211 Kumshi Road, Behind RTO Office, Ta.Dist. Beed, Maharashtra-431122</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9322165092">9322165092</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:operation.virtualwhiteflame@gmail.com">operation.virtualwhiteflame@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants2.png" alt="Virtual White Flame Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">VWF</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Virtual White Flame PVT. LTD.</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Bodhegoan, Shevgoan, Ahmednagar, Maharashtra 414001</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9423390308">9423390308</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:ananta.zirpe@virtualwhiteflame.com">ananta.zirpe@virtualwhiteflame.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants3.png" alt="Seva Bio Brikets Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">SBB</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Seva Bio Brikets</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gat No. 77, at Divate, Post. Ladjalgoan, Tal- Shevgoan Maharashtra 414502</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9420950022">9420950022</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sevabiobrikets@gmail.com">sevabiobrikets@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants4.png" alt="Virtual Green Energy Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">VGE</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Virtual Green Energy</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gut no. 666, Tal. Panchayat Samiti Jalna, Nr Jalna, Maharashtra, 431202</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:7821910054">7821910054</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:vwfpl.sales@gmail.com">vwfpl.sales@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants5.png" alt="Bharati Biocoal Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">BB</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Bharati Biocoal</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Lad Karanja, Tal-Karanja, Dist-Washim</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9325931778">9325931778</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:bharatibiocoal@gmail.com">bharatibiocoal@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants6.png" alt="Dhanashree Bio Fuel Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">GS</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Dhanashree Bio Fuel</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Kolgaon, Shrigonda, Ahmednagar - 413728</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9209695919">9209695919</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sales@virtualwhiteflame.com">sales@virtualwhiteflame.com</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="vwf-plant-card p-reveal">
+                <div class="vwf-card-logo">
+                    <img src="/img/plants7.png" alt="Jay Bajrang Bio Energy Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+                    <div class="logo-placeholder" style="display:none;">JB</div>
+                </div>
+                <div class="vwf-card-body">
+                    <div class="vwf-card-name">Jay Bajrang Bio Energy Solution</div>
+                    <div class="vwf-card-info">
+                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gat No. 481/4 Astagaon Road, Rajuri</span></div>
+                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9209695919">9209695919</a></div>
+                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sales@virtualwhiteflame.com">sales@virtualwhiteflame.com</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="vwf-stats-bar p-reveal" id="plantsStats">
+            <div class="vwf-stat-item">
+                <div class="vwf-stat-number"><em data-target="10">0</em>X</div>
+                <div class="vwf-stat-label">Yearly Growth</div>
+            </div>
+            <div class="vwf-stat-item">
+                <div class="vwf-stat-number"><em data-target="950">0</em>+</div>
+                <div class="vwf-stat-label">Supplier Network</div>
+            </div>
+            <div class="vwf-stat-item">
+                <div class="vwf-stat-number"><em data-target="100">0</em>+</div>
+                <div class="vwf-stat-label">Customers</div>
+            </div>
+            <div class="vwf-stat-item">
+                <div class="vwf-stat-number"><em data-target="7000">0</em>+</div>
+                <div class="vwf-stat-label">Tons Supply Capacity</div>
+            </div>
+        </div>
+    </section>
+     <!-- section 3 -->
+    <section class="vwf-process" id="processSection">
+        <div class="vwf-proc-hero proc-reveal">
+            <h2 class="vwf-proc-title">Working Process Of<br>Biomass Briquettes</h2>
+        </div>
+
+        <div class="vwf-proc-grid">
+            <div class="vwf-proc-card proc-reveal">
+                <div class="vwf-proc-img-holder">
+                    <img src="/img/section3img1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                    <div class="vwf-proc-placeholder-text" style="display:none;">[ Image Blank ]</div>
+                </div>
+                <div class="vwf-proc-name">Farmers</div>
+            </div>
+
+            <div class="vwf-proc-card proc-reveal">
+                <div class="vwf-proc-img-holder">
+                    <img src="/img/section3img2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                    <div class="vwf-proc-placeholder-text" style="display:none;">[ Image Blank ]</div>
+                </div>
+                <div class="vwf-proc-name">Local Agents</div>
+            </div>
+
+            <div class="vwf-proc-card proc-reveal">
+                <div class="vwf-proc-img-holder">
+                    <img src="/img/section3img3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                    <div class="vwf-proc-placeholder-text" style="display:none;">[ Image Blank ]</div>
+                </div>
+                <div class="vwf-proc-name">Briquettes &amp; Pellets<br>Manufacturing</div>
+            </div>
+
+            <div class="vwf-proc-card proc-reveal">
+                <div class="vwf-proc-img-holder">
+                    <img src="/img/section3img4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                    <div class="vwf-proc-placeholder-text" style="display:none;">[ Image Blank ]</div>
+                </div>
+                <div class="vwf-proc-name">Boiler Industries</div>
+            </div>
+        </div>
+    </section>
+      <!-- section 4 -->
+    <section class="vwf-testimonial-sec" id="testimonialSection">
+        <div class="vwf-testi-bg-circle-1"></div>
+        <div class="vwf-testi-bg-circle-2"></div>
+
+        <div class="vwf-testi-container">
+            <div class="vwf-testi-left-block">
+                <h2 class="vwf-testi-hero-title testi-reveal">Clients Testimonials</h2>
+
+                <div class="vwf-testi-slider-wrapper testi-reveal" style="transition-delay: 0.15s;">
+                    <div class="vwf-testi-slider-track" id="testiSliderTrack">
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img1.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 1</div>
+                            </div>
+                            <p class="vwf-testi-quote">"We've been partners with Virtual White Flame PVT LTD. For years, and their Biomass briquettes & Pelletes solutions have consistently exceeded our expectations. Their innovative approach has helped us achieve higher production efficiency and maintain environmental compliance effortlessly."</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Thermax onsite energy solutions LTD</span>
+                                    <span class="vwf-testi-city">Pune</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img2.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 2</div>
+                            </div>
+                            <p class="vwf-testi-quote">"Virtual White Flame PVT LTD. dedication to quality shines through in every interaction. Their customer service team is knowledgeable and responsive, ensuring we always get the right solution for our needs."</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Uni klinger Limited</span>
+                                    <span class="vwf-testi-city">Koregaon Bhima</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img3.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 3</div>
+                            </div>
+                            <p class="vwf-testi-quote">"Choosing Virtual White Flame PVT LTD. was one of the best decisions for our business. Their products are robust, reliable, and contribute significantly to our operational efficiency and cost savings."</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Ramakrishi rasayan Ltd</span>
+                                    <span class="vwf-testi-city">Loni kalbhor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img4.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 4</div>
+                            </div>
+                            <p class="vwf-testi-quote">"we realy appreciate to Virtual White Flame PVT LTD.for all briquettes industrial needs. Their products are reliable and durable, which is crucial for our manufacturing processes. he highly recommend techniques them to anyone looking for top-notch in boiler operations solutions".</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Britania Industries Ltd</span>
+                                    <span class="vwf-testi-city">Ranjangaon</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img5.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 5</div>
+                            </div>
+                            <p class="vwf-testi-quote">"Virtual White Flame PVT LTD.' delivery service is not only fast but also reliable. I never have to worry about missing deadlines because they deliver exactly when they promise"</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Katraj Dairy</span>
+                                    <span class="vwf-testi-city">Pune</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img6.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 6</div>
+                            </div>
+                            <p class="vwf-testi-quote">"Virtual White Flame PVT LTD. To quality craftsmanship is evident in every tasking they produce. Combined with their efficient delivery service, they've become our trusted partner in industrial supplies."</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Classic industries and Exports Ltd</span>
+                                    <span class="vwf-testi-city">Ranjangaon</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img7.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 7</div>
+                            </div>
+                            <p class="vwf-testi-quote">"As a long-time supplier, we can confidently say that Virtual White Flame PVT LTD. excels in both product quality and delivery speed. They understand our needs and consistently provide solutions that exceed expectations".</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">CPF India Pvt Ltd</span>
+                                    <span class="vwf-testi-city">Newasa</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="vwf-testi-slide">
+                            <div class="vwf-testi-logo-box">
+                                <img src="/img/section4img8.png" alt="" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"/>
+                                <div class="vwf-testi-blank-logo-text" style="display:none;">Logo 8</div>
+                            </div>
+                            <p class="vwf-testi-quote">"Virtual White Flame PVT LTD. Not only delivers exceptional products but also does so with remarkable efficiency. We never had an issue with late deliveries, and their products consistently meet our stringent quality standards".</p>
+                            <div class="vwf-testi-author-meta">
+                                <div class="vwf-testi-line"></div>
+                                <div class="vwf-testi-details">
+                                    <span class="vwf-testi-name">Fresenious Kabi India Pvt Ltd.</span>
+                                    <span class="vwf-testi-city">Ranjangaon</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vwf-testi-dots" id="testiDotsContainer"></div>
+                </div>
+            </div>
+
+            <div class="vwf-testi-machine-zone testi-reveal" style="transition-delay: 0.3s;">
+                <div class="vwf-testi-machine-wrapper">
+                    <img src="/img/Vmachine.png" alt="Machine Product" onerror="this.style.display='none';"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- section 5 - BLOG SECTION -->
+<section class="vwf-blog-sec" id="blogSection">
+    <div class="vwf-blog-container">
+        <div class="vwf-blog-header vwf-reveal">
+            <h2 class="vwf-blog-main-title">News & Blogs</h2>
+        </div>
+
+        <div class="vwf-blog-grid">
+            <!-- Blog Card 1 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img1.png" alt="Biomass Fuel" onerror="this.src='https://via.placeholder.com/400x250?text=Biomass+News'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">12 Oct 2024</span>
+                    <h3 class="vwf-blog-title">BIOMASS FUELS OVER FOSSIL FUELS</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Blog Card 2 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img2.png" alt="Biomass Process" onerror="this.src='https://via.placeholder.com/400x250?text=Biomass+Process'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">10 Oct 2024</span>
+                    <h3 class="vwf-blog-title">HOW BIOMASS RESIDUE AND BIOFUEL-RECYCLE WASTE BY BRIQUETTES AND PELLETS WORKS</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Blog Card 3 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img3.png" alt="Future of Biomass" onerror="this.src='https://via.placeholder.com/400x250?text=Future+of+Biomass'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">09 Oct 2024</span>
+                    <h3 class="vwf-blog-title">THE FUTURE OF BIOMASS BRIQUETTE: REDUCE CARBON, EMBRACE SUSTAINABILITY</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vwf-blog-footer vwf-reveal">
+            <a href="/blog" class="vwf-view-all-btn">
+                <span>View All Posts</span>
+                <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+</div>
+
+<script src="/js/home.js"></script>
+</body>
+</html>
+<!-- Floating Contact Buttons -->
+
+<div class="floating-buttons">
+
+    <a href="https://wa.me/919423390308"
+       class="whatsapp-btn"
+       target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <a href="tel:+919420950022"
+       class="call-btn">
+        <i class="fa-solid fa-phone"></i>
+    </a>
+
+</div>
+
+<%- include("footer.ejs") %>
