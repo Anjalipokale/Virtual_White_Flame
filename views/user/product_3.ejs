@@ -1,0 +1,234 @@
+<%- include("navbar.ejs") %>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/css/product.css">
+<link rel="stylesheet" href="/js/script.js">
+
+<!-- Product Inquiry Popup -->
+<div id="inquiryModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeInquiry()">&times;</span>
+
+        <h2>Product Inquiry</h2>
+
+        <form>
+            <input type="text" id="productName" readonly>
+
+            <input type="text" placeholder="Your Name" required>
+
+            <input type="email" placeholder="Your Email" required>
+
+            <input type="tel" placeholder="Your Mobile Number" required>
+
+            <textarea placeholder="Your Inquiry" rows="4"></textarea>
+
+            <button type="submit">Submit Inquiry</button>
+        </form>
+    </div>
+</div>
+
+<!-- banner -->
+<section class="pro_banner1 d-flex justify-content-center align-items-center">
+    <h1 class="text-white fw-bold display-3 bg-dark bg-opacity-50 text-white px-4 py-2 rounded">
+        Product Details
+    </h1>
+</section>
+<!-- product details -->
+<section class="product-detail-section">
+
+    <div class="product-image-box">
+
+    <img src="./img/pro_3.jpg" class="main-image" alt="">
+
+    <div class="related-images">
+        <img src="./img/pro_3.jpg"
+            data-info="Groundnut Shell - Cost-effective fuel for industrial use."
+             alt="">
+
+        <img src="./img/pro_2.jpg"
+             data-info="Soya Husk Briquette - Renewable biomass fuel with low moisture."
+             alt="">
+
+        <img src="./img/pro_1.jpg"
+             data-info="Sawdust Briquette - High calorific value and eco-friendly fuel."
+             alt="">
+
+        <img src="./img/pro_4.jpg"
+             data-info="Biomass Pellets - Clean burning fuel with high efficiency."
+             alt="">
+    </div>
+
+    <div class="image-info">
+       data-info="Groundnut Shell - Cost-effective fuel for industrial use."
+    </div>
+
+</div>
+
+    <div class="divider"></div>
+
+    <div class="product-info">
+
+        <h2>Groundnut Shell Briquette</h2>
+
+        <div class="stars">
+            ★★★★★
+        </div>
+
+        <div class="feature">
+    <span class="check-box">✓</span>
+    Caloric Value is up to 4000 kcal/Kg
+</div>
+
+<div class="feature">
+    <span class="check-box">✓</span>
+   Ash Production - 10 to 12% +-1%
+</div>
+
+<div class="feature">
+    <span class="check-box">✓</span>
+    Moisture - 7 to8% +-2%
+</div>
+
+<div class="feature">
+    <span class="check-box">✓</span>
+   High Heat Output<br>
+   Low Moisture Content
+</div>
+
+<div class="share-box">
+    <span>Share Now</span>
+
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https://virtualwhiteflame.com"
+       target="_blank" class="social-icon">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://virtualwhiteflame.com"
+       target="_blank" class="social-icon">
+        <i class="fab fa-linkedin-in"></i>
+    </a>
+
+    <a href="https://www.instagram.com/"
+       target="_blank" class="social-icon">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="https://wa.me/?text=https://virtualwhiteflame.com"
+       target="_blank" class="social-icon">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<button class="know-more-btn" onclick="openInquiry('Groundnut Shell Briquette')">
+    Inquiry
+</button>
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</div>
+
+
+
+</section>
+
+
+<!-- Frequently Asked Questions -->
+<section class="faq-section">
+
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+        <!-- question 1 -->
+        <button class="faq-question">
+            1. What are Groundnut Shell Briquettes?
+            <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+            Groundnut Shell Briquettes are biomass fuel made from compressed peanut shell waste.
+        </div>
+
+    </div>
+ 
+    <!-- question 2 -->
+    <div class="faq-item">
+    <button class="faq-question">
+            2. What are the main applications of Groundnut Shell Briquettes?
+            <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+        They are used in industrial boilers, furnaces, and heating systems.
+        </div>
+    </div>
+    
+    <!-- question 3 -->
+    <div class="faq-item">
+      <button class="faq-question">
+            3. Are Groundnut Shell Briquettes eco-friendly?
+            <span class="icon">+</span>
+        </button>
+
+        <div class="faq-answer">
+            Yes, they are a renewable and environmentally friendly fuel source.
+        </div>
+    </div>
+     
+    <!-- quetion 4 -->
+    <div class="faq-item">
+        <button class="faq-question">
+            4. Can Groundnut Shell Briquettes replace coal?
+            <span class="icon">+</span>
+        </button>
+        <div class="faq-answer">
+        Yes, they can be used as a cost-effective alternative to coal in many industries.
+        </div>
+    </div>
+
+</section>
+
+<!-- Floating Contact Buttons -->
+
+<div class="floating-buttons">
+
+    <a href="https://wa.me/919423390308"
+       class="whatsapp-btn"
+       target="_blank">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <a href="tel:+919420950022"
+       class="call-btn">
+        <i class="fa-solid fa-phone"></i>
+    </a>
+
+</div>
+
+<script>
+const faqItems = document.querySelectorAll(".faq-item");
+
+faqItems.forEach(item => {
+    const btn = item.querySelector(".faq-question");
+
+    btn.addEventListener("click", () => {
+        item.classList.toggle("active");
+    });
+});
+
+const mainImage = document.querySelector(".main-image");
+const thumbnails = document.querySelectorAll(".related-images img");
+const imageInfo = document.querySelector(".image-info");
+
+thumbnails.forEach(img => {
+
+    img.addEventListener("click", () => {
+
+        mainImage.src = img.src;
+
+        imageInfo.innerText = img.getAttribute("data-info");
+
+    });
+
+});
+
+</script>
+<%- include("footer.ejs") %>

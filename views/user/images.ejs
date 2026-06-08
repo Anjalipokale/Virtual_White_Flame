@@ -1,0 +1,205 @@
+<%- include('navbar.ejs') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/gallery.css">
+</head>
+<body>
+  
+   <section class="banner">
+
+    <img src="/img/bg.jpeg" alt="Banner">
+
+    <div class="banner-text">
+        <h1>Gallery</h1>
+       
+    </div>
+
+</section>
+  <section class="gallery-section">
+
+    <div class="filter-buttons">
+        <button onclick="filterGallery('all')">Show All</button>
+        <button onclick="filterGallery('machinery')">Machineries</button>
+        <button onclick="filterGallery('social')">Factory Photos</button>
+        <button onclick="filterGallery('product')">Product</button>
+    </div>
+
+    <div class="gallery">
+
+        <!-- Machinery -->
+ <div class="gallery-item machinery">
+            <img src="/img/M3.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Pellets Machine</h3>
+        </div>
+
+
+        <div class="gallery-item machinery">
+            <img src="/img/M1.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Briquettes Machine</h3>
+        </div>
+
+        <div class="gallery-item machinery">
+            <img src="img/M2.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Hammer Mill</h3>
+        </div>
+
+        
+        <div class="gallery-item machinery">
+            <img src="/img/M4.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Mineral Powder </h3>
+        </div>
+
+        <!-- Social -->
+        <div class="gallery-item social">
+            <img src="img/F2.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Tree Plantation</h3>
+        </div>
+
+        <div class="gallery-item social">
+            <img src="img/F3.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Social Event</h3>
+        </div>
+
+         <div class="gallery-item social">
+            <img src="img/F1.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Biomass Fuel</h3>
+
+        </div>
+        <div class="gallery-item social">
+            <img src="img/F4.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3> Energy Resource</h3>
+
+        </div>
+
+        <!-- Product -->
+       
+
+        
+         <div class="gallery-item product">
+            <img src="img/P2.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Biomass Briquettes</h3>
+        </div>
+
+         <div class="gallery-item product">
+            
+            <img src="img/P3.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Saw Dust Pellets</h3>
+        </div>
+
+         <div class="gallery-item product">
+            
+            <img src="img/P5.jpeg" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Wood Pellets</h3>
+        </div>
+         <div class="gallery-item product">
+            
+            <img src="img/P1.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Saw Dust Wood Chips Briquette</h3>
+        </div>
+
+         <div class="gallery-item product">
+            
+            <img src="img/P4.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Corn Cob Briquette</h3>
+        </div>
+         <div class="gallery-item product">
+            
+            <img src="img/P6.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Pure Soya Husk Briquette</h3>
+        </div>
+        <div class="gallery-item product">
+            
+            <img src="img/P7.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>Mustard Pellete</h3>
+        </div>
+         <div class="gallery-item product">
+            
+            <img src="img/P8.png" alt="">
+            <div class="overlay">
+                <span>➜</span>
+            </div>
+            <h3>White Coal</h3>
+        </div>
+    </div>
+<div id="lightbox" class="lightbox">
+    <span class="close" onclick="closeLightbox()">×</span>
+
+    <img id="lightbox-img">
+
+    <a class="prev" onclick="changeImage(-1)">❮</a>
+    <a class="next" onclick="changeImage(1)">❯</a>
+</div>
+
+<!-- floating buttons -->
+<div class="floating-buttons">
+
+    <a href="/products" class="product-btn" title="Our Products">
+        <i class="fa-solid fa-box"></i>
+    </a>
+
+    <a href="tel:+919420950022" class="call-btn" title="Call Us">
+        <i class="fa-solid fa-phone"></i>
+    </a>
+
+    <a href="https://wa.me/919423390308"
+       class="whatsapp-btn"
+       target="_blank"
+       title="WhatsApp Us">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+</div>
+
+</section>
+<script src="script.js"></script>
+</body>
+</html>
+<%- include('footer.ejs') %>

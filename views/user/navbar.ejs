@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VirtualWhiteFlame</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="/css/web.css">
+  <link rel="icon" type="image/png" href="/img/logo.jpg">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+
+    <!-- LOGO IMAGE -->
+    <a href="#" class="nav-logo">
+      <img src="/img/logo.jpg" alt="VirtualWhiteFlame Private Limited" class="logo-img" />
+    </a>
+
+    <!-- NAV MENU -->
+    <ul class="nav-menu">
+
+      <li class="nav-item">
+        <a href="/" class="nav-link">Home</a>
+      </li>
+
+      <!-- About Us -->
+      <li class="nav-item">
+          <span class="nav-link">About Us <i class="fa fa-chevron-down arrow"></i></span>
+          <div class="dropdown">
+            <ul class="dropdown-list">
+              <li><a href="/about"><span class="di"><i class="fa fa-building"></i></span>About Us</a></li>
+              <li><a href="/company-history"><span class="di"><i class="fa fa-landmark"></i></span>Company History</a>
+              </li>
+              <li><a href="/vision-mission"><span class="di"><i class="fa fa-eye"></i></span>Vision &amp; Mission</a>
+              </li>
+              <li><a href="/founder"><span class="di"><i class="fa-solid fa-user"></i></span>Founder</a></li>
+            </ul>
+          </div>
+        </li>
+
+      <!-- Services -->
+      <li class="nav-item">
+        <span class="nav-link">Services <i class="fa fa-chevron-down arrow"></i></span>
+        <div class="dropdown mega-dropdown">
+          <div class="mega-inner">
+            <a href="/support_services" class="mega-item">
+              <div class="mega-icon">⚙️</div>
+              <div class="mega-text"><strong>Support Services</strong><span></span></div>
+            </a>
+            <a href="#" class="mega-item">
+              <div class="mega-icon">🔥</div>
+              <div class="mega-text"><strong>Biomass Briquettes &amp; Pellets Manufacture</strong><span>High-density biomass manufacturing</span></div>
+            </a>
+            
+            <a href="#" class="mega-item">
+              <div class="mega-icon">🛠️</div>
+              <div class="mega-text"><strong>Operation and Management</strong><span>End-to-end plant operation services</span></div>
+            </a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item"><a href="/products" class="nav-link">Products</a></li>
+      <li class="nav-item"><a href="#" class="nav-link">Plants</a></li>
+
+      <!-- Gallery -->
+      <li class="nav-item">
+        <span class="nav-link">Gallery <i class="fa fa-chevron-down arrow"></i></span>
+        <div class="dropdown gallery-dropdown">
+          <div class="gallery-grid">
+            <a href="/videos" class="gallery-card"><span class="gc-icon">📹</span>Videos</a>
+            <a href="/images" class="gallery-card"><span class="gc-icon">🖼️</span>Images</a>
+            <a href="/event_albums" class="gallery-card"><span class="gc-icon">📁</span>Event Albums</a>
+          </div>
+        </div>
+      </li>
+
+      <li class="nav-item"><a href="/career" class="nav-link">Career</a></li>
+      <li class="nav-item"><a href="/contact" class="nav-link">Contact Us</a></li>
+
+    </ul>
+
+    <!-- RIGHT CONTROLS -->
+    <div class="nav-right">
+      <button class="search-icon-btn" id="searchBtn" title="Search">
+        <i class="fa fa-search"></i>
+      </button>
+      <div class="nav-divider"></div>
+      <a href="/img/brouture.pdf" download="brouture.pdf" class="btn-brochure">
+        <i class="fa fa-download"></i> Brouture
+      </a>
+    </div>
+    <button class="menu-toggle" id="mobile-menu-btn">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
+  </div>
+</nav>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-box">
+    <div class="sb-header">
+      <i class="fa fa-search sb-ico"></i>
+      <input type="text" class="sb-input" id="searchInput" placeholder="Search menu items…" autocomplete="off" />
+      <button class="sb-close" id="searchClose"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-results" id="searchResults"></div>
+    <div class="sb-hint">Press <strong>Esc</strong> to close</div>
+  </div>
+</div>
+
+<script src="/js/script.js">
+    
+  
+</script>
+<script>
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const navMenu = document.querySelector('.nav-menu');
+
+  
+  menuBtn.addEventListener('click', () => {
+    menuBtn.classList.toggle('active');
+    navMenu.classList.toggle('active');
+  });
+
+  
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      if (window.innerWidth <= 992) {
+        const dropdown = link.nextElementSibling;
+        if (dropdown && (dropdown.classList.contains('dropdown') || dropdown.classList.contains('mega-dropdown'))) {
+          e.preventDefault(); 
+          dropdown.classList.toggle('open');
+          
+          
+          const arrow = link.querySelector('.arrow');
+          if (arrow) {
+            arrow.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
+          }
+        }
+      }
+    });
+  });
+</script>
+</body>
+</html>
