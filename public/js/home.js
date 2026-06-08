@@ -1,4 +1,4 @@
-home.js -  // home slider
+// home slider
 (function() {
     const wrapper = document.getElementById('sliderWrapper');
     const dots = document.querySelectorAll('.dot');
