@@ -1,0 +1,105 @@
+:root {
+    --g1: #1b5e20; --g2: #2e7d32; --g3: #388e3c; --g4: #43a047;
+    --g5: #66bb6a; --g6: #a5d6a7; --g7: #e8f5e9;
+    --o1: #bf360c; --o2: #e64a19; --o3: #f4511e; --o4: #ff7043;
+    --o5: #ff8a65; --o6: #ffccbc; --o7: #fbe9e7;
+    --white: #ffffff; --text: #1a2e1a; --text-mid: #3a5c3a;
+    --text-light: #6a8c6a; --bg: #f4faf4;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); }
+
+  .hero-wrap { width: 100%; position: relative; line-height: 0; }
+  .hero-img { width: 100%; height: 420px; object-fit: cover; object-position: center; display: block; filter: brightness(0.62); }
+  .hero { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 2; }
+  .hero-inner { position: relative; z-index: 2; text-align: center; color: #fff; padding: 0 20px; }
+  .hero-tag { display: inline-block; background: var(--o3); color: #fff; font-size: 0.72rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; padding: 5px 16px; border-radius: 99px; margin-bottom: 18px; animation: up 0.6s 0.1s both; }
+  .hero-title { font-size: clamp(3rem, 8vw, 5.5rem); font-weight: 900; line-height: 1; letter-spacing: -1px; animation: up 0.6s 0.25s both; }
+  .hero-title em { font-style: normal; color: var(--o4); }
+  .hero-sub { margin-top: 16px; font-size: 1rem; font-weight: 400; color: rgba(255,255,255,0.8); animation: up 0.6s 0.4s both; }
+  .hero-bar { width: 48px; height: 4px; background: var(--o3); border-radius: 99px; margin: 22px auto 0; animation: up 0.6s 0.55s both; }
+  @keyframes up { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+
+  .wrap { max-width: 1260px; margin: 0 auto; padding: 64px 24px 80px; }
+
+  .filter-row { display: flex; gap: 12px; margin-bottom: 56px; flex-wrap: wrap; }
+  .filter-btn { display: flex; align-items: center; gap: 8px; padding: 12px 26px; border-radius: 99px; font-family: 'Nunito', sans-serif; font-size: 0.9rem; font-weight: 700; cursor: pointer; border: 2.5px solid transparent; transition: all 0.22s ease; background: var(--white); }
+  .filter-btn .dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+  .filter-btn.all { border-color: var(--g2); color: var(--g1); }
+  .filter-btn.all .dot { background: var(--g3); }
+  .filter-btn.sus { border-color: var(--g3); color: var(--g1); }
+  .filter-btn.sus .dot { background: var(--g4); }
+  .filter-btn.tech { border-color: var(--o2); color: var(--o1); }
+  .filter-btn.tech .dot { background: var(--o3); }
+  .filter-btn.agri { border-color: var(--o2); color: var(--o1); }
+  .filter-btn.agri .dot { background: var(--o4); }
+  .filter-btn:hover, .filter-btn.active { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.12); }
+  .filter-btn.all.active { background: var(--g2); color: #fff; border-color: var(--g2); }
+  .filter-btn.sus.active { background: var(--g3); color: #fff; border-color: var(--g3); }
+  .filter-btn.tech.active { background: var(--o3); color: #fff; border-color: var(--o3); }
+  .filter-btn.agri.active { background: var(--o3); color: #fff; border-color: var(--o3); }
+  .filter-btn.active .dot { background: rgba(255,255,255,0.7); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+
+  .card { background: var(--white); border-radius: 20px; overflow: hidden; border: 1.5px solid #e0ece0; transition: transform 0.28s, box-shadow 0.28s, border-color 0.28s; display: flex; flex-direction: column; }
+  .card[data-cat="technology"] { border-color: #fdd5c8; }
+  .card[data-cat="agriculture"] { border-color: #fdd5c8; }
+  .card[data-cat="sustainability"]:hover { border-color: var(--o4); }
+  .card[data-cat="technology"]:hover { border-color: var(--g4); }
+  .card[data-cat="agriculture"]:hover { border-color: var(--g4); }
+  .card:hover { transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.10); }
+
+  .card-img-wrap { position: relative; height: 200px; background: var(--g7); overflow: hidden; transition: background 0.28s; }
+  .card[data-cat="technology"] .card-img-wrap { background: var(--o7); }
+  .card[data-cat="agriculture"] .card-img-wrap { background: var(--o7); }
+  .card[data-cat="sustainability"]:hover .card-img-wrap { background: var(--o7); }
+  .card[data-cat="technology"]:hover .card-img-wrap { background: var(--g7); }
+  .card[data-cat="agriculture"]:hover .card-img-wrap { background: var(--g7); }
+  .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .card-badge { position: absolute; top: 14px; left: 14px; font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; color: #fff; transition: background 0.28s; }
+  .card[data-cat="sustainability"] .card-badge { background: var(--g3); }
+  .card[data-cat="technology"] .card-badge { background: var(--o3); }
+  .card[data-cat="agriculture"] .card-badge { background: var(--o3); }
+  .card[data-cat="sustainability"]:hover .card-badge { background: var(--o3); }
+  .card[data-cat="technology"]:hover .card-badge { background: var(--g3); }
+  .card[data-cat="agriculture"]:hover .card-badge { background: var(--g3); }
+
+  .card-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .card-date { font-size: 0.78rem; font-weight: 600; color: var(--text-light); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+  .card[data-cat="sustainability"] .card-date::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--g4); display:inline-block; flex-shrink:0; transition: background 0.28s; }
+  .card[data-cat="technology"] .card-date::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--o4); display:inline-block; flex-shrink:0; transition: background 0.28s; }
+  .card[data-cat="agriculture"] .card-date::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--o4); display:inline-block; flex-shrink:0; transition: background 0.28s; }
+
+  .card-title { font-size: 0.98rem; font-weight: 700; line-height: 1.5; color: var(--text); flex: 1; margin-bottom: 18px; }
+
+  .read-btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 20px; border-radius: 99px; font-family: 'Nunito', sans-serif; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; border: none; cursor: pointer; color: #fff; transition: background 0.28s; align-self: flex-start; text-decoration: none; }
+  .card[data-cat="sustainability"] .read-btn { background: var(--g3); }
+  .card[data-cat="sustainability"]:hover .read-btn { background: var(--o3); }
+  .card[data-cat="technology"] .read-btn { background: var(--o3); }
+  .card[data-cat="technology"]:hover .read-btn { background: var(--g3); }
+  .card[data-cat="agriculture"] .read-btn { background: var(--o3); }
+  .card[data-cat="agriculture"]:hover .read-btn { background: var(--g3); }
+  .read-btn svg { width:13px; height:13px; transition: transform 0.2s; }
+  .card:hover .read-btn svg { transform: translateX(4px); }
+
+  .cat-block { margin-bottom: 72px; }
+  .cat-block.hidden { display: none; }
+  .card { animation: fadeCard 0.4s both; }
+  @keyframes fadeCard { from { opacity:0; transform: translateY(14px); } to { opacity:1; transform: translateY(0); } }
+
+  @media(max-width:600px){
+    .hero-img { height: 300px; }
+    .grid { grid-template-columns: 1fr; }
+    .filter-row { gap: 8px; }
+    .filter-btn { padding: 9px 16px; font-size: 0.82rem; }
+  }
+
+  /* Floating buttons */
+  .floating-buttons { position:fixed; right:20px; bottom:25px; z-index:9999; display:flex; flex-direction:column; gap:12px; }
+  .whatsapp-btn, .call-btn { width:58px; height:58px; display:flex; align-items:center; justify-content:center; border-radius:14px; color:#fff; text-decoration:none; box-shadow:0 8px 20px rgba(0,0,0,.18); flex-shrink:0; }
+  .whatsapp-btn i { font-size:30px; line-height:1; }
+  .call-btn i { font-size:22px; line-height:1; }
+  .whatsapp-btn { background:#25D366; }
+  .call-btn { background:#FF8F00; }
