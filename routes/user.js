@@ -61,34 +61,7 @@ router.get("/services",function(req,res){
     res.render("user/product_1.ejs")
  })
 
- router.get("/product_2",function(req,res){
-    res.render("user/product_2.ejs")
- })
-
- router.get("/product_3",function(req,res){
-    res.render("user/product_3.ejs")
- })
-
- router.get("/product_4",function(req,res){
-    res.render("user/product_4.ejs")
- })
-
- router.get("/product_5",function(req,res){
-    res.render("user/product_5.ejs")
- })
-
- router.get("/product_6",function(req,res){
-    res.render("user/product_6.ejs")
- })
-
- router.get("/product_7",function(req,res){
-    res.render("user/product_7.ejs")
- })
-
- router.get("/product_8",function(req,res){
-    res.render("user/product_8.ejs")
- })
-
+ 
 
 //  Gallery
 

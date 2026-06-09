@@ -5,13 +5,14 @@ body{
 .pro_banner{
     width: 100%;
     height: 350px;
-    background: url("/img/product_img.jpg") center center no-repeat;
+    background: url("/img/product_banner.jpg") center center no-repeat;
     background-size: cover;
 
     /* Center Content */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+        background-position: center 40%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 }
 
 .pro_banner h1{
@@ -41,7 +42,7 @@ body{
     width: 22%;
     margin-bottom: 25px;
     border: 2px solid #2fa84f;
-    border-radius: 30px;
+    border-radius:20px;
     overflow: hidden;
     position: relative;
     background: #fff;
