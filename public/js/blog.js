@@ -1,4 +1,4 @@
-blog.js -  function filter(cat, btn) {
+function filter(cat, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   let visible = 0;
