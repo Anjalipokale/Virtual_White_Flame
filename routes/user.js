@@ -23,6 +23,8 @@ router.get("/services",function(req,res){
    res.render("user/services.ejs")
 })
 
+
+
 // about page 
  router.get("/about",function(req,res){
     res.render("user/about.ejs")
@@ -40,6 +42,15 @@ router.get("/company-history",function(req,res){
 router.get("/founder",function(req,res){
    res.render("user/founder.ejs")
 })
+
+
+router.get("/services",function(req,res){
+   res.render("user/services.ejs")
+})
+
+
+
+
 
 // product page route
  router.get("/products",function(req,res){
