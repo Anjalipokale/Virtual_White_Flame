@@ -1,41 +1,64 @@
 // home slider
-(function() {
-    const wrapper = document.getElementById('sliderWrapper');
-    const dots = document.querySelectorAll('.dot');
-    let currentIndex = 0;
-    const totalSlides = 3;
-    const slideInterval = 3000;
+(function () {
+    const wrapper = document.getElementById("sliderWrapper");
+    const dots = document.querySelectorAll(".dot");
 
-    function updateSlider() {
-        if (wrapper) {
-            wrapper.style.transform = `translateX(-${currentIndex * 100 / totalSlides}%)`;
-        }
+    let currentIndex = 0;
+    const realSlides = 3;
+    const totalSlides = 4;
+    const slideInterval = 3000;
+    let isTransitioning = false;
+
+    function updateDots() {
         dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
+            dot.classList.toggle("active", index === currentIndex % realSlides);
         });
     }
 
-    window.nextSlide = function() {
-        currentIndex = (currentIndex + 1) % totalSlides;
-        updateSlider();
+    function moveSlide() {
+        wrapper.style.transition = "transform 0.5s ease-in-out";
+        wrapper.style.transform = `translateX(-${currentIndex * 25}%)`;
     }
 
-    window.currentSlide = function(index) {
+    window.nextSlide = function () {
+        if (isTransitioning) return;
+        isTransitioning = true;
+
+        currentIndex++;
+        moveSlide();
+        updateDots();
+
+        if (currentIndex === totalSlides - 1) {
+            setTimeout(() => {
+                wrapper.style.transition = "none";
+                currentIndex = 0;
+                wrapper.style.transform = `translateX(0%)`;
+                updateDots();
+                isTransitioning = false;
+            }, 500);
+        } else {
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 500);
+        }
+    };
+
+    window.currentSlide = function (index) {
+        if (isTransitioning) return;
         currentIndex = index;
-        updateSlider();
+        moveSlide();
+        updateDots();
         resetTimer();
-    }
+    };
 
-    let autoSlide = setInterval(function() { window.nextSlide(); }, slideInterval);
+    let autoSlide = setInterval(nextSlide, slideInterval);
 
     function resetTimer() {
         clearInterval(autoSlide);
-        autoSlide = setInterval(function() { window.nextSlide(); }, slideInterval);
+        autoSlide = setInterval(nextSlide, slideInterval);
     }
 
-    updateSlider();
 })();
-
 // section 1
 (function() {
     var vwfIO = new IntersectionObserver(function(entries) {

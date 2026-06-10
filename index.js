@@ -7,7 +7,7 @@ var userRoute =require("./routes/user")
 
 app.use(session({
     secret:"a2z It Hub",
-    resave:false,
+    resave:false, 
     saveUninitialized:true
 }))
 

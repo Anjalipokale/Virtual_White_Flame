@@ -1,4 +1,4 @@
-<%- include("header.ejs") %>
+<%- include("navbar.ejs") %>
 <link rel="stylsheet">
   <!-- ================= BREADCRUMB SECTION ================= -->
 
@@ -9,12 +9,7 @@
 
           <h1>Services</h1>
 
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb justify-content-center">
-              <li class="breadcrumb-item">
-                <a href="#">Home</a>
-              </li>
-
+          
               <li class="breadcrumb-item active">
                 Services
               </li>
@@ -176,7 +171,26 @@
   </section>
 
 
+<!-- Floating Contact Buttons -->
 
+<div class="floating-buttons">
+
+    <a href="/products" class="product-btn" title="Our Products">
+        <i class="fa-solid fa-box"></i>
+    </a>
+
+    <a href="tel:+919420950022" class="call-btn" title="Call Us">
+        <i class="fa-solid fa-phone"></i>
+    </a>
+
+    <a href="https://wa.me/919423390308"
+       class="whatsapp-btn"
+       target="_blank"
+       title="WhatsApp Us">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+</div>
 
 
   <%- include("footer.ejs") %>

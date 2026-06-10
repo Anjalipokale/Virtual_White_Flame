@@ -23,6 +23,13 @@ router.get("/services",function(req,res){
    res.render("user/services.ejs")
 })
 
+router.get("/customer_services",function(req,res){
+   res.render("user/customer_services.ejs")
+})
+
+router.get("/business-s", function(req, res){
+    res.render("user/business-s.ejs");
+});
 
 
 // about page 
@@ -44,8 +51,10 @@ router.get("/founder",function(req,res){
 })
 
 
-router.get("/services",function(req,res){
-   res.render("user/services.ejs")
+// plants
+
+router.get("/plants",function(req,res){
+   res.render("user/plants.ejs")
 })
 
 
@@ -61,7 +70,7 @@ router.get("/services",function(req,res){
     res.render("user/product_1.ejs")
  })
 
- 
+
 
 //  Gallery
 
@@ -75,7 +84,7 @@ router.get("/Images",function(req,res){
     res.render("user/event_albums.ejs")
  })
 
-// 
+// career
  router.get("/career",function(req,res){
     res.render("user/career.ejs")
  })

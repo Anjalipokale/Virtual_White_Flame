@@ -1,0 +1,110 @@
+<%- include ('Navbar')%>
+
+<div class="container-fluid py-4">
+
+    <div class="row">
+        <div class="col-12">
+
+            <div class="card shadow border-0">
+
+                <!-- Header -->
+                <div class="card-header text-white py-3"
+                     style="background: linear-gradient(135deg,#0d1b3d,#142850);">
+
+                    <h3 class="mb-1">
+                        <i class="fa-solid fa-building me-2"></i>
+                        About Company
+                    </h3>
+
+                    <small>
+                        Manage company information displayed on the website
+                    </small>
+
+                </div>
+
+                <!-- Form -->
+                <div class="card-body">
+
+                    <form action="/admin/submit" method="post" enctype="multipart/form-data">
+
+                        <div class="row">
+
+                            <!-- Company Name -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    Company Name
+                                </label>
+
+                                <input type="text"
+       name="company_name"
+       class="form-control"
+       value="<%= data.company_name || '' %>">
+                            </div>
+
+                            <!-- Experience -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    Experience
+                                </label>
+
+                                <input type="text"
+                                       name="experience"
+                                       class="form-control"
+                                       placeholder="Enter Experience">
+                            </div>
+
+                            <!-- Description -->
+                            <div class="col-12 mb-3">
+                                <label class="form-label fw-semibold">
+                                    Description
+                                </label>
+
+                                <textarea class="form-control"
+                                          rows="6"
+                                          name="description"
+                                          placeholder="Enter Company Description"></textarea>
+                            </div>
+
+                            <!-- Image -->
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label fw-semibold">
+                                    Company Image
+                                </label>
+
+                                <input type="file"
+                                       name="image"
+                                       class="form-control">
+                            </div>
+
+                            <!-- Button -->
+                            <div class="col-12 text-end mt-2">
+                                <button type="submit"
+                                        class="btn px-4 text-white"
+                                        style="background:#f4a100;">
+                                    <i class="fa-solid fa-floppy-disk me-2"></i>
+                                    Save Details
+                                </button>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- CREATE TABLE about_company(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    company_name VARCHAR(255),
+    experience VARCHAR(100),
+    description TEXT,
+    image VARCHAR(255)
+); -->
