@@ -1,0 +1,141 @@
+<%- include("navbar.ejs") %>
+
+<style>
+    body{
+        background:#f5f7f8;
+    }
+
+    .edit-container{
+        max-width:700px;
+        margin:120px auto 50px;
+        padding:20px;
+    }
+
+    .edit-card{
+        background:#fff;
+        padding:30px;
+        border-radius:15px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .page-title{
+        text-align:center;
+        color:#198754;
+        font-weight:700;
+        margin-bottom:25px;
+    }
+
+    .form-label{
+        font-weight:600;
+        color:#198754;
+        margin-bottom:8px;
+    }
+
+    .custom-input{
+        width:100%;
+        padding:12px;
+        border:1px solid #ddd;
+        border-radius:8px;
+        margin-bottom:20px;
+    }
+
+    .custom-input:focus{
+        outline:none;
+        border-color:#198754;
+        box-shadow:0 0 5px rgba(25,135,84,.3);
+    }
+
+    .current-image{
+        width:120px;
+        height:120px;
+        object-fit:cover;
+        border-radius:10px;
+        border:2px solid #198754;
+        margin-bottom:15px;
+    }
+
+    .btn-update{
+        background:#198754;
+        color:#fff;
+        border:none;
+        padding:12px 25px;
+        border-radius:8px;
+        font-weight:600;
+        margin-right:10px;
+    }
+
+    .btn-update:hover{
+        background:#146c43;
+    }
+
+    .btn-back{
+        background:#ff6b00;
+        color:#fff;
+        text-decoration:none;
+        padding:12px 25px;
+        border-radius:8px;
+        font-weight:600;
+    }
+
+    .btn-back:hover{
+        background:#e55f00;
+        color:#fff;
+    }
+</style>
+
+<div class="edit-container">
+
+    <div class="edit-card">
+
+        <h2 class="page-title">
+            Update Working Process Card
+        </h2>
+
+        <form action="/admin/update-process-card/<%= card.id %>"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <label class="form-label">
+                Current Image
+            </label>
+
+            <br>
+
+            <img src="/uploads/<%= card.image %>"
+                 class="current-image">
+
+            <label class="form-label">
+                Card Title
+            </label>
+
+            <input type="text"
+                   name="title"
+                   value="<%= card.title %>"
+                   class="custom-input"
+                   required>
+
+            <label class="form-label">
+                Change Image (Optional)
+            </label>
+
+            <input type="file"
+                   name="image"
+                   class="custom-input">
+
+            <button type="submit"
+                    class="btn-update">
+                Update Card
+            </button>
+
+            <a href="/admin/process-cards"
+               class="btn-back">
+                Back
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

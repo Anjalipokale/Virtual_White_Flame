@@ -13,12 +13,15 @@
 <style>
 
 :root{
-    --green:#198754;
-    --dark-green:#146c43;
-    --orange:#ff6b00;
-    --light:#f8fafc;
+    --primary:#198754;
+    --secondary:#2dbf7f;
+    --light-green:#e8f8f0;
+    --hover-green:#d7f3e5;
+    --orange:#ff7a00;
+    --white:#ffffff;
+    --light:#f5faf7;
+    --text:#1f2937;
 }
-
 *{
     margin:0;
     padding:0;
@@ -44,7 +47,7 @@ body{
     background:linear-gradient(
         180deg,
         #198754 0%,
-        #157347 50%,
+        #2dbf7f 50%,
         #146c43 100%
     );
 
@@ -94,23 +97,54 @@ body{
     transition:.3s;
 }
 
+.sidebar ul li a{
+    position:relative;
+    overflow:hidden;
+}
+
+
+.sidebar ul li a::before{
+    content:"";
+    position:absolute;
+    left:-100%;
+    top:0;
+    width:100%;
+    height:100%;
+    background:rgba(255,255,255,.15);
+    transition:.4s;
+}
+
+.sidebar ul li a:hover::before{
+    left:100%;
+    background:rgba(255,255,255,0.15);
+    color:#fff;
+    transform:translateX(6px);
+}
+
+.sidebar ul li a.active,
+.dropdown-toggle.active{
+    background:#ff7a00;
+    color:#fff !important;
+    box-shadow:orange;
+}
+
 .sidebar ul li a:hover{
-    background:var(--orange);
+    background:rgba(255,122,0,.15);
     color:#fff;
-    transform:translateX(5px);
 }
-
-.sidebar ul li a.active{
-    background:var(--orange);
-    color:#fff;
-    font-weight:600;
-}
-
 .sidebar ul li a i{
     width:20px;
     text-align:center;
 }
 
+.sidebar::-webkit-scrollbar{
+     width:5px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+   background:#8de2b8;
+    border-radius:20px;
+}
 /* ======================
    NAVBAR
 ====================== */
@@ -125,11 +159,10 @@ body{
 
     background:linear-gradient(
         90deg,
-        #198754 0%,
-        #157347 50%,
-        #146c43 100%
+        #198754,
+        #34c084,
+        #198754
     );
-
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -323,6 +356,46 @@ body{
     font-size:12px;
 }
 
+.dropdown-menu-custom{
+    display: none;
+    list-style: none;
+    padding-left: 20px;
+    margin-top: 5px;
+}
+
+.dropdown-menu-custom li{
+    margin: 8px 0;
+}
+
+.dropdown-menu-custom li a{
+    text-decoration: none;
+    color: #fff;
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+}
+
+.dropdown-menu-custom li a:hover{
+    background: rgba(255,255,255,0.1);
+}
+
+.dropdown-menu-custom{
+    display:none;
+    list-style:none;
+    padding-left:20px;
+    margin-top:5px;
+}
+
+.dropdown-menu-custom.show{
+    display:block;
+}
+
+.dropdown-toggle.active{
+    background:#ff7a00;
+    color:#fff !important;
+    border-radius:12px;
+}
+
 </style>
 </head>
 
@@ -349,20 +422,6 @@ body{
 
 <!-- CONTENT -->
 
-<div class="main-content">
-
-    <div class="dashboard-card">
-
-        <h2>Dashboard</h2>
-
-        <p>
-            Welcome to the Virtual White Flame Admin Panel.
-            Manage users, products, events, reports, and settings from here.
-        </p>
-
-    </div>
-
-</div>
 
 
 <!-- SIDEBAR -->
@@ -380,34 +439,309 @@ body{
 </div>
     <ul>
 
-        <li>
-            <a href="#" class="active">
-                <i class="fas fa-gauge"></i>
-                <span>Dashboard</span>
+    <li>
+        <a href="/admin" class="active">
+            <i class="fas fa-gauge"></i>
+            <span>Dashboard</span>
+        </a>
+    </li>
+    
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-home"></i>
+        <span>Home Page</span>
+    </a>
+
+    <ul class="dropdown-menu-custom">
+
+         <li>
+            <a href="/admin/slider">
+                <i class="fas fa-right-from-bracket"></i>
+                <span>slider</span>
             </a>
         </li>
 
-      
-
        
-      
-      
-
 
         <li>
-            <a href="#">
-                <i class="fas fa-right-from-bracket"></i>
-                <span>Logout</span>
+          <a href="/admin/process-cards">
+        <i class="fas fa-gears"></i>
+        Working Process
+        </a>
+          </li>
+          
+          <li>
+            <a href="/admin/testimonials">
+             <i class="fas fa-comments"></i>
+               Testimonials
+              </a>
+            </li>
+            
+
+        <li>
+            <a href="/admin/add-blog">
+                <i class="fas fa-blog"></i>
+                add_blog
             </a>
         </li>
 
     </ul>
-
-</div>
-
+</li>
 
 
+   <li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-building"></i>
+        <span>About Company</span>
+        
+    </a>
 
+    <ul class="dropdown-menu-custom">
+
+        <li>
+            <a href="/admin/about_company">
+                <i class="fas fa-circle-info"></i>
+                <span>About Company</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/manufacturing_plants">
+                <i class="fas fa-industry"></i>
+                <span>Manufacturing Plants</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/industrial_infrastructure">
+                <i class="fas fa-warehouse"></i>
+                <span>Industrial Infrastructure</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/company_history">
+                <i class="fas fa-clock-rotate-left"></i>
+                <span>Company History</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/vision_mission">
+                <i class="fas fa-bullseye"></i>
+                <span>Vision & Mission</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/management_team">
+                <i class="fas fa-users"></i>
+                <span>Management Team</span>
+            </a>
+        </li>
+
+    </ul>
+</li>
+
+
+       
+
+<li>
+    <a href="/admin/support-inquiries">
+        <i class="fas fa-headset"></i>
+        Support Inquiries
+    </a>
+</li>
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add Product</span>
+        <i class="fas  ms-2"></i>
+    </a>
+
+    <ul class="dropdown-menu-custom">
+        <li>
+            <a href="/admin/add-product">
+                <i class="fas fa-plus"></i>
+                Add New Product
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/products">
+                <i class="fas fa-box-open"></i>
+                Manage Products
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/inquiries">
+                <i class="fas fa-envelope"></i>
+                Product Inquiries
+            </a>
+        </li>
+
+        <li>
+    <a href="/admin/add-raw-material">
+        <i class="fas fa-leaf"></i>
+        Raw Material Products
+    </a>
+</li>
+</ul>
+
+<!-- Gallery -->
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-image"></i>
+        <span>Gallery</span>
+        <i class="fas  ms-2"></i>
+    </a>
+
+    <ul class="dropdown-menu-custom">
+        <li>
+            <a href="/admin/images">
+                <i class="fas fa-image"></i>
+                Images
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/events">
+                <i class="fas fa-calendar-alt"></i>
+                Events
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/videos">
+                <i class="fas fa-video"></i>
+                Videos
+            </a>
+        </li>
+
+        
+    </ul>
+</li>
+<!-- Career -->
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-briefcase"></i>
+        <span>Career</span>
+    </a>
+
+    <ul class="dropdown-menu-custom">
+
+
+        <li>
+         <a href="/admin/add-why-join">
+        <i class="fas fa-users"></i>
+        Why Join Us
+       </a>
+    </li>
+
+        <li>
+            <a href="/admin/our-culture">
+                <i class="fas fa-handshake"></i>
+                Our Culture
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/careers">
+                <i class="fas fa-briefcase"></i>
+                Careers
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/applications">
+                <i class="fas fa-clipboard-check"></i>
+                Applications
+            </a>
+        </li>
+        <li>
+            <a href="/admin/hr-contact">
+                <i class="fas fa-question-circle"></i>
+                Need Help
+            </a>
+        </li>
+    </ul>
+</li>
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" onclick="toggleDropdown(event)">
+        <i class="fas fa-address-book"></i>
+        <span>Contact Page</span>
+    </a>
+
+    <ul class="dropdown-menu-custom">
+
+        <li>
+            <a href="/admin/contact-us">
+                <i class="fas fa-phone"></i>
+                Contact Us
+            </a>
+        </li>
+
+       <li>
+        <a href="/admin/dealer-requests">
+        <i class="fas fa-handshake"></i>
+        Dealer Requests
+      </a>
+     </li>
+
+         <li>
+            <a href="/admin/contact-list">
+                <i class="fas fa-envelope"></i>
+                Messages
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/callbacks">
+                <i class="fas fa-file-signature"></i>
+                Requests
+            </a>
+        </li>
+
+        <li>
+            <a href="/admin/office">
+                <i class="fas fa-map-marker-alt"></i>
+                Office Location
+            </a>
+        </li>
+    </ul>
+</li>
+    
+
+</li>
+    <li>
+        <a href="#">
+            <i class="fas fa-right-from-bracket"></i>
+            <span>Logout</span>
+        </a>
+    </li>
+
+</ul>
+
+
+    </div>
+<script>
+function toggleDropdown(event){
+    event.preventDefault();
+
+    let menu = event.currentTarget.nextElementSibling;
+
+    document.querySelectorAll('.dropdown-menu-custom').forEach(item => {
+        if(item !== menu){
+            item.classList.remove('show');
+        }
+    });
+
+    menu.classList.toggle('show');
+}
+</script>
 
 </body>
 </html>

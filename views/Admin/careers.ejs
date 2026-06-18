@@ -1,0 +1,272 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    background:#f4f7fa;
+    font-family:'Poppins',sans-serif;
+}
+
+.main-wrapper{
+    margin-left:280px;
+    margin-top:90px;
+    margin-right:20px;
+    margin-bottom:90px;
+}
+
+/* Cards */
+
+.admin-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    margin-bottom:30px;
+}
+
+.card-header-custom{
+    background:linear-gradient(135deg,#198754,#146c43);
+    color:#fff;
+    padding:18px 25px;
+}
+
+.card-header-custom h3{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
+}
+
+.card-body-custom{
+    padding:25px;
+}
+
+/* Form */
+
+.form-control{
+    border-radius:10px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#ff7b00;
+    box-shadow:0 0 8px rgba(255,123,0,.25);
+}
+
+.btn-save{
+    background:#ff7b00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+.btn-save:hover{
+    background:#e56f00;
+    color:#fff;
+}
+
+/* Table */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:#198754;
+    color:#fff;
+}
+
+.table th,
+.table td{
+    text-align:center;
+    vertical-align:middle;
+}
+
+.btn-edit{
+    background:#198754;
+    color:#fff;
+}
+
+.btn-edit:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.btn-delete{
+    background:#ff7b00;
+    color:#fff;
+}
+
+.btn-delete:hover{
+    background:#e56f00;
+    color:#fff;
+}
+
+</style>
+
+<div class="main-wrapper">
+
+    <!-- Add Job -->
+
+    <div class="admin-card">
+
+        <div class="card-header-custom">
+            <h3>Add Job</h3>
+        </div>
+
+        <div class="card-body-custom">
+
+            <form action="/admin/save-career" method="post">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Job Title
+                    </label>
+
+                    <input type="text"
+                           name="job_title"
+                           class="form-control"
+                           placeholder="Job Title"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Department
+                    </label>
+
+                    <select name="department"
+                            class="form-control"
+                            required>
+
+                        <option value="">
+                            Select Department
+                        </option>
+
+                        <option>Sales</option>
+                        <option>Marketing</option>
+                        <option>Production</option>
+                        <option>HR</option>
+                        <option>Accounts</option>
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Experience
+                    </label>
+
+                    <input type="text"
+                           name="experience"
+                           class="form-control"
+                           placeholder="1-2 Years"
+                           required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">
+                        Location
+                    </label>
+
+                    <input type="text"
+                           name="location"
+                           class="form-control"
+                           placeholder="Location"
+                           required>
+                </div>
+
+                <button type="submit"
+                        class="btn btn-save">
+
+                    Save Job
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Jobs List -->
+
+    <div class="admin-card">
+
+        <div class="card-header-custom">
+            <h3>Jobs List</h3>
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Job Title</th>
+                            <th>Department</th>
+                            <th>Experience</th>
+                            <th>Location</th>
+                            <th width="180">Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <% careers.forEach(function(j){ %>
+
+                        <tr>
+
+                            <td><%= j.id %></td>
+
+                            <td><%= j.job_title %></td>
+
+                            <td><%= j.department %></td>
+
+                            <td><%= j.experience %></td>
+
+                            <td><%= j.location %></td>
+
+                            <td>
+
+                                <a href="/admin/edit-career/<%= j.id %>"
+                                   class="btn btn-edit btn-sm">
+
+                                    Edit
+
+                                </a>
+
+                                <a href="/admin/delete-career/<%= j.id %>"
+                                   class="btn btn-delete btn-sm"
+                                   onclick="return confirm('Delete this job?')">
+
+                                    Delete
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                        <% }) %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

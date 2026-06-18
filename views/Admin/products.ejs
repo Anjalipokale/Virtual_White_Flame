@@ -1,0 +1,205 @@
+<%- include("navbar.ejs") %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.products-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:30px;
+    width:calc(100% - 290px);
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.page-title{
+    color:#198754;
+    font-weight:700;
+    margin:0;
+}
+
+.add-btn{
+    background:#ff6b00;
+    color:#fff;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:600;
+    transition:.3s;
+}
+
+.add-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+.table{
+    margin-top:20px;
+}
+
+.table th{
+    background:#198754;
+    color:#fff;
+    padding:14px;
+    text-align:center;
+}
+
+.table td{
+    padding:14px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+    background:#f8f9fa;
+}
+
+.product-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #198754;
+}
+
+.edit-btn{
+    background:#198754;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.delete-btn{
+    background:#ff6b00;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+.description-cell{
+    max-width:300px;
+}
+
+@media(max-width:992px){
+    .products-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+
+    .top-header{
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start !important;
+    }
+}
+</style>
+
+<div class="products-container">
+
+    <div class="admin-card">
+
+        <div class="d-flex justify-content-between align-items-center top-header">
+
+            <h2 class="page-title">
+                Manage Products
+            </h2>
+
+            <a href="/admin/add-product"
+               class="add-btn">
+                Add New Product
+            </a>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Product Name</th>
+                        <th>Description</th>
+                        <th width="220">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                <% products.forEach(function(product){ %>
+
+                    <tr>
+
+                        <td>
+                            <%= product.id %>
+                        </td>
+
+                        <td>
+                            <img src="/uploads/<%= product.main_image %>"
+                                 class="product-img">
+                        </td>
+
+                        <td>
+                            <%= product.product_name %>
+                        </td>
+
+                        <td class="description-cell">
+                            <%= product.short_description %>
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/edit-product/<%= product.id %>"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="/admin/delete-product/<%= product.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Delete this product?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

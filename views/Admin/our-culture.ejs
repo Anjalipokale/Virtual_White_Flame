@@ -1,0 +1,265 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    background:#f4f7fa;
+    font-family:'Poppins',sans-serif;
+}
+
+.main-wrapper{
+    margin-left:260px;
+    margin-top:90px;
+    margin-right:20px;
+    margin-bottom:30px;
+}
+
+/* Cards */
+
+.admin-card{
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 5px 20px rgba(0,0,0,.08);
+    margin-left:10px;
+    margin-bottom:80px;
+}
+
+.card-header-custom{
+    background:linear-gradient(135deg,#198754,#146c43);
+    color:#fff;
+    padding:18px 25px;
+}
+
+.card-header-custom h3{
+    margin:0;
+    font-size:22px;
+    font-weight:600;
+}
+
+.card-body-custom{
+    padding:25px;
+}
+
+/* Form */
+
+.form-control{
+    border-radius:10px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#ff7b00;
+    box-shadow:0 0 8px rgba(255,123,0,.25);
+}
+
+.btn-save{
+    background:#ff7b00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:10px;
+    font-weight:600;
+}
+
+.btn-save:hover{
+    background:#e56f00;
+    color:#fff;
+}
+
+/* Table */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:#198754;
+    color:#fff;
+}
+
+.table th,
+.table td{
+    vertical-align:middle;
+    text-align:center;
+}
+
+.culture-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #198754;
+}
+
+.btn-edit{
+    background:#198754;
+    color:#fff;
+}
+
+.btn-edit:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.btn-delete{
+    background:#ff7b00;
+    color:#fff;
+}
+
+.btn-delete:hover{
+    background:#e56f00;
+    color:#fff;
+}
+
+</style>
+
+<div class="main-wrapper">
+
+    <!-- Add Culture -->
+
+    <div class="admin-card">
+
+        <div class="card-header-custom">
+            <h3>Add Culture</h3>
+        </div>
+
+        <div class="card-body-custom">
+
+            <form action="/admin/save-culture"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Culture Title
+                    </label>
+
+                    <input type="text"
+                           name="title"
+                           class="form-control"
+                           placeholder="Enter Culture Title"
+                           required>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+                        Culture Image
+                    </label>
+
+                    <input type="file"
+                           name="image"
+                           class="form-control"
+                           required>
+
+                </div>
+
+                <button type="submit"
+                        class="btn btn-save">
+
+                    Save Culture
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- Culture List -->
+
+    <div class="admin-card">
+
+        <div class="card-header-custom">
+            <h3>Culture List</h3>
+        </div>
+
+        <div class="card-body-custom">
+
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th width="180">Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <% if(culture.length > 0){ %>
+
+                            <% culture.forEach(function(c){ %>
+
+                            <tr>
+
+                                <td><%= c.id %></td>
+
+                                <td>
+
+                                    <img src="<%= c.image %>"
+                                         class="culture-img">
+
+                                </td>
+
+                                <td><%= c.title %></td>
+
+                                <td>
+
+                                    <a href="/admin/edit-culture/<%= c.id %>"
+                                       class="btn btn-edit btn-sm">
+
+                                        Edit
+
+                                    </a>
+
+                                    <a href="/admin/delete-culture/<%= c.id %>"
+                                       class="btn btn-delete btn-sm"
+                                       onclick="return confirm('Delete this culture?')">
+
+                                        Delete
+
+                                    </a>
+
+                                </td>
+
+                            </tr>
+
+                            <% }) %>
+
+                        <% } else { %>
+
+                            <tr>
+
+                                <td colspan="4">
+                                    No Culture Data Found
+                                </td>
+
+                            </tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

@@ -1,0 +1,107 @@
+<%- include("navbar.ejs") %>
+
+<style>
+    body{
+        background:#f5f7f5;
+    }
+
+    .edit-card{
+        width:100%;
+        max-width:450px;
+        margin:50px auto;
+        background:#fff;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.1);
+        margin-top: 100px;
+    }
+
+    .edit-title{
+        text-align:center;
+        color:#198754;
+        font-weight:700;
+        margin-bottom:20px;
+    }
+
+    .form-control{
+        border-radius:8px;
+    }
+
+    .preview-img{
+        width:120px;
+        height:120px;
+        object-fit:cover;
+        border-radius:10px;
+        border:2px solid #ddd;
+    }
+
+    .btn-update{
+        background:#ff7b00;
+        color:#fff;
+        border:none;
+        padding:10px 25px;
+        border-radius:8px;
+        font-weight:600;
+    }
+
+    .btn-update:hover{
+        background:#e66d00;
+        color:#fff;
+    }
+</style>
+
+<div class="container">
+
+    <div class="edit-card">
+
+        <h3 class="edit-title">
+            Edit Raw Material
+        </h3>
+
+        <form action="/admin/update-raw-material/<%= material.id %>"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Material Name
+                </label>
+
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       value="<%= material.name %>"
+                       required>
+            </div>
+
+            <div class="mb-3 text-center">
+
+                <img src="/uploads/<%= material.image %>"
+                     class="preview-img">
+
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Change Image
+                </label>
+
+                <input type="file"
+                       name="image"
+                       class="form-control">
+            </div>
+
+            <div class="text-center">
+                <button type="submit"
+                        class="btn-update">
+                    Update Material
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs")%>

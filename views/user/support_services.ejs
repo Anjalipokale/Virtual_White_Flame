@@ -26,17 +26,18 @@
                 </div>
                 <h3>Request Callback</h3>
                 <p>Our experts will contact you at your preferred time.</p>
-                <a href="#" class="support-btn">Request Now</a>
+                <a href="/contact" class="support-btn">Request Now</a>
             </div>
 
             <div class="support-card">
-                <div class="icon-box">
-                    <i class="fab fa-whatsapp"></i>
-                </div>
-                <h3>WhatsApp Support</h3>
-                <p>Connect instantly with our support team through WhatsApp.</p>
-                <a href="#" class="support-btn">Chat Now</a>
-            </div>
+    <div class="icon-box">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    <h3>WhatsApp Support</h3>
+    <p>Connect instantly with our support team through WhatsApp.</p>
+
+    <a href="https://wa.me/+9322165092?text=Hello%20Virtual%20White%20Flame,%20I%20need%20support." target="_blank" class="support-btn"> Chat Now</a>
+</div>
 
             <div class="support-card">
                 <div class="icon-box">
@@ -44,7 +45,7 @@
                 </div>
                 <h3>Dealer Inquiry</h3>
                 <p>Join our dealer network and grow your business.</p>
-                <a href="#" class="support-btn">Apply Now</a>
+                <a href="/contact" class="support-btn">Apply Now</a>
             </div>
 
             <div class="support-card">
@@ -53,7 +54,7 @@
                 </div>
                 <h3>Regional Contact</h3>
                 <p>Find your nearest regional office and support center.</p>
-                <a href="#" class="support-btn">Contact Us</a>
+                <a href="/contact" class="support-btn">Contact Us</a>
             </div>
 
         </div>
@@ -64,14 +65,32 @@
     <div class="container">
         <h2>Need More Help?</h2>
 
-        <form class="support-form">
-            <input type="text" placeholder="Your Name" required>
-            <input type="tel" placeholder="Phone Number" required>
-            <input type="email" placeholder="Email Address" required>
-            <textarea rows="5" placeholder="Your Message"></textarea>
+        <form class="support-form" action="/support-inquiry" method="POST">
 
-            <button type="submit">Submit Inquiry</button>
-        </form>
+    <input type="text"
+           name="name"
+           placeholder="Your Name"
+           required>
+
+    <input type="tel"
+           name="phone"
+           placeholder="Phone Number"
+           required>
+
+    <input type="email"
+           name="email"
+           placeholder="Email Address"
+           required>
+
+    <textarea rows="5"
+              name="message"
+              placeholder="Your Message"></textarea>
+
+    <button type="submit">
+        Submit Inquiry
+    </button>
+
+</form>
     </div>
 </section>
 

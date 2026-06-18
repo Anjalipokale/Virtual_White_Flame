@@ -27,10 +27,9 @@
       <!-- LEFT IMAGE -->
       <div class="about-img-pro">
 
-        <img src="/img/about_img.png" alt="Biomass">
-
+       <img src="/uploads/<%= about_company.company_image %>" alt="Biomass">
         <div class="exp-pro">
-          <h2>12+</h2>
+          <h2>  <%= about_company.experience_years %>+</h2>
           <p>Years Experience</p>
         </div>
 
@@ -42,15 +41,15 @@
         <span class="tag-pro">ABOUT COMPANY</span>
 
         <h2>
-          Virtual White Flame<br>
-          PVT. LTD.
+        
+          <%= about_company.tag_line %>
+        
+
+
         </h2>
 
         <p class="desc-pro">
-          Virtual White Flame PVT. LTD. is a leading manufacturer and supplier of
-          Biomass Briquettes and Biomass Pellets across India. We are committed to
-          delivering eco-friendly, sustainable, and high-quality biomass energy solutions
-          for industrial applications.
+           <%= about_company.company_description%>
         </p>
 
         <!-- CLEAN FEATURE LIST -->
@@ -59,48 +58,50 @@
           <div class="feature-item">
             <i class="fa fa-building"></i>
             <div>
-              <h4>Company Foundation</h4>
-              <p>Established in 2013 under Seva Bio Brikets with strong industry expertise.</p>
+              <h4>  <%= about_company.feature1_title %></h4>
+              <p>  <%= about_company.feature1_desc %></p>
             </div>
           </div>
 
           <div class="feature-item">
             <i class="fa fa-user-tie"></i>
             <div>
-              <h4>Expert Management</h4>
-              <p>Backed by 12+ years experienced directors in biomass and energy sector.</p>
+               <h4>  <%= about_company.feature2_title %></h4>
+              <p>  <%= about_company.feature2_desc %></p>
             </div>
           </div>
 
           <div class="feature-item">
             <i class="fa fa-leaf"></i>
             <div>
-              <h4>Eco Fuel Solution</h4>
-              <p>We convert industrial, agricultural, and forestry waste into clean fuel.</p>
+               <h4>  <%= about_company.feature3_title %></h4>
+              <p>  <%= about_company.feature3_desc %></p>
             </div>
           </div>
 
           <div class="feature-item">
             <i class="fa fa-industry"></i>
             <div>
-              <h4>Production Capacity</h4>
-              <p>Consistent production of 10,000+ biomass fuel units per month.</p>
+               <h4>  <%= about_company.feature4_title %></h4>
+              <p>  <%= about_company.feature4_desc %></p>
             </div>
           </div>
 
           <div class="feature-item">
             <i class="fa fa-cogs"></i>
             <div>
-              <h4>Advanced Technology</h4>
-              <p>Efficient systems ensuring high-quality fuel processing and output.</p>
+              <h4>  <%= about_company.feature5_title %></h4>
+              <p>  <%= about_company.feature5_desc %></p>
             </div>
           </div>
 
           <div class="feature-item">
             <i class="fa fa-truck"></i>
             <div>
-              <h4>Supply Network</h4>
-              <p>Strong logistics and distribution network across multiple regions in India.</p>
+              <h4>  <%= about_company.feature6_title %></h4>
+              <p>
+                  <%= about_company.feature6_desc %>
+              </p>
             </div>
           </div>
 
@@ -118,8 +119,7 @@
   <!-- plant-section -->
 
 
-
- <section class="plants-section container-fluid py-5">
+<section class="plants-section container-fluid py-5">
 
   <div class="plants-heading text-center mb-5">
 
@@ -133,206 +133,39 @@
     </p>
 
   </div>
+    <div class="row g-4 px-3 px-md-5">
 
-  <div class="row g-4 px-3 px-md-5">
+        <% plants.forEach(function(p){ %>
 
-    <!-- CARD 1 -->
-    <div class="col-lg-4 col-md-6 col-12">
+        <div class="col-lg-4 col-md-6 col-12">
 
-      <div class="plant-card h-100">
+            <div class="plant-card h-100">
 
-        <div class="plant-logo">
-          <img src="img/Balaji-Fuels.webp" alt="">
+                <div class="plant-logo">
+                    <img src="/uploads/<%= p.plant_logo %>" alt="">
+                </div>
+
+                <div class="plant-content">
+
+                    <h3><%= p.plant_name %></h3>
+
+                    <p>📍 <%= p.plant_address %></p>
+
+                    <h4>📞 <%= p.plant_phone %></h4>
+
+                    <h5>✉ <%= p.plant_email %></h5>
+
+                </div>
+
+            </div>
+
         </div>
 
-        <div class="plant-content">
-
-          <h3>Balaji Bio Fuels</h3>
-
-          <p>
-            📍 Gut No.89, Ghosapuri, NH-211 Kumshi Road,
-            Behind RTO Office, Beed, Maharashtra-431122
-          </p>
-
-          <h4>📞 9322165092</h4>
-
-          <h5>✉ operation.virtualwhiteflame@gmail.com</h5>
-
-        </div>
-
-      </div>
+        <% }) %>
 
     </div>
-
-    <!-- CARD 2 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="img/Virtual-White-Flame.webp" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Virtual White Flame Pvt. Ltd.</h3>
-
-          <p>
-            📍 Bodhegaon, Shevgaon, Ahmednagar,
-            Maharashtra 414001
-          </p>
-
-          <h4>📞 9423390308</h4>
-
-          <h5>✉ ananta.zirpe@virtualwhiteflame.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="/img/seva-group.webp" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Seva Bio Brikets</h3>
-
-          <p>
-            📍 Gat No.77, Divate, Ladjalgaon,
-            Shevgaon Maharashtra 414502
-          </p>
-
-          <h4>📞 9420950022</h4>
-
-          <h5>✉ sevabiobrikets@gmail.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 4 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="/img/Virtual-Green-Energy.webp" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Virtual Green Energy</h3>
-
-          <p>
-            📍 Gut No.666, Tal. Panchayat Samiti Jalna,
-            Maharashtra 431202
-          </p>
-
-          <h4>📞 7821910054</h4>
-
-          <h5>✉ vwfpl.sales@gmail.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 5 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="/img/Bharati-Biocoal.webp" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Bharati Biocoal</h3>
-
-          <p>
-            📍 Lad Karanja ,Tal-Karanja Dist-Washim
-          </p>
-
-          <h4>📞 9325931778</h4>
-
-          <h5>✉ bharatibiocoal@gmail.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 6 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="/img/Dhanashree-Bio-Fuel.webp" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Dhanashree Bio Fuel</h3>
-
-          <p>
-            📍 Kolgaon, Shrigonda, Ahmednagar - 413728
-          </p>
-
-          <h4>📞 9209695919</h4>
-
-          <h5>✉ sales@virtualwhiteflame.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- CARD 7 -->
-    <div class="col-lg-4 col-md-6 col-12">
-
-      <div class="plant-card h-100">
-
-        <div class="plant-logo">
-          <img src="/img/Jay-Bajrang.png" alt="">
-        </div>
-
-        <div class="plant-content">
-
-          <h3>Jay Bajrang Bio Energy Solution</h3>
-
-          <p>
-            📍 Gat No. 481/4 Astagaon Road , Rajuri
-          </p>
-
-          <h4>📞 9209695919</h4>
-
-          <h5>✉ sales@virtualwhiteflame.com</h5>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </section>
-
 
   <!-- =========================
      COUNTER SECTION
@@ -519,7 +352,7 @@
 
   <!-- infrastructure -->
 
- <section class="infra-grid-section container-fluid py-5">
+<section class="infra-grid-section container-fluid py-5">
 
     <div class="infra-heading text-center mb-5">
         <span>OUR FACILITIES</span>
@@ -528,20 +361,22 @@
 
     <div class="row g-4 px-3 px-md-5">
 
-        <!-- CARD 1 -->
+        <% infrastructure.forEach(function(i){ %>
+
         <div class="col-lg-4 col-md-6 col-12">
 
             <div class="infra-card h-100">
 
-                <img src="/img/Briquette-Machines.webp" class="img-fluid" alt="">
+                <img src="/uploads/<%= i.infra_image %>"
+                     class="img-fluid"
+                     alt="<%= i.infra_title %>">
 
                 <div class="infra-content">
 
-                    <h3>Briquette Machines</h3>
+                    <h3><%= i.infra_title %></h3>
 
                     <p>
-                        We have 30+ advanced machines installed for high-capacity
-                        briquette manufacturing with efficient production systems.
+                        <%= i.infra_description %>
                     </p>
 
                 </div>
@@ -550,49 +385,7 @@
 
         </div>
 
-        <!-- CARD 2 -->
-        <div class="col-lg-4 col-md-6 col-12">
-
-            <div class="infra-card h-100">
-
-                <img src="/img/Pellet-Machine.webp" class="img-fluid" alt="">
-
-                <div class="infra-content">
-
-                    <h3>Pellet Machine</h3>
-
-                    <p>
-                        Our plant is equipped with 3 pellet manufacturing machines
-                        along with a complete modern production setup.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="col-lg-4 col-md-6 col-12">
-
-            <div class="infra-card h-100">
-
-                <img src="/img/Hammer-Machine.webp" class="img-fluid" alt="">
-
-                <div class="infra-content">
-
-                    <h3>Hammer Mill Machine</h3>
-
-                    <p>
-                        High-performance hammer mill machines are used for
-                        superior raw material processing and premium quality production.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </div>
+        <% }) %>
 
     </div>
 
@@ -804,142 +597,62 @@ testimonials
 ========================= -->
 
 
-  <section class="testimonial-section">
-    <div class="section-head">
-      <span>TESTIMONIAL</span>
+<section class="testimonial-section">
 
+    <div class="section-head">
+        <span>TESTIMONIAL</span>
     </div>
+
     <h2>What Our Clients Say</h2>
 
     <div class="testimonial-container">
 
+        <div class="testimonial-slider" id="slider">
 
+            <% if(typeof testimonials !== 'undefined' && testimonials.length > 0){ %>
 
+                <% testimonials.forEach(function(item){ %>
 
+                    <div class="testimonial-card">
 
-      <div class="testimonial-slider" id="slider">
+                        <div class="client-img">
+                            <img src="/uploads/<%= item.image %>"
+                                 alt="<%= item.company_name %>">
+                        </div>
 
-        <!-- CARD 1 -->
-        <div class="testimonial-card">
+                        <div class="stars">⭐⭐⭐⭐⭐</div>
 
-          <div class="client-img">
-            <img src="/img/ranjangaon.webp" alt="client">
-          </div>
+                        <p>
+                            "<%= item.description %>"
+                        </p>
 
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p>" Virtual White Flame PVT LTD. Not only delivers exceptional products but also does so with remarkable
-            efficiency. We never had an issue with late deliveries, and their products consistently meet our stringent
-            quality standards."</p>
-          <h4> __ Fresenious Kabi India Pvt Ltd. </h4>
-          <h4> Ranjangaon</b></h4>
+                        <h4>
+                            __ <%= item.company_name %>
+                        </h4>
 
-        </div>
+                        <h4>
+                            <%= item.city %>
+                        </h4>
 
-        <!-- CARD 2 -->
-        <div class="testimonial-card">
+                    </div>
 
-          <div class="client-img">
-            <img src="/img/pune.webp" alt="client">
-          </div>
+                <% }) %>
 
-          <div class="stars">⭐⭐⭐⭐⭐</div>
-          <p> "We've been partners with Virtual White Flame PVT LTD.For years, and their Biomass briquettes & Pelletes
-            solutions have consistently exceeded our expectations. Their innovative approach has helped us achieve
-            higher production efficiency and maintain environmental compliance effortlessly."
-          </p>
-          <h4>__ Thermax onsite energy solutions
-            LTD</h4>
-          <h4>Pune</h4>
+            <% } else { %>
 
-        </div>
+                <div class="testimonial-card">
 
+                    <h3>No Testimonials Found</h3>
 
+                </div>
 
-
-
-        <!-- CARD 3 -->
-        <div class="testimonial-card">
-
-          <div class="client-img">
-            <img src="/img/Loni-kalbhor.webp" alt="client">
-          </div>
-
-          <div class="stars">⭐⭐⭐⭐</div>
-          <p>"Choosing Virtual White Flame PVT LTD. was one of the best decisions for our business.
-            Their products are robust, reliable, and contribute significantly to our operational efficiency and cost
-            savings."
-          </p>
-          <h4>__ Ramakrishi rasayan Ltd</h4>
-          <h4>Loni kalbhor</h4>
+            <% } %>
 
         </div>
-
-
-        <!-- CARD 4 -->
-        <div class="testimonial-card">
-
-          <div class="client-img">
-            <img src="/img/Koregaon-Bhima.webp" alt="client">
-          </div>
-
-          <div class="stars">⭐⭐⭐⭐</div>
-          <p>"Virtual White Flame PVT LTD. dedication to quality shines through in every interaction.
-            Their customer service team is knowledgeable and responsive, ensuring we always get the right solution for
-            our needs."
-
-
-          </p>
-          <h4>__ Uni klinger Limited</h4>
-          <h4>Koregaon Bhima</h4>
-
-        </div>
-
-
-        <!-- CARD 4 -->
-        <div class="testimonial-card">
-
-          <div class="client-img">
-            <img src="/img/Britannia.webp" alt="client">
-          </div>
-
-          <div class="stars">⭐⭐⭐⭐</div>
-          <p>"we realy appreciate to Virtual White Flame PVT LTD.for all briquettes industrial needs.
-            Their products are reliable and durable, which is crucial for our manufacturing processes. he highly
-            recommend techniques them to anyone looking for top-notch in boiler operations solutions".
-
-
-
-          </p>
-          <h4>__ Britania Industries Ltd</h4>
-          <h4>Ranjangaon</h4>
-
-        </div>
-
-
-        <!-- CARD 4 -->
-        <div class="testimonial-card">
-
-          <div class="client-img">
-            <img src="/img/Newasa.webp" alt="client">
-          </div>
-
-          <div class="stars">⭐⭐⭐⭐</div>
-          <p>"As a long-time supplier, we can confidently say that Virtual White Flame PVT LTD. excels in both product
-            quality and delivery speed.
-            They understand our needs and consistently provide solutions that exceed expectations".
-
-
-
-
-          </p>
-          <h4>__ CPF India Pvt Ltd</h4>
-          <h4>Newasa</h4>
-
-        </div>
-      </div>
 
     </div>
-  </section>
+
+</section>
 
 
 <!-- Floating Contact Buttons -->

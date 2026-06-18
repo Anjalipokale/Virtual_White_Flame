@@ -33,36 +33,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="why-join-wrapper">
 
-        <!-- Left Image -->
-
         <div class="why-join-image">
-            <img src="/img/why-join.jpg" alt="Why Join Virtual White Flame">
-        </div>
 
-        <!-- Right Content -->
+            <img src="/uploads/<%= whyJoin.image %>"
+                 alt="<%= whyJoin.title %>">
+
+        </div>
 
         <div class="why-join-content">
 
-            <h2>Why Join Virtual White Flame?</h2>
+            <h2>
+                <%= whyJoin.title %>
+            </h2>
 
             <p>
-                Join a growing biomass energy company where innovation,
-                sustainability and professional growth come together.
+                <%= whyJoin.description %>
             </p>
 
             <ul class="join-list">
 
-                <li>✔ Career Growth Opportunities</li>
+                <li>✔ <%= whyJoin.feature1 %></li>
 
-                <li>✔ Sustainable & Green Industry</li>
+                <li>✔ <%= whyJoin.feature2 %></li>
 
-                <li>✔ Learning & Development Programs</li>
+                <li>✔ <%= whyJoin.feature3 %></li>
 
-                <li>✔ Supportive Work Environment</li>
+                <li>✔ <%= whyJoin.feature4 %></li>
 
-                <li>✔ Innovation & Technology Exposure</li>
+                <li>✔ <%= whyJoin.feature5 %></li>
 
-                <li>✔ Recognition & Career Advancement</li>
+                <li>✔ <%= whyJoin.feature6 %></li>
 
             </ul>
 
@@ -71,7 +71,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </div>
 
 </section>
-
 <!-- Life At Company Section Start -->
 
 <section class="life-company-section">
@@ -85,25 +84,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     </p>
 </div>
 
-    <div class="life-gallery">
+   <div class="life-gallery">
 
-        <div class="gallery-card">
-            <img src="/img/life1.jpg" alt="Team Culture">
-            <h3>Team Collaboration</h3>
-        </div>
+        <% if(culture.length > 0){ %>
 
-        <div class="gallery-card">
-            <img src="/img/life2.jpg" alt="Plant Operations">
-            <h3>Hands-on Industry Experience</h3>
-        </div>
+            <% culture.forEach(function(c){ %>
 
-        <div class="gallery-card">
-            <img src="/img/life3.jpg" alt="Training">
-            <h3>Learning & Development</h3>
-        </div>
+                <div class="gallery-card">
+                    <img src="<%= c.image %>" alt="<%= c.title %>">
+                    <h3><%= c.title %></h3>
+                </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <p>No Culture Data Found</p>
+
+        <% } %>
 
     </div>
-
 </section>
 
 <!-- Open Positions Section Start -->
@@ -140,130 +140,82 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="jobs-container">
 
-       <div class="job-card" data-department="Sales">
-            <h3>Sales Executive</h3>
-            <p><strong>Department:</strong> Sales</p>
-            <p><strong>Experience:</strong> 1-2 Years</p>
-            <p><strong>Location:</strong> Pune</p>
-            <button class="apply-btn open-modal" data-job="Sales Executive">
-    Apply Now
-</button>
-        </div>
+<% careers.forEach(function(job){ %>
 
-       <div class="job-card" data-department="Marketing">
-            <h3>Marketing Manager</h3>
-            <p><strong>Department:</strong> Marketing</p>
-            <p><strong>Experience:</strong> 3-5 Years</p>
-            <p><strong>Location:</strong> Pune</p>
-            <button class="apply-btn open-modal" data-job="Marketing Manager">
-    Apply Now
-</button>
-        </div>
+<div class="job-card" data-department="<%= job.department %>">
 
-        <div class="job-card" data-department="Production">
-            <h3>Production Supervisor</h3>
-            <p><strong>Department:</strong> Production</p>
-            <p><strong>Experience:</strong> 2-4 Years</p>
-            <p><strong>Location:</strong> Plant Site</p>
-            <button class="apply-btn open-modal" data-job="Production Supervisor">
-    Apply Now
-</button>
-        </div>
+    <h3><%= job.job_title %></h3>
 
-        <div class="job-card" data-department="Production">
-            <h3>Plant Operator</h3>
-            <p><strong>Department:</strong> Production</p>
-            <p><strong>Experience:</strong> 1-3 Years</p>
-            <p><strong>Location:</strong> Plant Site</p>
-            <button class="apply-btn open-modal" data-job="Plant Operator">
-    Apply Now
-</button>
-        </div>
+    <p><b>Department:</b> <%= job.department %></p>
+    <p><b>Experience:</b> <%= job.experience %></p>
+    <p><b>Location:</b> <%= job.location %></p>
 
-       <div class="job-card" data-department="Accounts">
-            <h3>Accountant</h3>
-            <p><strong>Department:</strong> Accounts</p>
-            <p><strong>Experience:</strong> 2-3 Years</p>
-            <p><strong>Location:</strong> Pune</p>
-            <button class="apply-btn open-modal" data-job="Accountant">
-    Apply Now
-</button>
-        </div>
+    <button class="apply-btn open-modal"
+            data-job="<%= job.job_title %>">
+        Apply Now
+    </button>
 
-        <div class="job-card" data-department="HR">
-            <h3>HR Executive</h3>
-            <p><strong>Department:</strong> HR</p>
-            <p><strong>Experience:</strong> 1-2 Years</p>
-            <p><strong>Location:</strong> Pune</p>
-            <button class="apply-btn open-modal" data-job="HR Executive">
-    Apply Now
-</button>
-        </div>
+</div>
 
-    </div>
+<% }) %>
 
+</div>
 </section>
 
 
-<!-- Apply Form Modal Start -->
-
+<!-- Apply Form Modal Start --> 
+ 
 <div class="job-modal" id="jobModal">
-
+ 
     <div class="modal-content">
 
         <span class="close-modal">&times;</span>
 
         <h2>Apply for Position</h2>
+<form action="/save-application" method="post" enctype="multipart/form-data">
 
-        <form>
+<div class="form-group">
+    <input type="text" name="name" placeholder="Full Name" required>
+</div>
 
-            <div class="form-group">
-                <input type="text" placeholder="Full Name" required>
-            </div>
+<div class="form-group">
+    <input type="email" name="email" placeholder="Email Address" required>
+</div>
 
-            <div class="form-group">
-                <input type="email" placeholder="Email Address" required>
-            </div>
+<div class="form-group">
+    <input type="tel" name="mobile" placeholder="Mobile Number" required>
+</div>
 
-            <div class="form-group">
-                <input type="tel" placeholder="Mobile Number" required>
-            </div>
+<div class="form-group">
 
-            <div class="form-group">
+<select name="position" required>
+    <option value="">Select Position</option>
+    <option>Sales Executive</option>
+    <option>Marketing Manager</option>
+    <option>Production Supervisor</option>
+    <option>Plant Operator</option>
+    <option>Accountant</option>
+    <option>HR Executive</option>
+</select>
 
-                <select id="jobPosition" required>
+</div>
 
-                    <option value="">Select Position</option>
+<div class="form-group">
 
-                    <option>Sales Executive</option>
-                    <option>Marketing Manager</option>
-                    <option>Production Supervisor</option>
-                    <option>Plant Operator</option>
-                    <option>Accountant</option>
-                    <option>HR Executive</option>
+<label>Upload Resume</label>
 
-                </select>
+<input type="file" name="resume" accept=".pdf,.doc,.docx" required>
 
-            </div>
+</div>
 
-            <div class="form-group">
+<button type="submit" class="submit-btn">
+    Submit Application
+</button>
 
-                <label>Upload Resume</label>
-
-                <input type="file" accept=".pdf,.doc,.docx">
-
-                <small>Accepted Formats: PDF, DOC, DOCX</small>
-
-            </div>
-
-            <button type="submit" class="submit-btn">
-                Submit Application
-            </button>
-
-        </form>
+</form>
 
     </div>
-
+    
 </div>
 
 <!-- Application Tracking Section Start -->
@@ -282,77 +234,88 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
     <div class="tracking-search">
 
+    <form action="/track-application" method="GET">
+
         <input
             type="text"
+            name="application_id"
             placeholder="Enter Application ID (Example: VWF2026001)"
+            required
         >
 
-        <button class="track-btn">
+        <button type="submit" class="track-btn">
             Track Status
         </button>
 
-    </div>
+    </form>
+
+</div>
 
    <!-- Tracking Result Card -->
+
+<% if(trackingId){ %>
+
+<div style="background:#e8f5e9;padding:20px;margin-top:20px;border-radius:10px;text-align:center;">
+
+    <h3>Application Submitted Successfully</h3>
+
+    <h2>Your Tracking ID:</h2>
+
+    <h1 style="color:green;">
+        <%= trackingId %>
+    </h1>
+
+    <p>Please save this ID for tracking your application.</p>
+
+</div>
+
+<% } %>
+
+<% if(application){ %>
 
 <div class="tracking-card">
 
     <div class="tracking-header">
 
-        <h3>Application ID : VWF2026001</h3>
+        <h3>
+            Application ID :
+            <%= application.application_id %>
+        </h3>
 
         <span class="status-badge">
-            Interview Scheduled
+            <%= application.status %>
         </span>
-
-    </div>
-
-    <div class="progress-section">
-
-        <div class="progress-info">
-
-            <span>Application Progress</span>
-
-            <span>75%</span>
-
-        </div>
-
-        <div class="progress-bar">
-
-            <div class="progress-fill"></div>
-
-        </div>
 
     </div>
 
     <div class="status-list">
 
-        <div class="status-item completed">
+        <div class="status-item <%= application.status=='Applied' || application.status=='Under Review' || application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
             ✓ Applied
         </div>
 
-        <div class="status-item completed">
+        <div class="status-item <%= application.status=='Under Review' || application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
             ✓ Under Review
         </div>
 
-        <div class="status-item completed">
+        <div class="status-item <%= application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
             ✓ Shortlisted
         </div>
 
-        <div class="status-item active">
-            ● Interview Scheduled
+        <div class="status-item <%= application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
+            ✓ Interview Scheduled
         </div>
 
-        <div class="status-item">
-            ○ Selected
+        <div class="status-item <%= application.status=='Selected' ? 'completed':'' %>">
+            ✓ Selected
         </div>
 
     </div>
 
 </div>
 
+<% } %>
 </section>
-
 <!-- FAQ Section Start -->
 
 <section class="faq-section">
@@ -416,38 +379,55 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </section>
 
-<!-- HR Contact Section Start -->
-
 <section class="hr-contact-section">
 
     <div class="section-title">
         <span class="title-tag">NEED HELP?</span>
         <h2>Contact Our HR Team</h2>
-        <p>
-            Have questions about careers or recruitment? Our HR team is here to help.
-        </p>
+        <p>Have questions about careers or recruitment? Our HR team is here to help.</p>
     </div>
 
-    <div class="hr-contact-card">
+   <div class="hr-contact-grid">
 
-        <div class="contact-item">
-            <h3>Email</h3>
-            <p>careers@virtualwhiteflame.com</p>
+    <!-- Phone Card -->
+    <div class="hr-card">
+        <div class="hr-icon">
+            <i class="fas fa-phone-alt"></i>
         </div>
 
-        <div class="contact-item">
-            <h3>Phone</h3>
-            <p>+91 XXXXX XXXXX</p>
-        </div>
+        <h3><%= hrContact.phone_title %></h3>
 
-        <div class="contact-item">
-            <h3>Working Hours</h3>
-            <p>Monday - Saturday | 9:00 AM - 6:00 PM</p>
-        </div>
-
+        <p><%= hrContact.phone1 %></p>
+        <p><%= hrContact.phone2 %></p>
     </div>
 
+    <!-- Email Card -->
+    <div class="hr-card active">
+        <div class="hr-icon">
+            <i class="fas fa-envelope"></i>
+        </div>
+
+        <h3><%= hrContact.email_title %></h3>
+
+        <p><%= hrContact.email1 %></p>
+        <p><%= hrContact.email2 %></p>
+    </div>
+
+    <!-- Working Hours Card -->
+    <div class="hr-card">
+        <div class="hr-icon">
+            <i class="fas fa-clock"></i>
+        </div>
+
+        <h3><%= hrContact.hours_title %></h3>
+
+        <p><%= hrContact.working_days %></p>
+        <p><%= hrContact.working_time %></p>
+    </div>
+
+</div>
 </section>
+
 
 <!-- Floating Contact Buttons -->
 
@@ -470,12 +450,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </div>
 
+<script>
+window.addEventListener("load", function() {
 
+    var section = document.getElementById("tracking-section");
+
+    if(section){
+        section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+});
+</script>
 
 
    <%- include('footer') %>
 
 <script src="/js/career.js"></script>
+
 
 </body>
 </html>

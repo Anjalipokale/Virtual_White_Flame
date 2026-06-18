@@ -1,0 +1,242 @@
+<%- include('Navbar') %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.infrastructure-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:30px;
+    width:calc(100% - 290px);
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.section-title{
+    color:#198754;
+    font-weight:700;
+    margin-bottom:25px;
+    border-bottom:2px solid #198754;
+    padding-bottom:10px;
+}
+
+.form-control{
+    border-radius:8px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 5px rgba(25,135,84,.3);
+}
+
+.save-btn{
+    background:#ff6b00;
+    color:#fff;
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#e55f00;
+}
+
+.table-card{
+    margin-top:30px;
+}
+
+.table{
+    width:100%;
+}
+
+.table th{
+    background:#198754;
+    color:#fff;
+    padding:14px;
+    text-align:center;
+}
+
+.table td{
+    padding:14px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+    background:#f8f9fa;
+}
+
+.infra-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #198754;
+}
+
+.edit-btn{
+    background:#198754;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.delete-btn{
+    background:#ff6b00;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+@media(max-width:992px){
+    .infrastructure-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+}
+</style>
+
+<div class="infrastructure-container">
+
+    <!-- Add Infrastructure -->
+    <div class="admin-card">
+
+        <h2 class="section-title">
+            Add Infrastructure
+        </h2>
+
+        <form action="/admin/save_infrastructure"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold">Infrastructure Image</label>
+                    <input type="file"
+                           name="infra_image"
+                           class="form-control">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="fw-bold">Infrastructure Title</label>
+                    <input type="text"
+                           name="infra_title"
+                           class="form-control"
+                           placeholder="Infrastructure Title">
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label class="fw-bold">Description</label>
+                <textarea name="infra_description"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Infrastructure Description"></textarea>
+            </div>
+
+            <button type="submit" class="save-btn">
+                Save Infrastructure
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Infrastructure List -->
+    <div class="admin-card table-card">
+
+        <h2 class="section-title">
+            All Infrastructure
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th width="200">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% infrastructure.forEach(function(i){ %>
+
+                    <tr>
+
+                        <td><%= i.id %></td>
+
+                        <td>
+                            <img src="/uploads/<%= i.infra_image %>"
+                                 class="infra-img">
+                        </td>
+
+                        <td><%= i.infra_title %></td>
+
+                        <td><%= i.infra_description %></td>
+
+                        <td>
+
+                            <a href="/admin/edit_infrastructure/<%= i.id %>"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="/admin/delete_infrastructure/<%= i.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Are you sure you want to delete this infrastructure?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

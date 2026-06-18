@@ -14,47 +14,25 @@
        </div>
 
 </section>
-  <div class="galleryE">
+   <div class="galleryE">
 
-        <!-- Machinery -->
-          <div class="galleryE-item machinery">
-            <img src="/img/E13.jpeg" alt="">
+<% if(events.length > 0){ %>
+
+    <% events.forEach(function(item){ %>
+
+        <div class="galleryE-item">
+           <img src="/uploads/<%= item.image %>" alt="">
         </div>
-          <div class="galleryE-item machinery">
-            <img src="/img/E5.png" alt="">
-        </div>
-        <div class="galleryE-item machinery">
-            <img src="/img/E6.jpeg" alt="">
-        </div>
- <div class="galleryE-item machinery">
-            <img src="/img/E3.png" alt="">
-        </div>
- <div class="galleryE-item machinery">
-            <img src="/img/E7.jpeg" alt="">
-        </div>
-         <div class="galleryE-item machinery">
-            <img src="/img/E8.jpeg" alt="">
-        </div>
-         <div class="galleryE-item machinery">
-            <img src="/img/E4.png" alt="">
-        </div>
-        
-         <div class="galleryE-item machinery">
-            <img src="/img/E9.jpeg" alt="">
-        </div>
-        <div class="galleryE-item machinery">
-            <img src="/img/E2.png" alt="">
-        </div>
-         <div class="galleryE-item machinery">
-            <img src="/img/E10.jpeg" alt="">
-        </div>
-         <div class="galleryE-item machinery">
-            <img src="/img/E11.jpeg" alt="">
-        </div>
-         <div class="galleryE-item machinery">
-            <img src="/img/E12.jpeg" alt="">
-        </div>
-        </div>
+
+    <% }) %>
+
+<% } else { %>
+
+    <h3>No Event Images Found</h3>
+
+<% } %>
+
+</div>
    <!--floting buttons  -->
         <div class="floating-buttons">
 

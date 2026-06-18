@@ -1,0 +1,212 @@
+<%- include('Navbar') %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.vision-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:30px;
+    width:calc(100% - 290px);
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.section-title{
+    color:#198754;
+    font-weight:700;
+    margin-bottom:25px;
+    border-bottom:2px solid #198754;
+    padding-bottom:10px;
+}
+
+.form-control{
+    border-radius:8px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 5px rgba(25,135,84,.3);
+}
+
+.save-btn{
+    background:#ff6b00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#e55f00;
+}
+
+.table-card{
+    margin-top:30px;
+}
+
+.table{
+    width:100%;
+}
+
+.table th{
+    background:#198754;
+    color:#fff;
+    padding:14px;
+    text-align:center;
+}
+
+.table td{
+    padding:14px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+    background:#f8f9fa;
+}
+
+.edit-btn{
+    background:#198754;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.delete-btn{
+    background:#ff6b00;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+@media(max-width:992px){
+    .vision-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+}
+</style>
+
+<div class="vision-container">
+
+    <!-- Add Vision -->
+    <div class="admin-card">
+
+        <h2 class="section-title">
+            Add Vision
+        </h2>
+
+        <form action="/admin/save_vision_mission" method="post">
+
+            <div class="mb-3">
+                <label class="fw-bold">Vision Title</label>
+                <input type="text"
+                       name="vision_title"
+                       class="form-control"
+                       placeholder="Enter Vision Title">
+            </div>
+
+            <div class="mb-3">
+                <label class="fw-bold">Vision Description</label>
+                <textarea name="vision_description"
+                          rows="5"
+                          class="form-control"
+                          placeholder="Enter Vision Description"></textarea>
+            </div>
+
+            <button type="submit" class="save-btn">
+                Save Vision
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Vision List -->
+    <div class="admin-card table-card">
+
+        <h2 class="section-title">
+            All Vision
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th width="200">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% vision.forEach(function(v){ %>
+
+                    <tr>
+
+                        <td><%= v.id %></td>
+
+                        <td><%= v.vision_title %></td>
+
+                        <td>
+
+                            <a href="/admin/edit_vision_mission/<%= v.id %>"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="/admin/delete_vision_mission/<%= v.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Delete this vision?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

@@ -1,0 +1,39 @@
+<table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Image</th>
+    <th>Title</th>
+    <th>Category</th>
+    <th>Delete</th>
+</tr>
+
+
+<% gallery.forEach(function(img){ %>
+
+<tr>
+
+<td><%= img.id %></td>
+
+<td>
+<img src="<%= img.image %>" width="100">
+</td>
+
+<td><%= img.title %></td>
+
+<td><%= img.category %></td>
+
+
+<td>
+<a href="/admin/delete-image/<%= img.id %>">
+Delete
+</a>
+</td>
+
+
+</tr>
+
+
+<% }) %>
+
+</table>

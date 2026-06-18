@@ -24,11 +24,12 @@
 
         <!-- VISION & MISSION SECTION -->
 
-     <section class="vision-mission-section container-fluid">
+ <section class="vision-mission-section container-fluid">
 
     <div class="row justify-content-center g-4 px-3 px-md-5">
 
-        <!-- Vision Box -->
+        <% vision.forEach(function(v){ %>
+
         <div class="col-lg-5 col-md-6">
 
             <div class="vm-box h-100">
@@ -37,45 +38,19 @@
                     <i class="fa-solid fa-eye"></i>
                 </div>
 
-                <h2>Our Vision</h2>
+                <h2>
+                    <%= v.vision_title %>
+                </h2>
 
                 <p>
-                    Our vision is to emerge as a leading force in the green energy generation sector,
-                    leveraging all available resources to their fullest potential. We are committed
-                    to nurturing strong partnerships with our stakeholders, empowering them socially
-                    and technologically, as we collectively strive towards a sustainable future.
+                    <%= v.vision_description %>
                 </p>
 
             </div>
 
         </div>
 
-        <!-- Mission Box -->
-        <div class="col-lg-5 col-md-6">
-
-            <div class="vm-box h-100">
-
-                <div class="vm-icon">
-                    <i class="fa-solid fa-bullseye"></i>
-                </div>
-
-                <h2>Our Mission</h2>
-
-                <p>
-                    We aim to deliver superior quality by producing high-grade biomass fuel.
-                    Our mission extends beyond mere production; we aspire to empower rural
-                    communities through the utilization of social technology, fostering economic
-                    empowerment and inclusivity.
-
-                    Furthermore, we are committed to maintaining environmental equilibrium by
-                    employing eco-friendly practices in biomass fuel production. We recognize
-                    the importance of equitable distribution of benefits, and therefore,
-                    strive to provide fair monetary compensation to all our stakeholders.
-                </p>
-
-            </div>
-
-        </div>
+        <% }) %>
 
     </div>
 
@@ -256,36 +231,21 @@
         </div>
 
         <!-- BOX 1 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="future-box h-100">
-                <h3>New Plants</h3>
-                <p>Expanding manufacturing plants with advanced technologies.</p>
+        <% future_goals.forEach(function(f){ %>
+
+        <!-- BOX -->
+        <div class="col-lg-3 col-md-6 mb-4">
+            <div class="future-box h-100 p-3 shadow">
+
+                <h3><%= f.goal_title %></h3>
+
+                <p><%= f.goal_description %></p>
+
             </div>
         </div>
 
-        <!-- BOX 2 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="future-box h-100">
-                <h3>Automation</h3>
-                <p>Increasing production efficiency through smart automation.</p>
-            </div>
-        </div>
-
-        <!-- BOX 3 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="future-box h-100">
-                <h3>Global Reach</h3>
-                <p>Expanding business operations across international markets.</p>
-            </div>
-        </div>
-
-        <!-- BOX 4 -->
-        <div class="col-lg-3 col-md-6">
-            <div class="future-box h-100">
-                <h3>Green Manufacturing</h3>
-                <p>Developing eco-friendly and sustainable production systems.</p>
-            </div>
-        </div>
+        <% }) %>
+     
 
     </div>
 

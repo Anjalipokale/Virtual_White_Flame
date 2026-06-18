@@ -1,0 +1,170 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+.requests-wrapper{
+    width: 80%;
+    margin-top: 90px;
+    padding:20px;
+    margin-left: 250px;
+}
+
+.requests-title{
+    text-align:center;
+    color:#2E7D32;
+    margin-bottom:30px;
+    font-size:32px;
+    font-weight:700;
+}
+
+.requests-table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.requests-table thead{
+    background:#2E7D32;
+    color:#fff;
+}
+
+.requests-table th,
+.requests-table td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+.requests-table tbody tr:hover{
+    background:#f8faf8;
+}
+
+.requests-table th{
+    font-weight:600;
+}
+
+@media(max-width:768px){
+
+    .table-responsive{
+        overflow-x:auto;
+    }
+
+    .requests-title{
+        font-size:24px;
+    }
+
+}
+
+.btn-accept{
+    background:#2E7D32;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+    margin-right:8px;
+}
+
+.btn-delete{
+    background:#e53935;
+    color:#fff;
+    padding:8px 14px;
+    border-radius:6px;
+    text-decoration:none;
+}
+
+.btn-accept:hover,
+.btn-delete:hover{
+    opacity:0.9;
+}
+
+</style>
+
+<div class="requests-wrapper">
+
+    <h2 class="requests-title">
+        Dealer Inquiry Requests
+    </h2>
+
+    <div class="table-responsive">
+
+        <table class="requests-table">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Dealer Name</th>
+                    <th>City</th>
+                    <th>Mobile</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+           <tbody>
+
+<% requests.forEach((item)=>{ %>
+
+<tr>
+
+    <td><%= item.id %></td>
+    <td><%= item.dealer_name %></td>
+    <td><%= item.city %></td>
+    <td><%= item.mobile %></td>
+
+    <td>
+        <%= new Date(item.created_at).toLocaleString('en-IN', {
+            timeZone: 'Asia/Kolkata',
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        }) %>
+    </td>
+
+    <td>
+
+        <a href="/admin/accept-dealer/<%= item.id %>"
+           class="btn-accept">
+           Accept
+        </a>
+
+        <a href="/admin/delete-dealer/<%= item.id %>"
+           class="btn-delete"
+           onclick="return confirm('Are you sure?')">
+           Delete
+        </a>
+
+    </td>
+
+    <td>
+    <% if(item.status === 'Accepted'){ %>
+        <span style="color:green;font-weight:bold;">
+            Accepted
+        </span>
+    <% } else { %>
+        <span style="color:orange;font-weight:bold;">
+            Pending
+        </span>
+    <% } %>
+</td>
+
+</tr>
+
+<% }) %>
+
+</tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

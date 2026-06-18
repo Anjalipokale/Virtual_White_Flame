@@ -1,13 +1,15 @@
 var mysql = require("mysql");
 var util = require("util");
 
- var conn = mysql.createConnection({
-     host:"localhost",
-     user:"root",
-   password:"",
-    database:"Virtual_White_Flame"
-})
+var pool = mysql.createPool({
+    connectionLimit: 10,
+    host: "bbtbsmvzwzg76boevhq9-mysql.services.clever-cloud.com",
+    user: "utmkkpkryl54snjz",
+    password: "UlSymiHJshowWnGd4FRe",
+    database: "bbtbsmvzwzg76boevhq9",
+    port: 3306
+});
 
-var exe = util.promisify(conn.query).bind(conn)
+var exe = util.promisify(pool.query).bind(pool);
 
 module.exports = exe;

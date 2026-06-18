@@ -32,23 +32,41 @@
   <div class="cat-block" id="block-all">
     <div class="grid">
 
-      <div class="card" data-cat="sustainability">
-        <div class="card-img-wrap"><img src="/img/blogimg1.png" alt="blog image"><span class="card-badge">Sustainability</span></div>
-        <div class="card-body"><p class="card-date">09 Oct 2024</p><h3 class="card-title">Biomass Fuels Over Fossil Fuels</h3>
-        <a href="/blogdetails?id=1" class="read-btn">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
-      </div>
+     <% blogs.forEach(function(blog){ %>
 
-      <div class="card" data-cat="technology">
-        <div class="card-img-wrap"><img src="/img/blogimg7.png" alt="blog image"><span class="card-badge">Technology</span></div>
-        <div class="card-body"><p class="card-date">15 Oct 2024</p><h3 class="card-title">The Dual Nature of Biomass Briquettes and Pellets: Benefits and Drawbacks</h3>
-        <a href="/blogdetails?id=7" class="read-btn">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
-      </div>
+<div class="card" data-cat="<%= blog.category.toLowerCase() %>">
 
-      <div class="card" data-cat="agriculture">
-        <div class="card-img-wrap"><img src="/img/blogimg9.png" alt="blog image"><span class="card-badge">Agriculture</span></div>
-        <div class="card-body"><p class="card-date">22 Oct 2024</p><h3 class="card-title">The Role of Agricultural Waste in Biomass Briquette Production</h3>
-        <a href="/blogdetails?id=9" class="read-btn">Read More <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
-      </div>
+    <div class="card-img-wrap">
+        <img src="<%= blog.image %>" alt="blog image">
+
+        <span class="card-badge">
+            <%= blog.category %>
+        </span>
+    </div>
+
+
+    <div class="card-body">
+
+        <p class="card-date">
+            <%= blog.date %>
+        </p>
+
+        <h3 class="card-title">
+            <%= blog.title %>
+        </h3>
+
+
+        <a href="/blogdetails?id=<%= blog.id %>" 
+   style="color:red; font-size:20px; display:block;">
+   Read More
+</a>
+
+    </div>
+
+</div>
+
+<% }) %>
+
 
     </div>
   </div>

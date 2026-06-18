@@ -1,64 +1,64 @@
 <%- include("navbar.ejs")%>
 
-   <section class="company-history container-fluid">
+<section class="history-page-banner-section">
+    
+    <div class="history-banner-overlay"></div>
+
+    <div class="history-banner-content">
+        <h1>Company History</h1>
+
+        <div class="history-breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <p>Company History</p>
+        </div>
+    </div>
+
+</section>
+  <% if(history){ %>
+
+
+<section class="company-history container-fluid">
 
     <div class="row align-items-center g-5 px-3 px-md-5">
 
-        <!-- LEFT IMAGE -->
         <div class="col-lg-6">
 
             <div class="history-left">
 
-                <img src="/img/history.jpg"
+                <img src="/uploads/<%= history.history_image %>"
                      class="img-fluid"
                      alt="Company History">
 
                 <div class="history-badge">
-                    Since 2013
+                    <%= history.history_badge %>
                 </div>
 
             </div>
 
         </div>
 
-        <!-- RIGHT CONTENT -->
         <div class="col-lg-6">
 
             <div class="history-card">
 
-                <span class="history-tag">
+              <span class="history-tag">
+
                     OUR JOURNEY
+
                 </span>
 
                 <h2>
-                    Building Sustainable Energy Solutions
+                    <%= history.history_title %>
                 </h2>
 
-                <p>
-                    Virtual White Flame Pvt. Ltd. is a leading manufacturer
-                    of biomass briquettes and pellets serving industries
-                    across India.
-                </p>
-
-                <p>
-                    Established in 2013 as Seva Bio Brikets and expanded in
-                    2017 as Virtual White Flame Pvt. Ltd., the company has
-                    continuously focused on innovation and customer service.
-                </p>
+                <p><%= history.para1 %></p>
+                <p><%= history.para2 %></p>
 
                 <div class="history-divider"></div>
 
-                <p>
-                    We transform renewable biomass resources into
-                    eco-friendly fuel alternatives that help industries
-                    reduce carbon emissions and dependence on fossil fuels.
-                </p>
-
-                <p>
-                    Our commitment to quality, sustainability, and
-                    environmental responsibility drives us toward a cleaner
-                    and greener future.
-                </p>
+                <p><%= history.para3 %></p>
+                <p><%= history.para4 %></p>
 
             </div>
 
@@ -67,6 +67,8 @@
     </div>
 
 </section>
+
+<% } %>
 
 
     <!-- =========================

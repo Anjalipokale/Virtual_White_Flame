@@ -1,0 +1,55 @@
+<%- include('Navbar') %>
+
+<div class="container" style="margin-top:8rem;">
+
+    <div class="card shadow">
+
+        <div class="card-header text-white"
+           style="background:linear-gradient(90deg,#198754,#146c43);">
+
+            <h4 class="mb-0">Edit Future Goal</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/update_future_goal" method="post">
+
+                <!-- Hidden ID -->
+                <input type="hidden" name="id" value="<%= goal.id %>">
+
+                <!-- Goal Title -->
+                <div class="mb-3">
+                    <label>Goal Title</label>
+                    <input type="text"
+                           name="goal_title"
+                           class="form-control"
+                           value="<%= goal.goal_title %>"
+                           required>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea name="goal_description"
+                              class="form-control"
+                              rows="4"
+                              required><%= goal.goal_description %></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                        class="btn text-white"
+                        style="background:var(--orange);">
+                    Update Goal
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

@@ -11,123 +11,134 @@
 
         <h2>Product Inquiry</h2>
 
-        <form>
-            <input type="text" id="productName" readonly>
+       <form action="/save-inquiry" method="post">
 
-            <input type="text" placeholder="Your Name" required>
+     <input type="text"id="productName"name="product_name">
+     
+     <input type="text" name="name"  placeholder="Your Name"  required>
 
-            <input type="email" placeholder="Your Email" required>
+     <input type="email" name="email" placeholder="Your Email" required>
 
-            <input type="tel" placeholder="Your Mobile Number" required>
+    <input type="tel"  name="mobile"  placeholder="Your Mobile Number"  required>
 
-            <textarea placeholder="Your Inquiry" rows="4"></textarea>
+     <textarea name="message"
+          placeholder="Your Inquiry"
+          rows="4"></textarea>
 
-            <button type="submit">Submit Inquiry</button>
-        </form>
+      <button type="submit"> Submit Inquiry</button>
+
+
+</form>
+
     </div>
 </div>
 
 <!-- banner -->
-<section class="pro_banner1 d-flex justify-content-center align-items-center">
-    <h1 class="text-white fw-bold display-3 bg-dark bg-opacity-50 text-white px-4 py-2 rounded">
-        Product Details
-    </h1>
+<section class="pro_banner1">
+    <h1>PRODUCT DETAILS</h1>
 </section>
+
+
 <!-- product details -->
 <section class="product-detail-section">
 
-    <div class="product-image-box">
+<div class="product-image-box">
 
-    <img src="./img/pro_1.jpg" class="main-image" alt="">
-
-    <div class="related-images">
-        <img src="./img/pro_1.jpg"
-             data-info="Sawdust Briquette - High calorific value and eco-friendly fuel."
-             alt="">
-
-        <img src="./img/pro_2.jpg"
-             data-info="Soya Husk Briquette - Renewable biomass fuel with low moisture."
-             alt="">
-
-        <img src="./img/pro_3.jpg"
-             data-info="Groundnut Shell - Cost-effective fuel for industrial use."
-             alt="">
-
-        <img src="./img/pro_4.jpg"
-             data-info="Biomass Pellets - Clean burning fuel with high efficiency."
-             alt="">
-    </div>
+    <img
+    src="/uploads/<%= product.main_image %>"
+    class="main-image"
+    alt="<%= product.product_name %>">
 
     <div class="image-info">
-        Sawdust Briquette - High calorific value and eco-friendly fuel.
+        <%= product.short_description %>
     </div>
 
 </div>
-    <div class="divider"></div>
 
-    <div class="product-info">
+<div class="divider"></div>
 
-        <h2>Sawdust Briquette</h2>
+<div class="product-info">
 
-        <div class="stars">
-            ★★★★★
-        </div>
+    <h2>
+        <%= product.product_name %>
+    </h2>
 
-        <div class="feature">
-    <span class="check-box">✓</span>
-    Calorific Value is up to 3500 kcal/Kg
-</div>
+    <div class="stars">
+        ★★★★★
+    </div>
 
-<div class="feature">
-    <span class="check-box">✓</span>
-    Ash Production - 10 to 12%
-</div>
+    <% if(product.feature1){ %>
+    <div class="feature">
+        <span class="check-box">✓</span>
+        <%= product.feature1 %>
+    </div>
+    <% } %>
 
-<div class="feature">
-    <span class="check-box">✓</span>
-    Moisture - 10 to 12%
-</div>
+    <% if(product.feature2){ %>
+    <div class="feature">
+        <span class="check-box">✓</span>
+        <%= product.feature2 %>
+    </div>
+    <% } %>
 
-<div class="feature">
-    <span class="check-box">✓</span>
-   Cost-Effective Fuel<br>
-Eco-Friendly Energy Source
-</div>
+    <% if(product.feature3){ %>
+    <div class="feature">
+        <span class="check-box">✓</span>
+        <%= product.feature3 %>
+    </div>
+    <% } %>
 
-<div class="share-box">
-    <span>Share Now</span>
+    <% if(product.feature4){ %>
+    <div class="feature">
+        <span class="check-box">✓</span>
+        <%= product.feature4 %>
+    </div>
+    <% } %>
 
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https://virtualwhiteflame.com"
-       target="_blank" class="social-icon">
-        <i class="fab fa-facebook-f"></i>
-    </a>
+    <div style="margin-top:25px;">
 
-    <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://virtualwhiteflame.com"
-       target="_blank" class="social-icon">
-        <i class="fab fa-linkedin-in"></i>
-    </a>
+        <h4>Description</h4>
 
-    <a href="https://www.instagram.com/"
-       target="_blank" class="social-icon">
-        <i class="fab fa-instagram"></i>
-    </a>
+        <p>
+            <%= product.description %>
+        </p>
 
-    <a href="https://wa.me/?text=https://virtualwhiteflame.com"
-       target="_blank" class="social-icon">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-</div>
+    </div>
 
-<button class="know-more-btn" onclick="openInquiry('Sawdust Briquette')">
+    <div class="share-box">
+
+        <span>Share Now</span>
+
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-linkedin-in"></i>
+        </a>
+
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="#" target="_blank" class="social-icon">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+    </div>
+
+   <button class="know-more-btn"
+        onclick="openInquiry('<%= product.product_name %>')">
     Inquiry
 </button>
 
-<!-- Font Awesome -->
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </div>
 
+
 </section>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
 
 <!-- Frequently Asked Questions -->
@@ -233,6 +244,14 @@ thumbnails.forEach(img => {
     });
 
 });
+
+function openInquiry(productName){
+
+    document.getElementById("productName").value = productName;
+
+    document.getElementById("inquiryModal").style.display = "block";
+
+}
 
 </script>
 <%- include("footer.ejs") %>

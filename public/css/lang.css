@@ -1,0 +1,173 @@
+/* ============================================================
+   Language Toggle Switch – VirtualWhiteFlame
+   Ye CSS aapki existing web.css ke SAATH kaam karegi
+   Sirf toggle ke styles hain – baaki kuch touch nahi kiya
+   ============================================================ */
+
+/* ── TOGGLE BUTTON WRAPPER ── */
+.vwf-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f4f4f4;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 50px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-family: var(--f1, "Montserrat", sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #555;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition:
+    background 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  outline: none;
+  /* ensure it never overflows navbar */
+  max-width: 90px;
+  min-width: 0;
+}
+
+.vwf-lang-toggle:hover {
+  background: #fff3e0;
+  border-color: #e65100;
+  box-shadow: 0 2px 10px rgba(230, 81, 0, 0.18);
+}
+
+.vwf-lang-toggle:focus-visible {
+  outline: 2px solid #e65100;
+  outline-offset: 2px;
+}
+
+/* ── TRACK (the sliding rail) ── */
+.lang-track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  background: #ccc;
+  border-radius: 50px;
+  flex-shrink: 0;
+  transition: background 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── THUMB (the circle that slides) ── */
+.lang-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── ACTIVE STATE (Marathi on) ── */
+.vwf-lang-toggle.is-mr .lang-track {
+  background: #e65100;
+}
+
+.vwf-lang-toggle.is-mr .lang-thumb {
+  transform: translateX(14px);
+}
+
+.vwf-lang-toggle.is-mr {
+  background: #fff3e0;
+  border-color: #e65100;
+}
+
+/* ── LABELS ── */
+.lang-en,
+.lang-mr {
+  transition: opacity 0.25s ease;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Default: EN is bright, मर is dim */
+.lang-en { opacity: 1;    color: #2e7d32; }
+.lang-mr { opacity: 0.45; color: #e65100; }
+
+/* Flipped when Marathi is active */
+.vwf-lang-toggle.is-mr .lang-en { opacity: 0.45; }
+.vwf-lang-toggle.is-mr .lang-mr { opacity: 1;    }
+
+/* ============================================================
+   RESPONSIVE – Mobile mein bhi sab fit rahe
+   ============================================================ */
+
+/* Tablet / small laptop */
+@media screen and (max-width: 992px) {
+  /* Mobile menu open hone ke baad bhi toggle dikh sake */
+  .vwf-lang-toggle {
+    font-size: 10px;
+    padding: 4px 8px;
+    gap: 5px;
+    max-width: 80px;
+  }
+
+  .lang-track {
+    width: 26px;
+    height: 14px;
+  }
+
+  .lang-thumb {
+    width: 10px;
+    height: 10px;
+  }
+
+  .vwf-lang-toggle.is-mr .lang-thumb {
+    transform: translateX(12px);
+  }
+}
+
+/* Small mobile */
+@media screen and (max-width: 576px) {
+  .vwf-lang-toggle {
+    padding: 4px 7px;
+    gap: 4px;
+    font-size: 10px;
+    max-width: 72px;
+  }
+
+  .lang-track {
+    width: 24px;
+    height: 13px;
+  }
+
+  .lang-thumb {
+    width: 9px;
+    height: 9px;
+    top: 2px;
+    left: 2px;
+  }
+
+  .vwf-lang-toggle.is-mr .lang-thumb {
+    transform: translateX(11px);
+  }
+
+  /* nav-right tight space pe overflow na ho */
+  .nav-right {
+    gap: 6px;
+  }
+}
+
+/* Extra small */
+@media screen and (max-width: 400px) {
+  /* Brochure button se clutter na ho toh nav-divider hide */
+  .nav-divider {
+    display: none;
+  }
+
+  .vwf-lang-toggle {
+    padding: 3px 6px;
+    font-size: 9px;
+    max-width: 66px;
+  }
+}

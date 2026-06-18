@@ -1,0 +1,94 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    background: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+.form-box{
+    width: 450px;
+    margin: 80px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px gray;
+    text-align: center;
+}
+
+.form-box h2{
+    margin-bottom: 25px;
+    color: #2e7d32;
+}
+
+.form-box input{
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-box img{
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 15px 0;
+    border: 1px solid #ddd;
+}
+
+.form-box button{
+    background: #2e7d32;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.form-box button:hover{
+    background: #1b5e20;
+}
+
+</style>
+
+
+<div class="form-box">
+
+    <h2>Edit Culture</h2>
+
+    <form action="/admin/update-culture/<%= item.id %>" 
+          method="post" 
+          enctype="multipart/form-data">
+
+        <input 
+            type="text" 
+            name="title" 
+            value="<%= item.title %>" 
+            required>
+
+        <br>
+
+        <img src="<%= item.image %>">
+
+        <br>
+
+        <input 
+            type="file" 
+            name="image">
+
+        <br>
+
+        <button type="submit">
+            Update
+        </button>
+
+    </form>
+
+</div>
+
+
+<%- include("footer.ejs") %>

@@ -1,0 +1,154 @@
+<%- include("navbar.ejs") %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.inquiry-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:30px;
+    width:calc(100% - 290px);
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.page-title{
+    color:#198754;
+    font-weight:700;
+    margin-bottom:25px;
+    border-bottom:2px solid #198754;
+    padding-bottom:10px;
+}
+
+.table{
+    width:100%;
+}
+
+.table th{
+    background:#198754;
+    color:#fff;
+    text-align:center;
+    padding:14px;
+}
+
+.table td{
+    text-align:center;
+    vertical-align:middle;
+    padding:12px;
+}
+
+.table tbody tr:hover{
+    background:#f8f9fa;
+}
+
+.message-cell{
+    max-width:250px;
+    text-align:left;
+}
+
+.delete-btn{
+    background:#ff6b00;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+@media(max-width:992px){
+    .inquiry-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+}
+</style>
+
+<div class="inquiry-container">
+
+    <div class="admin-card">
+
+        <h2 class="page-title">
+            Customer Inquiries
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Product</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                        <th width="120">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% inquiries.forEach(function(inquiry){ %>
+
+                    <tr>
+
+                        <td><%= inquiry.id %></td>
+
+                        <td><%= inquiry.product_name %></td>
+
+                        <td><%= inquiry.name %></td>
+
+                        <td><%= inquiry.email %></td>
+
+                        <td><%= inquiry.mobile %></td>
+
+                        <td class="message-cell">
+                            <%= inquiry.message %>
+                        </td>
+
+                        <td>
+                            <%= inquiry.indian_time %>
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/delete-inquiry/<%= inquiry.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Delete Inquiry?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

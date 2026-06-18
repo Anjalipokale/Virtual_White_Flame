@@ -8,7 +8,59 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/web.css">
+
+  <!-- ✅ Language Toggle CSS — sirf yahi ek line add karo -->
+  <link rel="stylesheet" href="/css/lang.css">
+
   <link rel="icon" type="image/png" href="/img/logo.jpg">
+
+  <style>
+
+/* client login  */
+.btn-client-login{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 22px;
+    margin-left: 12px;
+    background: linear-gradient(135deg, var(--orange));
+    color: #fff;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-client-login:hover{
+    color: #fff;
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #218838);
+    box-shadow: 0 8px 18px rgba(40, 167, 69, 0.4);
+}
+
+.btn-client-login i{
+    font-size: 14px;
+}
+
+.btn-client-login span{
+    white-space: nowrap;
+}
+
+/* Mobile */
+@media(max-width: 992px){
+    .btn-client-login{
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+
+
+
+  </style>
 </head>
 <body>
 
@@ -33,10 +85,8 @@
           <div class="dropdown">
             <ul class="dropdown-list">
               <li><a href="/about"><span class="di"><i class="fa fa-building"></i></span>About Us</a></li>
-              <li><a href="/company-history"><span class="di"><i class="fa fa-landmark"></i></span>Company History</a>
-              </li>
-              <li><a href="/vision-mission"><span class="di"><i class="fa fa-eye"></i></span>Vision &amp; Mission</a>
-              </li>
+              <li><a href="/company-history"><span class="di"><i class="fa fa-landmark"></i></span>Company History</a></li>
+              <li><a href="/vision-mission"><span class="di"><i class="fa fa-eye"></i></span>Vision &amp; Mission</a></li>
               <li><a href="/founder"><span class="di"><i class="fa-solid fa-user"></i></span>Founder</a></li>
             </ul>
           </div>
@@ -55,7 +105,6 @@
               <div class="mega-icon">⚡</div>
               <div class="mega-text">Customer Services</div>
             </a>
-            
             <a href="/business-s" class="mega-item">
               <div class="mega-icon">🛠️</div>
               <div class="mega-text">Business Services</div>
@@ -86,6 +135,10 @@
 
     <!-- RIGHT CONTROLS -->
     <div class="nav-right">
+      <!--
+        ✅ Language Toggle — lang.js automatically yahan inject karega.
+           Aapko manually kuch nahi karna.
+      -->
       <button class="search-icon-btn" id="searchBtn" title="Search">
         <i class="fa fa-search"></i>
       </button>
@@ -94,11 +147,17 @@
         <i class="fa fa-download"></i> Brouture
       </a>
     </div>
+
+    <a href="/client-login" class="btn-client-login">
+    <i class="fa fa-user"></i>
+    <span>Client Login</span>
+</a>
+
     <button class="menu-toggle" id="mobile-menu-btn">
-  <span></span>
-  <span></span>
-  <span></span>
-</button>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
 
   </div>
 </nav>
@@ -117,31 +176,28 @@
   </div>
 </div>
 
-<script src="/js/script.js">
-    
-  
-</script>
+<!-- ✅ Language Toggle JS — SABSE PEHLE load karo (script.js se pehle) -->
+<script src="/js/lang.js"></script>
+
+<script src="/js/script.js"></script>
+
 <script>
   const menuBtn = document.getElementById('mobile-menu-btn');
   const navMenu = document.querySelector('.nav-menu');
 
-  
   menuBtn.addEventListener('click', () => {
     menuBtn.classList.toggle('active');
     navMenu.classList.toggle('active');
   });
 
-  
   const navLinks = document.querySelectorAll('.nav-link');
   navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
       if (window.innerWidth <= 992) {
         const dropdown = link.nextElementSibling;
         if (dropdown && (dropdown.classList.contains('dropdown') || dropdown.classList.contains('mega-dropdown'))) {
-          e.preventDefault(); 
+          e.preventDefault();
           dropdown.classList.toggle('open');
-          
-          
           const arrow = link.querySelector('.arrow');
           if (arrow) {
             arrow.style.transform = dropdown.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';

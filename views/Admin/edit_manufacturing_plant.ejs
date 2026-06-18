@@ -1,0 +1,95 @@
+<%- include('Navbar') %>
+
+<div class="container-fluid"
+     style="margin-top:8rem; margin-bottom:3rem; margin-left:250px; width:calc(100% - 280px);">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-5">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header text-white"
+                     style="background:linear-gradient(90deg,#198754,#146c43);">
+                    <h4 class="mb-0 text-center">
+                        Edit Manufacturing Plant
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form action="/admin/update_manufacturing_plant"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        <input type="hidden"
+                               name="id"
+                               value="<%= plant.id %>">
+
+                        <div class="text-center mb-4">
+
+                            <img src="/uploads/<%= plant.plant_logo %>"
+                                 width="120"
+                                 height="120"
+                                 class="border rounded p-2"
+                                 style="object-fit:contain;">
+
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Change Logo</label>
+                            <input type="file"
+                                   name="plant_logo"
+                                   class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Plant Name</label>
+                            <input type="text"
+                                   name="plant_name"
+                                   value="<%= plant.plant_name %>"
+                                   class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Address</label>
+                            <textarea name="plant_address"
+                                      rows="3"
+                                      class="form-control"><%= plant.plant_address %></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Phone</label>
+                            <input type="text"
+                                   name="plant_phone"
+                                   value="<%= plant.plant_phone %>"
+                                   class="form-control">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="fw-bold">Email</label>
+                            <input type="email"
+                                   name="plant_email"
+                                   value="<%= plant.plant_email %>"
+                                   class="form-control">
+                        </div>
+
+                        <button type="submit"
+                                class="btn text-white w-100"
+                                style="background-color: var(--orange);">
+                            Update Plant
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

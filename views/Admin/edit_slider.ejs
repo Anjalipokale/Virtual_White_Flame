@@ -1,0 +1,54 @@
+<%- include('Navbar') %>
+
+<div class="container-fluid">
+
+    <div class="card shadow mx-auto mt-4" style="max-width: 700px;">
+
+        <div class="card-header">
+            <h4>Edit Slider Image</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/update_slider"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <input type="hidden"
+                       name="id"
+                       value="<%= slider.id %>">
+
+                <div class="mb-3">
+                    <label>Current Image</label>
+                    <br>
+
+                    <img src="/uploads/<%= slider.image %>"
+                         width="250"
+                         class="img-thumbnail">
+                </div>
+
+                <div class="mb-3">
+                    <label>New Image</label>
+
+                    <input type="file"
+                           name="image"
+                           class="form-control">
+                </div>
+
+                <button type="submit"
+                        class="btn btn-success">
+                    Update
+                </button>
+
+                <a href="/admin/slider"
+                   class="btn btn-secondary">
+                    Back
+                </a>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

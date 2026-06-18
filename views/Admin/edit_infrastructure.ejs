@@ -1,0 +1,108 @@
+<%- include('Navbar') %>
+
+<div class="container" style="margin-top:8rem; margin-bottom:3rem;">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header text-white"
+                     style="background-color: var(--orange);">
+
+                    <h4 class="mb-0">
+                        Edit Infrastructure
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form action="/admin/update_infrastructure"
+                          method="post"
+                          enctype="multipart/form-data">
+
+                        <input type="hidden"
+                               name="id"
+                               value="<%= infrastructure.id %>">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Current Image
+                            </label>
+
+                            <br>
+
+                            <img src="/uploads/<%= infrastructure.infra_image %>"
+                                 width="120"
+                                 class="img-thumbnail">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                New Image
+                            </label>
+
+                            <input type="file"
+                                   name="infra_image"
+                                   class="form-control">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Infrastructure Title
+                            </label>
+
+                            <input type="text"
+                                   name="infra_title"
+                                   class="form-control"
+                                   value="<%= infrastructure.infra_title %>">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Description
+                            </label>
+
+                            <textarea name="infra_description"
+                                      rows="5"
+                                      class="form-control"><%= infrastructure.infra_description %></textarea>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn text-white"
+                                style="background-color: var(--orange);">
+
+                            Update Infrastructure
+
+                        </button>
+
+                        <a href="/admin/industrial_infrastructure"
+                           class="btn btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

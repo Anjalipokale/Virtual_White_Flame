@@ -1,0 +1,245 @@
+<%- include('Navbar') %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.team-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:30px;
+    width:calc(100% - 290px);
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.section-title{
+    color:#198754;
+    font-weight:700;
+    margin-bottom:25px;
+    border-bottom:2px solid #198754;
+    padding-bottom:10px;
+}
+
+.form-control{
+    border-radius:8px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 5px rgba(25,135,84,.3);
+}
+
+.save-btn{
+    background:#ff6b00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#e55f00;
+}
+
+.table-card{
+    margin-top:30px;
+}
+
+.table{
+    width:100%;
+}
+
+.table th{
+    background:#198754;
+    color:#fff;
+    padding:14px;
+    text-align:center;
+}
+
+.table td{
+    padding:14px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+.table tbody tr:hover{
+    background:#f8f9fa;
+}
+
+.member-img{
+    width:80px;
+    height:80px;
+    object-fit:cover;
+    border-radius:10px;
+    border:2px solid #198754;
+}
+
+.edit-btn{
+    background:#198754;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.edit-btn:hover{
+    background:#146c43;
+    color:#fff;
+}
+
+.delete-btn{
+    background:#ff6b00;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.delete-btn:hover{
+    background:#e55f00;
+    color:#fff;
+}
+
+.description-cell{
+    max-width:350px;
+    text-align:left;
+}
+
+@media(max-width:992px){
+    .team-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+}
+</style>
+
+<div class="team-container">
+
+    <!-- Add Team Member -->
+    <div class="admin-card">
+
+        <h2 class="section-title">
+            Management Team
+        </h2>
+
+        <form action="/admin/save_management_team"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="fw-bold">Name</label>
+                <input type="text"
+                       name="name"
+                       class="form-control"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="fw-bold">Description</label>
+                <textarea name="description"
+                          rows="5"
+                          class="form-control"
+                          required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="fw-bold">Image</label>
+                <input type="file"
+                       name="image"
+                       class="form-control"
+                       required>
+            </div>
+
+            <button type="submit" class="save-btn">
+                Save Member
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- Team Members List -->
+    <div class="admin-card table-card">
+
+        <h2 class="section-title">
+            All Team Members
+        </h2>
+
+        <div class="table-responsive">
+
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th width="220">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% management_team.forEach(function(item){ %>
+
+                    <tr>
+
+                        <td>
+                            <img src="/uploads/<%= item.image %>"
+                                 class="member-img">
+                        </td>
+
+                        <td>
+                            <%= item.name %>
+                        </td>
+
+                        <td class="description-cell">
+                            <%= item.description %>
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/edit_management_team/<%= item.id %>"
+                               class="edit-btn">
+                                Edit
+                            </a>
+
+                            <a href="/admin/delete_management_team/<%= item.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Delete this member?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

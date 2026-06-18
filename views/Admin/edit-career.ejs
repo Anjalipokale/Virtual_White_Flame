@@ -1,0 +1,59 @@
+<%- include("navbar.ejs") %>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f4f4;
+}
+
+.form-box{
+    width:400px;
+    margin:100px auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px gray;
+}
+
+input, select{
+    width:90%;
+    padding:10px;
+    margin:8px 0;
+}
+
+button{
+    padding:10px 20px;
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+</style>
+
+<div class="form-box">
+
+<h2>Edit Job</h2>
+
+<form action="/admin/update-career/<%= job.id %>" method="post">
+
+    <input type="text" name="job_title" value="<%= job.job_title %>" required>
+
+    <select name="department" required>
+        <option><%= job.department %></option>
+        <option>Sales</option>
+        <option>Marketing</option>
+        <option>Production</option>
+        <option>HR</option>
+        <option>Accounts</option>
+    </select>
+
+    <input type="text" name="experience" value="<%= job.experience %>" required>
+    <input type="text" name="location" value="<%= job.location %>" required>
+
+    <button>Update Job</button>
+
+</form>
+
+</div>
+
+<%- include("footer.ejs") %>

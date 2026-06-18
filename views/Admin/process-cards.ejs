@@ -1,0 +1,235 @@
+<%- include("navbar.ejs") %>
+
+<style>
+    body{
+        background:#f5f7f8;
+    }
+
+    /* Main Content Area */
+    .process-container{
+        margin-left:270px; /* Sidebar Width */
+        margin-top:100px;
+        margin-right:20px;
+        margin-bottom:30px;
+        width:calc(100% - 290px);
+    }
+
+    .process-card{
+        background:#fff;
+        padding:30px;
+        border-radius:15px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        width:100%;
+    }
+
+    .page-title{
+        color:#198754;
+        font-weight:700;
+        margin-bottom:25px;
+        border-bottom:2px solid #198754;
+        padding-bottom:10px;
+    }
+
+    .custom-input{
+        width:100%;
+        padding:12px;
+        border:1px solid #ddd;
+        border-radius:8px;
+        margin-bottom:15px;
+    }
+
+    .custom-input:focus{
+        outline:none;
+        border-color:#198754;
+        box-shadow:0 0 5px rgba(25,135,84,.3);
+    }
+
+    .btn-add{
+        background:#ff6b00;
+        color:#fff;
+        border:none;
+        padding:12px 25px;
+        border-radius:8px;
+        font-weight:600;
+        transition:.3s;
+        width:100%;
+    }
+
+    .btn-add:hover{
+        background:#e55f00;
+    }
+
+    .table-wrapper{
+        margin-top:30px;
+        overflow-x:auto;
+    }
+
+    .custom-table{
+        width:100%;
+        border-collapse:collapse;
+        background:#fff;
+        border-radius:12px;
+        overflow:hidden;
+    }
+
+    .custom-table thead{
+        background:#198754;
+        color:#fff;
+    }
+
+    .custom-table th,
+    .custom-table td{
+        padding:15px;
+        text-align:center;
+        border-bottom:1px solid #eee;
+        vertical-align:middle;
+    }
+
+    .custom-table tbody tr:hover{
+        background:#f8f9fa;
+        transition:.3s;
+    }
+
+    .custom-table img{
+        width:80px;
+        height:80px;
+        object-fit:cover;
+        border-radius:10px;
+        border:2px solid #198754;
+    }
+
+    .delete-btn{
+        background:#ff6b00;
+        color:#fff;
+        padding:8px 15px;
+        text-decoration:none;
+        border-radius:6px;
+        font-size:14px;
+        font-weight:600;
+    }
+
+    .delete-btn:hover{
+        background:#e55f00;
+        color:#fff;
+    }
+
+    .edit-btn{
+        background:#198754;
+        color:#fff;
+        padding:8px 15px;
+        text-decoration:none;
+        border-radius:6px;
+        font-size:14px;
+        font-weight:600;
+        margin-right:8px;
+    }
+
+    .edit-btn:hover{
+        background:#146c43;
+        color:#fff;
+    }
+
+    @media(max-width:992px){
+        .process-container{
+            margin-left:20px;
+            margin-right:20px;
+            width:auto;
+        }
+    }
+</style>
+
+<div class="process-container">
+
+    <div class="process-card">
+
+        <h2 class="page-title">
+            Working Process Cards
+        </h2>
+
+        <form action="/admin/process-cards"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="row">
+
+                <div class="col-md-5">
+                    <input type="text"
+                           name="title"
+                           class="custom-input"
+                           placeholder="Card Title"
+                           required>
+                </div>
+
+                <div class="col-md-5">
+                    <input type="file"
+                           name="image"
+                           class="custom-input"
+                           required>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit" class="btn-add">
+                        Add Card
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="table-wrapper">
+
+            <table class="custom-table">
+
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th width="220">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% cards.forEach(card => { %>
+
+                    <tr>
+
+                        <td>
+                            <img src="/uploads/<%= card.image %>">
+                        </td>
+
+                        <td>
+                            <%= card.title %>
+                        </td>
+
+                        <td>
+
+                            <a href="/admin/edit-process-card/<%= card.id %>"
+                               class="edit-btn">
+                                Update
+                            </a>
+
+                            <a href="/admin/delete-process-card/<%= card.id %>"
+                               class="delete-btn"
+                               onclick="return confirm('Delete this card?')">
+                                Delete
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

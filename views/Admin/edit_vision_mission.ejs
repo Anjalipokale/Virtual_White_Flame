@@ -1,0 +1,83 @@
+<%- include('Navbar') %>
+
+<div class="container" style="margin-top:8rem; margin-bottom:3rem;">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow">
+
+                <div class="card-header text-white"
+                     style="background:var(--orange);">
+
+                    <h4 class="mb-0">
+                        Update Vision
+                    </h4>
+
+                </div>
+
+                <div class="card-body">
+
+                    <form action="/admin/update_vision_mission"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="<%= vision.id %>">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Vision Title
+                            </label>
+
+                            <input type="text"
+                                   name="vision_title"
+                                   class="form-control"
+                                   value="<%= vision.vision_title %>"
+                                   placeholder="Enter Vision Title">
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Vision Description
+                            </label>
+
+                            <textarea name="vision_description"
+                                      rows="6"
+                                      class="form-control"
+                                      placeholder="Enter Vision Description"><%= vision.vision_description %></textarea>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn text-white"
+                                style="background:var(--orange);">
+
+                            Update Vision
+
+                        </button>
+
+                        <a href="/admin/vision_mission"
+                           class="btn btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('Footer') %>

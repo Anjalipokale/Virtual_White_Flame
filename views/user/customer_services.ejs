@@ -281,6 +281,98 @@
       </div>
     </div>
 
+
+    <!-- =================== FUEL SAVING CALCULATOR CARD =================== -->
+<!-- Paste this inside .calc-grid, after the carbon-card closing </div> -->
+
+<div class="calc-card" id="fuel-card">
+  <div class="calc-head">
+    <div class="calc-head-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 3h18v4H3z"/><path d="M3 10h6v11H3z"/><path d="M12 10h9v5h-9z"/><path d="M12 18h9v3h-9z"/>
+      </svg>
+    </div>
+    <div class="calc-head-text">
+      <h3>Fuel Saving Calculator</h3>
+      <p>See how much you save by switching to biomass</p>
+    </div>
+  </div>
+  <div class="calc-body">
+
+    <div class="field">
+      <label>Fuel Type</label>
+      <select id="fs-fuel-type" onchange="updateFuelLabel()">
+        <option value="coal|tons">Coal</option>
+        <option value="lignite|tons">Lignite</option>
+        <option value="diesel|litres">Diesel</option>
+        <option value="furnace|kg">Furnace Oil</option>
+        <option value="lpg|kg">LPG</option>
+        <option value="png|m3">PNG / Natural Gas</option>
+      </select>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label id="fs-usage-label">Monthly Usage (tons)</label>
+        <input type="number" id="fs-usage" placeholder="e.g. 50" min="1" oninput="updateBioQty()"/>
+        <p class="hint" id="fs-usage-hint">From your purchase bill</p>
+      </div>
+      <div class="field">
+        <label id="fs-price-label">Price (₹ / ton)</label>
+        <input type="number" id="fs-fuel-price" placeholder="e.g. 9000" min="1"/>
+        <p class="hint">From your last invoice</p>
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label>Equivalent Biomass (tons)</label>
+        <input type="number" id="fs-bio-qty" placeholder="Auto-calculated" readonly
+          style="background:#f4f4f4;color:#888;cursor:not-allowed;"/>
+        <p class="hint">We calculate this for you</p>
+      </div>
+      <div class="field">
+        <label>Biomass Price (₹ / ton)</label>
+        <input type="number" id="fs-bio-price" placeholder="e.g. 5500" min="1"/>
+        <p class="hint">Get a free quote from us</p>
+      </div>
+    </div>
+
+    <button class="calc-btn" onclick="calcFuelSaving()">Calculate My Savings ▶</button>
+
+    <div class="calc-result orange-result" id="fs-result">
+      <div class="result-row">
+        <span class="result-label" id="fs-r-fuel-label">Coal used / month</span>
+        <span class="result-val" id="fs-fuel-qty-out">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Biomass needed / month</span>
+        <span class="result-val" id="fs-bio-qty-out">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Current Fuel Cost / month</span>
+        <span class="result-val" id="fs-current-cost">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Biomass Cost / month</span>
+        <span class="result-val" id="fs-bio-cost">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Monthly Savings</span>
+        <span class="result-val highlight" id="fs-monthly-save">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Annual Savings</span>
+        <span class="result-val highlight" id="fs-annual-save">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-label">Biomass cheaper by</span>
+        <span class="result-val highlight" id="fs-saving-pct">—</span>
+      </div>
+    </div>
+
+  </div>
+</div>
   </div>
 </section>
 

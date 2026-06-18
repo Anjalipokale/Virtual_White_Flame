@@ -640,3 +640,23 @@
         box-shadow: 0 0 0 0 rgba(37,211,102,0);
     }
 }
+
+.hint {
+  font-size: 11px;
+  color: var(--light);
+  margin-top: 4px;
+}
+.calc-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.calc-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.calc-btn {
+  margin-top: auto;
+}

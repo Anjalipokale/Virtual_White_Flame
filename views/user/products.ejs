@@ -11,139 +11,43 @@
 
 <section class="products">
 
-    <!-- Product 1 -->
-    <a href="/product_1" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_1.jpg" alt="Sawdust Briquette">
+     <% products.forEach(function(product){ %>
 
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
-     <div class="product-content">
-            <h3>Sawdust Briquette</h3>
-            <p>Eco-friendly biomass fuel made from compressed sawdust.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
+<a href="/product/<%= product.id %>" class="product-card">
 
-    <!-- Product 2 -->
-    <a href="/product_2" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_2.jpg" alt="Soya Husk Briquette">
+    <div class="product-image">
 
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
-      <div class="product-content">
-            <h3>Soya Husk Briquette</h3>
-            <p>Renewable fuel produced from soybean husk residues.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
+        <img
+        src="/uploads/<%= product.main_image %>"
+        alt="<%= product.product_name %>">
 
-    <!-- Product 3 -->
-    <a href="/product_3" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_3.jpg" alt="Groundnut Shell">
-             <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
+        <div class="view-overlay">
+            <span>👁 View Details</span>
         </div>
 
-        <div class="product-content">
-            <h3>Groundnut Shell</h3>
-            <p>High-energy biomass fuel from peanut shell waste.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
+    </div>
 
-    <!-- Product 4 -->
-    <a href="/product_4" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_4.jpg" alt="Biomass Pellets">
+    <div class="product-content">
 
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
+        <h3>
+            <%= product.product_name %>
+        </h3>
 
-        <div class="product-content">
-            <h3>Mustard Briquettes</h3>
-            <p>Clean-burning pellets for industrial heating systems.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
+        <p>
+            <%= product.short_description %>
+        </p>
 
-    <!-- Product 5 -->
-    <a href="/product_5" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_5.jpg" alt="Mustard Briquette">
+        <span class="know-more">
+            Add Product
+        </span>
 
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
+    </div>
 
-        <div class="product-content">
-            <h3>Saw Dust Pellets</h3>
-            <p>Efficient biomass fuel manufactured from mustard waste.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
+</a>
 
-    <!-- Product 6 -->
-    <a href="/product_6" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_6.jpg" alt="Rice Husk Briquette">
+<% }) %>
 
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
-
-        <div class="product-content">
-            <h3>Mustard Pellets</h3>
-            <p>Cost-effective renewable fuel made from rice husk.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
-
-    <!-- Product 7 -->
-    <a href="/product_7" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_7.jpg" alt="Wood Pellets">
-
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
-
-        <div class="product-content">
-            <h3>Saw Dust Wood Chips Briquettes</h3>
-            <p>Premium-quality pellets with excellent heating value.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
-
-    <!-- Product 8 -->
-    <a href="/product_8" class="product-card">
-        <div class="product-image">
-            <img src="./img/pro_8.jpg" alt="Agro Waste Briquette">
-
-            <div class="view-overlay">
-                <span>👁 View Details</span>
-            </div>
-        </div>
-
-        <div class="product-content">
-            <h3>Corn Cob Briquette</h3>
-            <p>Eco-friendly fuel produced from agricultural residues.</p>
-            <span class="know-more">Know More →</span>
-        </div>
-    </a>
-
+    
 </section>
 <!-- Raw Material Products -->
 <section class="raw-material">
@@ -152,65 +56,21 @@
 
     <div class="raw-material-grid">
 
-        <div class="raw-card">
-            <img src="./img/1raw_img.jpg" alt="Wood Chips">
-            <h3>Wood Chips</h3>
-        </div>
+        <% rawmaterials.forEach(function(item){ %>
 
-        <div class="raw-card">
-            <img src="./img/2raw_img.jpg" alt="Corn Cob">
-            <h3>Corn Cob</h3>
-        </div>
+<div class="raw-card">
 
-        <div class="raw-card">
-            <img src="./img/3raw_img.jpg" alt="Cashew Nut Shell">
-            <h3>Cashew Nut Shell</h3>
-        </div>
+    <img
+        src="/uploads/<%= item.image %>"
+        alt="<%= item.name %>"
+    >
 
-        <div class="raw-card">
-            <img src="./img/4raw_img.jpg" alt="Rice Husk">
-            <h3>Rice Husk</h3>
-        </div>
+    <h3><%= item.name %></h3>
 
-        <div class="raw-card">
-            <img src="./img/5raw_img.jpg" alt="Sawdust">
-            <h3>Sawdust</h3>
-        </div>
+</div>
 
-        <div class="raw-card">
-            <img src="./img/6raw_img.jpg" alt="Groundnut Shell">
-            <h3>Groundnut Shell</h3>
-        </div>
+<% }) %>
 
-        <div class="raw-card">
-            <img src="./img/7raw_img.jpg" alt="Mustard Husk">
-            <h3>Mustard Husk</h3>
-        </div>
-
-        <div class="raw-card">
-            <img src="./img/8raw_img.jpg" alt="Soy Husk">
-            <h3>Soy Husk</h3>
-        </div>
-
-        <div class="raw-card">
-            <img src="./img/9raw_img.jpg" alt="Sawdust">
-            <h3>Soyabean Husk</h3>
-        </div>
-
-        <div class="raw-card">
-            <img src="./img/10raw_img.jpg" alt="Groundnut Shell">
-            <h3>Ground Nut Shell</h3>
-        </div>
-
-        <div class="raw-card">
-            <img src="./img/11raw_img.jpg" alt="Mustard Husk">
-            <h3>Sugarcane trash</h3>
-        </div>
-
-        <div class="raw-card">
-            <img src="./img/12raw_img.jpg" alt="Soy Husk">
-            <h3>Saw Dust</h3>
-        </div>
 
     </div>
 

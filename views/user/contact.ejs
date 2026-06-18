@@ -32,51 +32,50 @@
 
     <div class="contact-card">
 
-        <div class="contact-icon">
-            <i class="fas fa-headset"></i>
-        </div>
-
-        <h3>Call Us</h3>
-
-        <a href="tel:9423390308" class="contact-link">
-    9423390308
-</a>
-
-<a href="tel:9420950022" class="contact-link">
-    9420950022
-</a>
+    <div class="contact-icon">
+        <i class="fas fa-headset"></i>
     </div>
 
-    <div class="contact-card">
+    <h3><%= contact.phone_title %></h3>
 
-        <div class="contact-icon">
-            <i class="fas fa-envelope"></i>
-        </div>
+    <a href="tel:<%= contact.phone1 %>" class="contact-link">
+        <%= contact.phone1 %>
+    </a>
 
-        <h3>Email Us</h3>
+    <a href="tel:<%= contact.phone2 %>" class="contact-link">
+        <%= contact.phone2 %>
+    </a>
 
-        <a href="mailto:sales@virtualwhiteflame.com"
-   class="contact-link">
-   sales@virtualwhiteflame.com
-</a>
+</div>
 
-<a href="mailto:operation.virtualwhiteflame@gmail.com"
-   class="contact-link">
-   operation.virtualwhiteflame@gmail.com
-</a>
+<div class="contact-card">
 
+    <div class="contact-icon">
+        <i class="fas fa-envelope"></i>
     </div>
 
-   <div class="contact-card">
+    <h3><%= contact.email_title %></h3>
+
+    <a href="mailto:<%= contact.email1 %>" class="contact-link">
+        <%= contact.email1 %>
+    </a>
+
+    <a href="mailto:<%= contact.email2 %>" class="contact-link">
+        <%= contact.email2 %>
+    </a>
+
+</div>
+
+<div class="contact-card">
 
     <div class="contact-icon">
         <i class="fas fa-map-marker-alt"></i>
     </div>
 
-    <h3>Regional Contact</h3>
+    <h3><%= contact.office_title %></h3>
 
-    <p>Ahmednagar Office</p>
-    <p>Navi Mumbai Office</p>
+    <p><%= contact.office1 %></p>
+    <p><%= contact.office2 %></p>
 
 </div>
 
@@ -107,63 +106,99 @@
 
         <!-- Contact Form -->
 
-        <div class="contact-form-box">
+       <div class="contact-form-box">
 
-            <div class="section-title">
-                <span>Send Message</span>
-                <h2>Get In Touch With Us</h2>
-            </div>
+    <div class="section-title">
+        <span>Send Message</span>
+        <h2>Get In Touch With Us</h2>
+    </div>
 
-            <form>
+    <form action="/contact-submit" method="POST">
 
-                <div class="input-row">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email Address" required>
-                </div>
+        <div class="input-row">
+            <input 
+                type="text" 
+                name="name" 
+                placeholder="Full Name" 
+                required>
 
-                <div class="input-row">
-                    <input type="tel" placeholder="Phone Number" required>
-                    <input type="text" placeholder="Subject">
-                </div>
-
-                <textarea rows="6"
-                    placeholder="Write your message here..."
-                    required></textarea>
-
-                <button type="submit" class="send-btn">
-                    Send Message
-                </button>
-
-            </form>
-
+            <input 
+                type="email" 
+                name="email" 
+                placeholder="Email Address" 
+                required>
         </div>
+
+        <div class="input-row">
+            <input 
+                type="tel" 
+                name="phone" 
+                placeholder="Phone Number" 
+                required>
+
+            <input 
+                type="text" 
+                name="subject" 
+                placeholder="Subject">
+        </div>
+
+        <textarea 
+            name="message"
+            rows="6"
+            placeholder="Write your message here..."
+            required>
+        </textarea>
+
+        <button type="submit" class="send-btn">
+            Send Message
+        </button>
+
+    </form>
+
+</div>
 
         <!-- Callback Card -->
 
         <div class="callback-card">
 
-            <div class="callback-icon">
-                <i class="fas fa-phone-volume"></i>
-            </div>
+    <div class="callback-icon">
+        <i class="fas fa-phone-volume"></i>
+    </div>
 
-            <h3>Request A Callback</h3>
+    <h3>Request A Callback</h3>
 
-            <p>
-                Leave your details and our team
-                will contact you shortly.
-            </p>
+    <p>
+        Leave your details and our team
+        will contact you shortly.
+    </p>
 
-            <input type="text" placeholder="Your Name">
+    <form action="/save-callback" method="POST">
 
-            <input type="tel" placeholder="Mobile Number">
+        <input 
+            type="text" 
+            name="name"
+            placeholder="Your Name"
+            required>
 
-            <input type="text" placeholder="Preferred Time">
+        <input 
+            type="tel" 
+            name="mobile"
+            placeholder="Mobile Number"
+            required>
 
-            <button class="callback-btn">
-                Request Callback
-            </button>
+        <input 
+            type="text" 
+            name="time"
+            placeholder="Preferred Time"
+            required>
 
-        </div>
+        <button class="callback-btn">
+            Request Callback
+        </button>
+
+    </form>
+
+</div>
 
     </div>
 
@@ -185,68 +220,72 @@
 
     <div class="office-grid">
 
-        <!-- Ahmednagar -->
+        <!-- Office 1 -->
 
-     <div class="office-card">
+        <div class="office-card">
 
-    <div class="office-icon">
-        <i class="fas fa-location-dot"></i>
-    </div>
+            <div class="office-icon">
+                <i class="fas fa-location-dot"></i>
+            </div>
 
-    <h3>Head Office</h3>
+            <h3>
+                <%= office.office1_title %>
+            </h3>
 
-    <p class="office-address">
-        Flat no.2, Plot No.1,<br>
-        Pushkar Appartment,<br>
-        Savedi, Pipeline Road,<br>
-        Ahmednagar - 414003
-    </p>
+            <p class="office-address">
+                <%= office.office1_address %>
+            </p>
 
-    <div class="office-actions">
+            <div class="office-actions">
 
-        <a href="tel:9423390308" class="office-btn">
-            Call Office
-        </a>
+                <a href="tel:<%= office.office1_phone %>" 
+                   class="office-btn">
+                    Call Office
+                </a>
 
-       <a href="https://www.google.com/maps/search/?api=1&query=Flat+No+2+Plot+No+1+Pushkar+Apartment+Savedi+Pipeline+Road+Ahmednagar+414003"
-   target="_blank"
-   class="office-btn office-map-btn">
-   Open In Maps
-</a>
+                <a href="<%= office.office1_map %>"
+                   target="_blank"
+                   class="office-btn office-map-btn">
+                    Open In Maps
+                </a>
 
-    </div>
+            </div>
 
-</div>
+        </div>
 
-        <!-- Navi Mumbai -->
 
-       <div class="office-card">
+        <!-- Office 2 -->
 
-    <div class="office-icon">
-        <i class="fas fa-building"></i>
-    </div>
+        <div class="office-card">
 
-    <h3>Head Office 2</h3>
+            <div class="office-icon">
+                <i class="fas fa-building"></i>
+            </div>
 
-    <p class="office-address">
-        Shop No. 01, Plot No. 97,<br>
-        Sector 20, Ulwe Node,<br>
-        Navi Mumbai - 410206
-    </p>
+            <h3>
+                <%= office.office2_title %>
+            </h3>
 
-     <div class="office-actions">
+            <p class="office-address">
+                <%= office.office2_address %>
+            </p>
 
-        <a href="tel:9423390308" class="office-btn">
-            Call Office
-        </a>
+            <div class="office-actions">
 
-       <a href="https://www.google.com/maps/search/?api=1&query=Shop+No+01+Plot+No+97+Sector+20+Ulwe+Node+Navi+Mumbai+410206"
-   target="_blank"
-   class="office-btn office-map-btn">
-   Open In Maps
-</a>
+                <a href="tel:<%= office.office2_phone %>"
+                   class="office-btn">
+                    Call Office
+                </a>
 
-</div>
+                <a href="<%= office.office2_map %>"
+                   target="_blank"
+                   class="office-btn office-map-btn">
+                    Open In Maps
+                </a>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -311,17 +350,20 @@
 
         <h2>Dealer Inquiry</h2>
 
-        <form>
+        <form action="/dealer-inquiry" method="POST">
 
             <input type="text"
+                   name="dealer_name"
                    placeholder="Dealer Name"
                    required>
 
             <input type="text"
+                   name="city"
                    placeholder="City"
                    required>
 
             <input type="tel"
+                   name="mobile"
                    placeholder="Mobile Number"
                    required>
 
@@ -334,7 +376,6 @@
     </div>
 
 </div>
-
     <%- include('footer') %>
 
     <script src="/js/contact.js"></script>

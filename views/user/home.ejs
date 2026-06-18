@@ -15,25 +15,31 @@
 <body>
 
 <div class="main-wrapper">
-    <div class="slider-container">
-        <div class="slider-wrapper" id="sliderWrapper">
-            <div class="slide">
-                <img src="/img/slider1img.png" alt="Image 1">
-            </div>
-            <div class="slide">
-                <img src="/img/slider2img.png" alt="Image 2">
-            </div>
-            <div class="slide">
-                <img src="/img/slider3img.png" alt="Image 3">
-            </div>
+   <div class="slider-container">
+
+    <div class="slider-wrapper" id="sliderWrapper">
+
+        <% slider.forEach(function(item){ %>
+        <div class="slide">
+            <img src="/uploads/<%= item.image %>" alt="">
         </div>
 
-        <div class="dots-container">
-            <span class="dot active" onclick="currentSlide(0)"></span>
-            <span class="dot" onclick="currentSlide(1)"></span>
-            <span class="dot" onclick="currentSlide(2)"></span>
-        </div>
+        <% }) %>
+
     </div>
+
+    <div class="dots-container">
+
+        <% slider.forEach(function(item,index){ %>
+
+        <span class="dot <%= index==0 ? 'active' : '' %>"
+              onclick="currentSlide(<%= index %>)"></span>
+
+        <% }) %>
+
+    </div>
+
+</div>
      <!-- section 1 -->
     <section class="vwf-about" id="aboutSection">
         <div class="vwf-top-grid">
@@ -147,112 +153,37 @@
             </p>
         </div>
 
-        <div class="vwf-cards-grid" id="plantsGrid">
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants1.png" alt="Balaji Bio Fuels Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">BBF</div>
+          <div class="row g-4 px-3 px-md-5">
+
+        <% plants.forEach(function(p){ %>
+
+        <div class="col-lg-4 col-md-6 col-12">
+
+            <div class="plant-card h-100">
+
+                <div class="plant-logo">
+                    <img src="/uploads/<%= p.plant_logo %>" alt="">
                 </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Balaji Bio Fuels</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gut No.89, Ghosapuri, NH-211 Kumshi Road, Behind RTO Office, Ta.Dist. Beed, Maharashtra-431122</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9322165092">9322165092</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:operation.virtualwhiteflame@gmail.com">operation.virtualwhiteflame@gmail.com</a></div>
-                    </div>
+
+                <div class="plant-content">
+
+                    <h3><%= p.plant_name %></h3>
+
+                    <p>📍 <%= p.plant_address %></p>
+
+                    <h4>📞 <%= p.plant_phone %></h4>
+
+                    <h5>✉ <%= p.plant_email %></h5>
+
                 </div>
+
             </div>
 
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants2.png" alt="Virtual White Flame Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">VWF</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Virtual White Flame PVT. LTD.</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Bodhegoan, Shevgoan, Ahmednagar, Maharashtra 414001</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9423390308">9423390308</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:ananta.zirpe@virtualwhiteflame.com">ananta.zirpe@virtualwhiteflame.com</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants3.png" alt="Seva Bio Brikets Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">SBB</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Seva Bio Brikets</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gat No. 77, at Divate, Post. Ladjalgoan, Tal- Shevgoan Maharashtra 414502</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9420950022">9420950022</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sevabiobrikets@gmail.com">sevabiobrikets@gmail.com</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants4.png" alt="Virtual Green Energy Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">VGE</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Virtual Green Energy</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gut no. 666, Tal. Panchayat Samiti Jalna, Nr Jalna, Maharashtra, 431202</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:7821910054">7821910054</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:vwfpl.sales@gmail.com">vwfpl.sales@gmail.com</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants5.png" alt="Bharati Biocoal Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">BB</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Bharati Biocoal</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Lad Karanja, Tal-Karanja, Dist-Washim</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9325931778">9325931778</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:bharatibiocoal@gmail.com">bharatibiocoal@gmail.com</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants6.png" alt="Dhanashree Bio Fuel Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">GS</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Dhanashree Bio Fuel</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Kolgaon, Shrigonda, Ahmednagar - 413728</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9209695919">9209695919</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sales@virtualwhiteflame.com">sales@virtualwhiteflame.com</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="vwf-plant-card p-reveal">
-                <div class="vwf-card-logo">
-                    <img src="/img/plants7.png" alt="Jay Bajrang Bio Energy Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-                    <div class="logo-placeholder" style="display:none;">JB</div>
-                </div>
-                <div class="vwf-card-body">
-                    <div class="vwf-card-name">Jay Bajrang Bio Energy Solution</div>
-                    <div class="vwf-card-info">
-                        <div class="vwf-card-row"><span class="icon loc">📍</span><span>Gat No. 481/4 Astagaon Road, Rajuri</span></div>
-                        <div class="vwf-card-row"><span class="icon tel">📞</span><a href="tel:9209695919">9209695919</a></div>
-                        <div class="vwf-card-row"><span class="icon mail">✉️</span><a href="mailto:sales@virtualwhiteflame.com">sales@virtualwhiteflame.com</a></div>
-                    </div>
-                </div>
-            </div>
         </div>
+
+        <% }) %>
+
+    </div>
 
         <div class="vwf-stats-bar p-reveal" id="plantsStats">
             <div class="vwf-stat-item">
@@ -443,6 +374,136 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="vwf-testi-dots" id="testiDotsContainer"></div>
+                </div>
+            </div>
+
+            <div class="vwf-testi-machine-zone testi-reveal" style="transition-delay: 0.3s;">
+                <div class="vwf-testi-machine-wrapper">
+                    <img src="/img/Vmachine.png" alt="Machine Product" onerror="this.style.display='none';"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- section 5 - BLOG SECTION -->
+<section class="vwf-blog-sec" id="blogSection">
+    <div class="vwf-blog-container">
+        <div class="vwf-blog-header vwf-reveal">
+            <h2 class="vwf-blog-main-title">News & Blogs</h2>
+        </div>
+
+        <div class="vwf-blog-grid">
+            <!-- Blog Card 1 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img1.png" alt="Biomass Fuel" onerror="this.src='https://via.placeholder.com/400x250?text=Biomass+News'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">12 Oct 2024</span>
+                    <h3 class="vwf-blog-title">BIOMASS FUELS OVER FOSSIL FUELS</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Blog Card 2 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img2.png" alt="Biomass Process" onerror="this.src='https://via.placeholder.com/400x250?text=Biomass+Process'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">10 Oct 2024</span>
+                    <h3 class="vwf-blog-title">HOW BIOMASS RESIDUE AND BIOFUEL-RECYCLE WASTE BY BRIQUETTES AND PELLETS WORKS</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Blog Card 3 -->
+            <div class="vwf-blog-card vwf-reveal">
+                <div class="vwf-blog-image">
+                    <img src="/img/section5img3.png" alt="Future of Biomass" onerror="this.src='https://via.placeholder.com/400x250?text=Future+of+Biomass'">
+                </div>
+                <div class="vwf-blog-content">
+                    <span class="vwf-blog-date">09 Oct 2024</span>
+                    <h3 class="vwf-blog-title">THE FUTURE OF BIOMASS BRIQUETTE: REDUCE CARBON, EMBRACE SUSTAINABILITY</h3>
+                    <a href="#" class="vwf-blog-link">
+                        <span>Read More</span>
+                        <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="vwf-blog-footer vwf-reveal">
+            <a href="/blog" class="vwf-view-all-btn">
+                <span>View All Posts</span>
+                <svg viewBox="0 0 24 24"><path d="M5 13h11.86l-5.43 5.43 1.42 1.42L21.14 12l-8.29-8.29-1.42 1.42 5.43 5.43H5v2z"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+</div>
+    </section>
+      <!-- section 4 -->
+    <section class="vwf-testimonial-sec" id="testimonialSection">
+        <div class="vwf-testi-bg-circle-1"></div>
+        <div class="vwf-testi-bg-circle-2"></div>
+
+        <div class="vwf-testi-container">
+            <div class="vwf-testi-left-block">
+                <h2 class="vwf-testi-hero-title testi-reveal">Clients Testimonials</h2>
+
+                <div class="vwf-testi-slider-wrapper testi-reveal" style="transition-delay: 0.15s;">
+                    <div class="vwf-testi-slider-track" id="testiSliderTrack">
+                        
+                        <% testimonials.forEach((item)=>{ %>
+
+<div class="vwf-testi-slide">
+
+    <div class="vwf-testi-logo-box">
+
+        <img src="/uploads/<%= item.image %>"
+             alt="<%= item.company_name %>">
+
+    </div>
+
+    <p class="vwf-testi-quote">
+        "<%= item.description %>"
+    </p>
+
+    <div class="vwf-testi-author-meta">
+
+        <div class="vwf-testi-line"></div>
+
+        <div class="vwf-testi-details">
+
+            <span class="vwf-testi-name">
+                <%= item.company_name %>
+            </span>
+
+            <span class="vwf-testi-city">
+                <%= item.city %>
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<% }) %>
+
+                       
+
+
+                      
                     </div>
                     <div class="vwf-testi-dots" id="testiDotsContainer"></div>
                 </div>

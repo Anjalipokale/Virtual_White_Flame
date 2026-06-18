@@ -1,0 +1,67 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+.edit-box{
+    width: 400px;
+    background: white;
+    margin: 100px auto;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px gray;
+}
+
+.edit-box img{
+    width: 150px;
+    margin-bottom: 15px;
+}
+
+.edit-box input{
+    width: 90%;
+    padding: 10px;
+}
+
+.edit-box button{
+    padding: 10px 25px;
+    background: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+
+<div class="edit-box">
+
+<h2>Edit Event Image</h2>
+
+<!-- <img src="<%= event.image %>"> -->
+
+<form action="/admin/update-event/<%= event.id %>" 
+      method="post" 
+      enctype="multipart/form-data">
+
+    <img src="<%= event.image %>" width="100">
+
+    <br><br>
+
+    <input type="file" name="image">
+
+    <br><br>
+
+    <button>Update</button>
+
+</form>
+
+</div>
+
+
+<%- include("footer.ejs") %>

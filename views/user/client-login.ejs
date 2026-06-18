@@ -1,0 +1,141 @@
+<%- include("navbar.ejs") %>
+
+<style>
+.client-login-section{
+    min-height: 90vh;
+    background: linear-gradient(
+        135deg,
+        #f4f8f4,
+        #e8f3ea,
+        #f9fbf9
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 15px;
+}
+
+.login-card{
+    background: #fff;
+    border-radius: 20px;
+    padding: 45px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
+    border-top: 5px solid #2e7d32;
+}
+
+.login-icon{
+    width: 80px;
+    height: 80px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 32px;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-title{
+    color: #1b4332;
+    font-weight: 700;
+}
+
+.login-subtitle{
+    color: #666;
+    font-size: 14px;
+}
+
+.form-control{
+    height: 50px;
+    border-radius: 10px;
+}
+
+.form-control:focus{
+    box-shadow: none;
+    border-color: #2e7d32;
+}
+
+.login-btn{
+    background: #2e7d32;
+    border: none;
+    height: 50px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.login-btn:hover{
+    background: #1b5e20;
+}
+
+.company-text{
+    color: #2e7d32;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+</style>
+
+<section class="client-login-section">
+
+    <div class="col-lg-4 col-md-6">
+
+        <div class="login-card">
+
+            <div class="text-center mb-4">
+
+                <div class="login-icon">
+                    <i class="fas fa-user-lock"></i>
+                </div>
+
+                <p class="company-text mt-3 mb-1">
+                    CLIENT PORTAL
+                </p>
+
+                <h2 class="login-title">
+                    Client Login
+                </h2>
+
+                <p class="login-subtitle">
+                    <!-- Login to access your documents, certificates and company resources. -->
+                </p>
+
+            </div>
+
+            <form action="/client-login" method="POST">
+
+                <div class="mb-3">
+                    <input
+                        type="email"
+                        name="email"
+                        class="form-control"
+                        placeholder="Enter Email Address"
+                        required>
+                </div>
+
+                <div class="mb-4">
+                    <input
+                        type="password"
+                        name="password"
+                        class="form-control"
+                        placeholder="Enter Password"
+                        required>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn login-btn w-100">
+
+                    Login
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<%- include("footer.ejs") %>

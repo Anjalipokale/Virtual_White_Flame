@@ -15,7 +15,7 @@
   <!-- ════════════════════════════════
        LEFT: MAIN BLOG CONTENT
   ════════════════════════════════ -->
-  <main class="main-content" id="mainContent">
+<main class="main-content" id="mainContent">
 
     <!-- breadcrumb -->
     <nav class="breadcrumb">
@@ -26,23 +26,31 @@
 
     <!-- meta -->
     <div class="blog-meta">
-      <span class="meta-badge" id="metaBadge">Sustainability</span>
-      <span class="meta-date"><span class="meta-dot" id="metaDot"></span><span id="metaDate">09 Oct 2024</span></span>
+     <span class="meta-badge">
+    <%= blog.category %>
+</span>
+      <span class="meta-date"><span class="meta-dot" id="metaDot"></span><span>
+    <%= blog.date %>
+</span></span>
     </div>
 
     <!-- title -->
-    <h1 class="blog-title fade-in" id="blogTitle">Biomass Fuels Over Fossil Fuels</h1>
+    <h1 class="blog-title fade-in">
+    <%= blog.title %>
+</h1>
 
     <!-- hero image -->
-    <img class="blog-hero-img fade-in" id="blogImg" src="" alt="Blog Image">
+    <img class="blog-hero-img fade-in"
+     src="<%= blog.image %>"
+     alt="<%= blog.title %>">
 
     <!-- accent -->
     <div class="accent-bar"></div>
 
     <!-- body -->
-    <div class="blog-body fade-in" id="blogBody">
-      <p>Loading...</p>
-    </div>
+    <div class="blog-body fade-in">
+    <%- blog.content %>
+</div>
 
     <!-- tags -->
     <div class="tag-row" id="tagRow"></div>

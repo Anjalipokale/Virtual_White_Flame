@@ -24,115 +24,27 @@
     </div>
 
     <div class="videos">
-         <!-- Company Video -->
-<div class="videos-item company">
-            <video controls >
-                <source src="/videos/P2.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        <div class="videos-item company">
-            <video controls >
-                <source src="/videos/C1.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        <div class="videos-item company">
-            <video controls >
-                <source src="/videos/C2.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        <div class="videos-item company">
-            <video controls >
-                <source src="/videos/C4.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        
-         <div class="videos-item company">
-            <video controls >
-                <source src="/videos/C3.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        <div class="videos-item company">
-            <video controls >
-                <source src="/videos/C5.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-        <!-- Plant Video -->
-        <div class="videos-item plant">
-            <video controls >
-                <source src="/videos/P1.mp4" type="video/mp4">
-                Your browser does not support video.
-            </video>
-        </div>
-         <div class="videos-item plant">
-    <iframe
-        width="100%"
-        height="300"
-        src="https://www.youtube.com/embed/exEIftpqUjg"
-        title="Plant Video"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
 
-    
-</div>
-<div class="videos-item plant">
-<iframe
-    width="100%"
-    height="315"
-    src="https://www.youtube.com/embed/oyj4G8W_Doo"
-    title="YouTube video"
-    allowfullscreen>
-</iframe>
-</div>
+        <% if(videos.length > 0){ %>
 
-        <div class="videos-item plant">
-    <iframe
-        width="100%"
-        height="300"
-        src="https://www.youtube.com/embed/O1SKLsfcppU"
-        title="Plant Video"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-    </iframe>
+            <% videos.forEach(function(v){ %>
 
-    
-</div>
+                <div class="videos-item <%= v.category %>">
 
-<div class="videos-item plant">
-    <iframe
-        width="100%"
-        height="300"
-        src="https://www.youtube.com/embed/0EC0RMQUN68"
-        title="Plant Video"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
+                    <video controls>
+                        <source src="<%= v.video %>" type="video/mp4">
+                        Your browser does not support video.
+                    </video>
 
-    
-</div>
+                </div>
 
-<div class="videos-item plant">
-    <iframe
-        width="100%"
-        height="300"
-        src="https://www.youtube.com/embed/mjs6dNgucUY"
-        title="Plant Video"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen>
-    </iframe>
+            <% }) %>
 
-    
-</div>
+        <% } else { %>
+
+            <h3>No Videos Found</h3>
+
+        <% } %>
 
     </div>
 

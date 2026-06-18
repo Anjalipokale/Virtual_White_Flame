@@ -1,0 +1,144 @@
+<%- include("Navbar") %>
+
+<style>
+
+body{
+    background:#f4f8f4;
+}
+
+/* Admin Content Area */
+.office-form{
+    width:calc(100% - 320px); /* 260px sidebar + 60px spacing */
+    margin-top:100px;
+    margin-left:290px; /* 260px sidebar + 30px gap */
+    margin-right:30px;
+    padding:30px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 0 15px #ccc;
+    margin-bottom: 90px;
+}
+
+.office-form h2{
+    text-align:center;
+    color:#003366;
+    margin-bottom:25px;
+}
+
+.office-form label{
+    font-weight:bold;
+    display:block;
+    margin-top:15px;
+}
+
+.office-form input,
+.office-form textarea{
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+}
+
+.office-form textarea{
+    height:90px;
+    resize:none;
+}
+
+.save-btn{
+    background:#0f4f34;
+    color:white;
+    padding:12px 25px;
+    border:none;
+    margin-top:25px;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+    
+}
+
+.save-btn:hover{
+    background:#0055aa;
+}
+
+/* Mobile */
+@media(max-width:992px){
+
+    .office-form{
+        width:95%;
+        margin:90px auto 30px;
+        padding:20px;
+    }
+
+}
+
+</style>
+
+
+<div class="office-form">
+
+<h2>Manage Office Locations</h2>
+
+<form action="/admin/save-office" method="POST">
+
+    <!-- Head Office -->
+
+    <label>Head Office Title</label>
+    <input 
+        type="text"
+        name="office1_title"
+        value="<%= office.office1_title || '' %>">
+
+    <label>Head Office Address</label>
+    <textarea name="office1_address"><%= office.office1_address || '' %></textarea>
+
+    <label>Head Office Phone</label>
+    <input 
+        type="text"
+        name="office1_phone"
+        value="<%= office.office1_phone || '' %>">
+
+    <label>Head Office Map Link</label>
+    <input 
+        type="text"
+        name="office1_map"
+        value="<%= office.office1_map || '' %>">
+
+
+    <hr style="margin:30px 0">
+
+
+    <!-- Second Office -->
+
+    <label>Second Office Title</label>
+    <input 
+        type="text"
+        name="office2_title"
+        value="<%= office.office2_title || '' %>">
+
+    <label>Second Office Address</label>
+    <textarea name="office2_address"><%= office.office2_address || '' %></textarea>
+
+    <label>Second Office Phone</label>
+    <input 
+        type="text"
+        name="office2_phone"
+        value="<%= office.office2_phone || '' %>">
+
+    <label>Second Office Map Link</label>
+    <input 
+        type="text"
+        name="office2_map"
+        value="<%= office.office2_map || '' %>">
+
+
+    <button type="submit" class="save-btn">
+        Save / Update Office
+    </button>
+
+</form>
+
+</div>
+
+<%- include("Footer") %>

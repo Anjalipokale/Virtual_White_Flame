@@ -1,0 +1,187 @@
+<%- include("navbar.ejs") %>
+
+<style>
+body{
+    background:#f5f7f8;
+}
+
+/* Main Content */
+.product-container{
+    margin-left:270px;
+    margin-top:100px;
+    margin-right:20px;
+    margin-bottom:50px;
+    width:calc(100% - 290px);
+
+}
+
+.admin-card{
+    background:#fff;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.section-title{
+    color:#198754;
+    font-weight:700;
+    margin-bottom:25px;
+    border-bottom:2px solid #198754;
+    padding-bottom:10px;
+}
+
+.form-label{
+    font-weight:600;
+}
+
+.form-control{
+    border-radius:8px;
+    padding:12px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 5px rgba(25,135,84,.3);
+}
+
+textarea{
+    resize:none;
+}
+
+.save-btn{
+    background:#ff6b00;
+    color:#fff;
+    border:none;
+    padding:12px 25px;
+    border-radius:8px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#e55f00;
+}
+
+@media(max-width:992px){
+    .product-container{
+        margin-left:20px;
+        margin-right:20px;
+        width:auto;
+    }
+}
+</style>
+
+<div class="product-container">
+
+    <div class="admin-card">
+
+        <h2 class="section-title">
+            Add Product
+        </h2>
+
+        <form action="/admin/save-product"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Product Name
+                </label>
+
+                <input type="text"
+                       name="product_name"
+                       class="form-control"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Short Description
+                </label>
+
+                <textarea name="short_description"
+                          class="form-control"
+                          rows="3"
+                          required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">
+                    Full Description
+                </label>
+
+                <textarea name="description"
+                          class="form-control"
+                          rows="6"
+                          required></textarea>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Feature 1
+                    </label>
+
+                    <input type="text"
+                           name="feature1"
+                           class="form-control">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Feature 2
+                    </label>
+
+                    <input type="text"
+                           name="feature2"
+                           class="form-control">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Feature 3
+                    </label>
+
+                    <input type="text"
+                           name="feature3"
+                           class="form-control">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">
+                        Feature 4
+                    </label>
+
+                    <input type="text"
+                           name="feature4"
+                           class="form-control">
+                </div>
+
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">
+                    Main Product Image
+                </label>
+
+                <input type="file"
+                       name="main_image"
+                       class="form-control"
+                       accept="image/*"
+                       required>
+            </div>
+
+            <button type="submit"
+                    class="save-btn">
+                Save Product
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

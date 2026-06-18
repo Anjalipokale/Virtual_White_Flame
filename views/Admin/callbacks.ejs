@@ -1,0 +1,93 @@
+<%- include("Navbar") %>
+
+<style>
+
+.callback-table{
+    width: 90%;
+    margin: 100px auto 40px auto;
+    text-align: center;
+}
+
+.callback-table h2{
+    color: #003366;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+table{
+    width: 90%;
+    border-collapse: collapse;
+    box-shadow: 0 0 15px #ccc;
+    margin-left: 200px;
+}
+
+table th{
+    background-color: #33933f;
+    color: white;
+    padding: 15px;
+}
+
+table td{
+    background: #f9f9f9;
+    padding: 12px;
+}
+
+table tr:hover td{
+    background: #e6f2ff;
+}
+
+.delete-btn{
+    background-color: #e53935;
+    color: white;
+    padding: 8px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.delete-btn:hover{
+    background-color: #b71c1c;
+}
+
+</style>
+
+
+<div class="callback-table">
+
+<h2>Callback Requests</h2>
+
+<table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Mobile</th>
+    <th>Preferred Time</th>
+    <th>Action</th>
+</tr>
+
+<% callback.forEach(function(item){ %>
+
+<tr>
+
+    <td><%= item.id %></td>
+    <td><%= item.name %></td>
+    <td><%= item.mobile %></td>
+    <td><%= item.preferred_time %></td>
+    
+    <td>
+        <a href="/admin/delete-callback/<%= item.id %>" class="delete-btn">
+            Delete
+        </a>
+    </td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+</div>
+
+
+<%- include("Footer") %>

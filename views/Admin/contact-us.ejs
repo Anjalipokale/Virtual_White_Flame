@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us Management</title>
+<%- include("navbar.ejs") %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+body{
+    background:#f4f8f4;
+}
+
+/* Admin Content Area */
+.contact-wrapper{
+    margin-left:260px;      /* Sidebar Width */
+    width:calc(100% - 260px);
+    padding:30px;
+    margin-top:80px;
+}
+
+.contact-card{
+    width:100%;
+    max-width:none;         /* Full Width */
+    margin:0;
+    background:#fff;
+    padding:40px;
+    border-radius:20px;
+    box-shadow:0 5px 25px rgba(0,0,0,0.08);
+}
+.contact-card h2{
+    text-align:center;
+    color:#2e7d32;
+    margin-bottom:30px;
+    font-weight:700;
+}
+
+.section-heading{
+    color:#ff7a00;
+    margin-top:20px;
+    margin-bottom:15px;
+    font-weight:600;
+}
+
+.form-control{
+    padding:12px;
+    border-radius:10px;
+}
+
+.btn-save{
+    background:#2e7d32;
+    color:#fff;
+    border:none;
+    padding:12px;
+    width:100%;
+    border-radius:10px;
+    font-size:18px;
+    font-weight:600;
+    margin-top:20px;
+}
+
+.btn-save:hover{
+    background:#256428;
+}
+
+@media(max-width:768px){
+
+    .contact-card{
+        padding:25px;
+    }
+
+    .contact-card h2{
+        font-size:24px;
+    }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="contact-wrapper">
+
+    <div class="contact-card">
+
+        <h2>Contact Us Management</h2>
+
+        <form action="/admin/contact-us" method="POST">
+
+            <h4 class="section-heading">Phone Section</h4>
+
+            <div class="mb-3">
+                <label>Phone Title</label>
+                <input type="text"
+                       name="phone_title"
+                       class="form-control"
+                       value="<%= contact?.phone_title || '' %>"
+                       placeholder="Call Us">
+            </div>
+
+            <div class="mb-3">
+                <label>Phone Number 1</label>
+                <input type="text"
+                       name="phone1"
+                       class="form-control"
+                       value="<%= contact?.phone1 || '' %>"
+                       placeholder="9423390308">
+            </div>
+
+            <div class="mb-3">
+                <label>Phone Number 2</label>
+                <input type="text"
+                       name="phone2"
+                       class="form-control"
+                       value="<%= contact?.phone2 || '' %>"
+                       placeholder="9420950022">
+            </div>
+
+            <h4 class="section-heading">Email Section</h4>
+
+            <div class="mb-3">
+                <label>Email Title</label>
+                <input type="text"
+                       name="email_title"
+                       class="form-control"
+                       value="<%= contact?.email_title || '' %>"
+                       placeholder="Email Us">
+            </div>
+
+            <div class="mb-3">
+                <label>Email 1</label>
+                <input type="email"
+                       name="email1"
+                       class="form-control"
+                       value="<%= contact?.email1 || '' %>"
+                       placeholder="sales@virtualwhiteflame.com">
+            </div>
+
+            <div class="mb-3">
+                <label>Email 2</label>
+                <input type="email"
+                       name="email2"
+                       class="form-control"
+                       value="<%= contact?.email2 || '' %>"
+                       placeholder="operation.virtualwhiteflame@gmail.com">
+            </div>
+
+            <h4 class="section-heading">Office Section</h4>
+
+            <div class="mb-3">
+                <label>Office Title</label>
+                <input type="text"
+                       name="office_title"
+                       class="form-control"
+                       value="<%= contact?.office_title || '' %>"
+                       placeholder="Regional Contact">
+            </div>
+
+            <div class="mb-3">
+                <label>Office 1</label>
+                <input type="text"
+                       name="office1"
+                       class="form-control"
+                       value="<%= contact?.office1 || '' %>"
+                       placeholder="Ahmednagar Office">
+            </div>
+
+            <div class="mb-3">
+                <label>Office 2</label>
+                <input type="text"
+                       name="office2"
+                       class="form-control"
+                       value="<%= contact?.office2 || '' %>"
+                       placeholder="Navi Mumbai Office">
+            </div>
+
+            <button type="submit" class="btn-save">
+                Save Contact Information
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+<%- include("footer.ejs") %>
+</body>
+</html>

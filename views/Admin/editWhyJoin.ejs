@@ -1,0 +1,152 @@
+<%- include("navbar.ejs") %>
+
+<style>
+    body{
+        background:#f5f7f8;
+    }
+
+    .edit-wrapper{
+        min-height:80vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:40px 15px;
+    }
+
+    .edit-card{
+        width:100%;
+        max-width:600px;
+        background:#fff;
+        padding:25px;
+        border-radius:15px;
+        box-shadow:0 5px 20px rgba(0,0,0,0.1);
+        border-top:5px solid #28a745;
+    }
+
+    .edit-card h3{
+        text-align:center;
+        color:#28a745;
+        margin-bottom:20px;
+        font-weight:700;
+    }
+
+    .btn-update{
+        width:100%;
+        border:none;
+        padding:12px;
+        border-radius:8px;
+        color:#fff;
+        font-weight:600;
+        background:linear-gradient(90deg,#28a745,#ff7b00);
+    }
+
+    .preview-img{
+        width:120px;
+        height:120px;
+        object-fit:cover;
+        border-radius:10px;
+        margin-top:10px;
+    }
+</style>
+
+<div class="edit-wrapper">
+
+    <div class="edit-card">
+
+        <h3>Edit Why Join Section</h3>
+
+        <form action="/admin/update-why-join/<%= whyJoin.id %>"
+              method="POST"
+              enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label>Title</label>
+                <input type="text"
+                       name="title"
+                       class="form-control"
+                       value="<%= whyJoin.title %>"
+                       required>
+            </div>
+
+            <div class="mb-3">
+                <label>Description</label>
+                <textarea name="description"
+                          class="form-control"
+                          rows="3"
+                          required><%= whyJoin.description %></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 1</label>
+                <input type="text"
+                       name="feature1"
+                       class="form-control"
+                       value="<%= whyJoin.feature1 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 2</label>
+                <input type="text"
+                       name="feature2"
+                       class="form-control"
+                       value="<%= whyJoin.feature2 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 3</label>
+                <input type="text"
+                       name="feature3"
+                       class="form-control"
+                       value="<%= whyJoin.feature3 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 4</label>
+                <input type="text"
+                       name="feature4"
+                       class="form-control"
+                       value="<%= whyJoin.feature4 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 5</label>
+                <input type="text"
+                       name="feature5"
+                       class="form-control"
+                       value="<%= whyJoin.feature5 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Feature 6</label>
+                <input type="text"
+                       name="feature6"
+                       class="form-control"
+                       value="<%= whyJoin.feature6 %>">
+            </div>
+
+            <div class="mb-3">
+                <label>Current Image</label>
+                <br>
+
+                <img src="/uploads/<%= whyJoin.image %>"
+                     class="preview-img">
+            </div>
+
+            <div class="mb-4">
+                <label>Change Image</label>
+                <input type="file"
+                       name="image"
+                       class="form-control">
+            </div>
+
+            <button type="submit" class="btn-update">
+                Update Section
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<%- include("footer.ejs") %>

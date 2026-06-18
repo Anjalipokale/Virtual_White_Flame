@@ -1,0 +1,59 @@
+<%- include('Navbar') %>
+
+<div class="container-fluid">
+
+    <div class="card shadow mx-auto mt-4" style="max-width: 800px;">
+
+        <div class="card-header">
+            <h4>Edit Management Team</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form action="/admin/update_management_team"
+                  method="post"
+                  enctype="multipart/form-data">
+
+                <input type="hidden"
+                       name="id"
+                       value="<%= management_team.id %>">
+
+                <div class="mb-3">
+                    <label>Name</label>
+                    <input type="text"
+                           name="name"
+                           value="<%= management_team.name %>"
+                           class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <textarea name="description"
+                              class="form-control"
+                              rows="5"><%= management_team.description %></textarea>
+                </div>
+
+                <div class="mb-3 text-center">
+                    <img src="/uploads/<%= management_team.image %>"
+                         width="120"
+                         class="img-thumbnail">
+                </div>
+
+                <div class="mb-3">
+                    <label>New Image</label>
+                    <input type="file"
+                           name="image"
+                           class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-success">
+                    Update
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

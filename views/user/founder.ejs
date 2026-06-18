@@ -68,69 +68,39 @@
     <!-- founder section -->
 
 
-    <section class="management-section py-5">
-        <div class="container">
+   <section class="management-section py-5">
+    <div class="container">
 
-            <div class="section-title text-center mb-5">
-                <span>OUR LEADERSHIP TEAM</span>
-                <h2>Management Team</h2>
+        <div class="section-title text-center mb-5">
+            <span>OUR LEADERSHIP TEAM</span>
+            <h2>Management Team</h2>
+        </div>
+
+        <% management_team.forEach(function(item){ %>
+
+        <div class="management-card">
+
+            <div class="management-img">
+                <img src="/uploads/<%= item.image %>"
+                     alt="<%= item.name %>">
             </div>
 
-            <!-- Profile 1 -->
-            <div class="management-card">
-                <div class="management-img">
-                    <img src="/img/ananta-zirpe.webp" alt="Mr. Ananta D. Zirpe">
-                </div>
+            <div class="management-content">
 
-                <div class="management-content">
-                    <h3>MR. ANANTA D. ZIRPE</h3>
+                <h3><%= item.name %></h3>
 
-                    <p>
-                        Mr. Ananta has more than 13 years of corporate experience in manufacturing &
-                        financial sector. Ananta has deep insights into the agriculture business and
-                        its supply chain which is extremely valuable in firm growth. At Virtual White
-                        Flame Pvt. Ltd., Ananta is responsible for the business development, client
-                        relationship management and building the partner networks.
-                    </p>
-                </div>
-            </div>
+                <p>
+                    <%= item.description %>
+                </p>
 
-            <!-- Profile 2 -->
-            <div class="management-card">
-                <div class="management-img">
-                    <img src="/img/SACHIN S-JAWALE.webp" alt="Adv. Sachin S. Jawale">
-                </div>
-
-                <div class="management-content">
-                    <h3>ADV. SACHIN S. JAWALE</h3>
-
-                    <p>
-                        Mr. Sachin has more than 17 years of corporate experience in manufacturing &
-                        legal advisory division. Sachin has provided strategic direction and inspired
-                        teams to achieve ambitious goals.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Profile 3 -->
-            <div class="management-card">
-                <div class="management-img">
-                    <img src="/img/BALRAM-PAYGHAN.webp" alt="Mr. Balram G. Payghan">
-                </div>
-
-                <div class="management-content">
-                    <h3>MR. BALRAM G. PAYGHAN</h3>
-
-                    <p>
-                        Mr. Balram has more than 13 years of corporate experience in project
-                        management, production planning, resource management and biomass supply
-                        chain management.
-                    </p>
-                </div>
             </div>
 
         </div>
-    </section>
+
+        <% }) %>
+
+    </div>
+</section>
     
 
     <!-- =========================

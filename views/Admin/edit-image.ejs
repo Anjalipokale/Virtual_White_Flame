@@ -1,0 +1,70 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    font-family:Arial;
+    background:#f4f4f4;
+}
+
+/* center form */
+form{
+    width:400px;
+    margin:80px auto;   /* center */
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* inputs */
+input{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:1px solid #ccc;
+    border-radius:6px;
+    outline:none;
+}
+
+/* button */
+button{
+    width:100%;
+    padding:10px;
+    background:green;
+    color:white;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size:16px;
+}
+
+button:hover{
+    background:darkgreen;
+}
+
+</style>
+
+<form action="/admin/update-image" method="post">
+
+<input type="hidden" name="id" value="<%= data.id %>">
+
+<input type="text" name="title" value="<%= data.title %>">
+
+<br><br>
+
+<input type="text" name="image" value="<%= data.image %>">
+
+<br><br>
+
+<input type="text" name="category" value="<%= data.category %>">
+
+<br><br>
+
+<button>Update</button>
+
+</form>
+
+<%- include("footer.ejs") %>

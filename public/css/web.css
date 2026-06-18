@@ -71,7 +71,6 @@ nav.navbar {
   flex: 1;
   margin-top: 18px;
   margin-right: 20px;
-  margin-top: 40px;
 }
 .nav-item {
   position: relative;
@@ -1977,47 +1976,100 @@ nav.navbar {
         HISTORY BANNER
 ========================= */
 
-.history-page-banner {
-  height: 55vh;
-  background: url("/img/company-history.avif") center/cover;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.history-page-banner-section{
+    height: 55vh;
+    background: url("/img/company-history.avif") center/cover no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.history-banner-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+.history-banner-overlay{
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
 }
 
-.history-banner-content {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  color: #fff;
+.history-banner-content{
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
 }
 
-.history-banner-content h1 {
-  font-size: 65px;
-  margin-bottom: 15px;
-  font-weight: 800;
+.history-banner-content h1{
+    font-size: 65px;
+    margin-bottom: 15px;
+    font-weight: 800;
 }
 
-.history-breadcrumb {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
+.history-breadcrumb{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 }
 
 .history-breadcrumb a,
-.history-breadcrumb p {
-  color: #fff;
-  font-size: 18px;
+.history-breadcrumb p,
+.history-breadcrumb span{
+    color: #fff;
+    font-size: 18px;
+    margin: 0;
+    text-decoration: none;
 }
 
+/* Tablet */
+@media(max-width:992px){
+
+    .history-page-banner-section{
+        height: 45vh;
+    }
+
+    .history-banner-content h1{
+        font-size: 50px;
+    }
+
+}
+
+/* Mobile */
+@media(max-width:768px){
+
+    .history-page-banner-section{
+        height: 35vh;
+        padding: 0 20px;
+    }
+
+    .history-banner-content h1{
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+
+    .history-breadcrumb a,
+    .history-breadcrumb p,
+    .history-breadcrumb span{
+        font-size: 15px;
+    }
+
+}
+
+/* Small Mobile */
+@media(max-width:480px){
+
+    .history-page-banner-section{
+        height: 30vh;
+    }
+
+    .history-banner-content h1{
+        font-size: 28px;
+    }
+
+    .history-breadcrumb{
+        gap: 8px;
+    }
+
+}
 /* =========================
         COMPANY HISTORY
 ========================= */

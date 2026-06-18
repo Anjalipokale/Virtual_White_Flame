@@ -1,4 +1,372 @@
+<%- include("navbar.ejs") %>
 
- <%- include("Navbar") %>
+<style>
+:root{
+    --green:#198754;
+    --light-green:#e8f8f0;
+    --orange:#ff7a00;
+    --light-orange:#fff3e8;
+}
 
- <%- include("Footer") %>
+/* Background */
+body{
+    background:linear-gradient(135deg,#f8fffb,#eefaf4);
+}
+
+/* Welcome Banner */
+.welcome-card{
+    background:linear-gradient(135deg,#198754,#2dbf7f);
+    color:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 10px 25px rgba(25,135,84,.2);
+}
+
+.welcome-card h2{
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.welcome-card p{
+    margin:0;
+}
+
+/* Dashboard Cards */
+.dashboard-card{
+    background:#fff;
+    padding:25px;
+    border-radius:20px;
+    border-top:5px solid var(--orange);
+    box-shadow:0 10px 25px rgba(25,135,84,.08);
+}
+
+/* Stats Cards */
+.stat-card{
+    background:#fff;
+    border-radius:20px;
+    padding:25px;
+    text-align:center;
+    border-top:5px solid var(--orange);
+    box-shadow:0 10px 25px rgba(25,135,84,.08);
+    transition:.4s;
+    height:100%;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 15px 35px rgba(255,122,0,.2);
+}
+
+.stat-card i{
+    width:70px;
+    height:70px;
+    line-height:70px;
+    border-radius:50%;
+    background:var(--light-green);
+    color:var(--orange);
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.stat-card h3{
+    color:var(--green);
+    font-weight:700;
+}
+
+.growth{
+    display:inline-block;
+    margin-top:10px;
+    padding:5px 12px;
+    border-radius:30px;
+    background:var(--light-green);
+    color:var(--green);
+    font-size:13px;
+    font-weight:600;
+}
+
+/* Quick Actions */
+.quick-btn{
+    display:block;
+    text-decoration:none;
+    text-align:center;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    color:var(--green);
+    font-weight:600;
+    box-shadow:0 10px 20px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.quick-btn:hover{
+    background:var(--orange);
+    color:#fff;
+    transform:translateY(-5px);
+}
+
+.quick-btn i{
+    display:block;
+    font-size:25px;
+    margin-bottom:10px;
+}
+
+/* Graph */
+#salesChart{
+    height:350px !important;
+}
+
+/* Activity */
+.activity-list li{
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.activity-list li:last-child{
+    border-bottom:none;
+}
+</style>
+
+<div class="main-content">
+
+    <!-- Welcome -->
+    <div class="welcome-card">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2>Dashboard Overview</h2>
+                <p>Welcome Back Administrator 👋</p>
+            </div>
+
+            <button class="btn btn-warning text-white">
+                <i class="fas fa-chart-line"></i>
+                Reports
+            </button>
+        </div>
+    </div>
+
+    <!-- Stats -->
+<div class="row g-4 mt-3">
+
+    <div class="col-md-3">
+    <a href="/admin/products" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-box"></i>
+            <h3><%= totalProducts %></h3>
+            <p>Total Products</p>
+        </div>
+    </a>
+</div>
+
+  <div class="col-md-3">
+    <a href="/admin/inquiries" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-envelope"></i>
+            <h3><%= totalInquiries %></h3>
+            <p>Total Inquiries</p>
+        </div>
+    </a>
+</div>
+
+    <div class="col-md-3">
+    <a href="/admin/applications" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <h3><%= totalApplications %></h3>
+            <p>Job Applications</p>
+        </div>
+    </a>
+</div>
+
+  <div class="col-md-3">
+    <a href="/admin/testimonials" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-star"></i>
+            <h3><%= totalTestimonials %></h3>
+            <p>Testimonials</p>
+        </div>
+    </a>
+</div>
+
+</div>
+
+<div class="row g-4 mt-3">
+
+    <div class="col-md-3">
+    <a href="/admin/images" style="text-decoration:none; color: black;">
+        <div class="stat-card">
+            <i class="fas fa-image"></i>
+            <h3><%= totalGallery %></h3>
+            <p>Gallery Images</p>
+        </div>
+    </a>
+</div>
+
+    <div class="col-md-3">
+    <a href="/admin/videos" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-video"></i>
+            <h3><%= totalVideos %></h3>
+            <p>Total Videos</p>
+        </div>
+    </a>
+</div>
+
+    <div class="col-md-3">
+    <a href="/admin/contact-list" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-phone"></i>
+            <h3><%= totalContacts %></h3>
+            <p>Contact Messages</p>
+        </div>
+    </a>
+</div>
+
+    <div class="col-md-3">
+    <a href="/admin/dealer-requests" style="text-decoration:none;color: black;">
+        <div class="stat-card">
+            <i class="fas fa-handshake"></i>
+            <h3><%= totalDealers %></h3>
+            <p>Dealer Requests</p>
+        </div>
+    </a>
+</div>
+
+</div>
+    <!-- Quick Actions -->
+    <div class="row g-4 mt-2">
+
+        <div class="col-md-3">
+            <a href="/admin/add-product" class="quick-btn">
+                <i class="fas fa-plus-circle"></i>
+                Add Product
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/admin/add-blog" class="quick-btn">
+                <i class="fas fa-blog"></i>
+                Add Blog
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/admin/images" class="quick-btn">
+                <i class="fas fa-image"></i>
+                Gallery
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="/admin/applications" class="quick-btn">
+                <i class="fas fa-users"></i>
+                Applications
+            </a>
+        </div>
+
+    </div>
+
+    <!-- Traffic Graph -->
+    <div class="dashboard-card mt-4">
+        <h4 class="mb-3 text-warning">
+            Website Traffic Analytics
+        </h4>
+
+        <canvas id="salesChart"></canvas>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="dashboard-card mt-4">
+        <h4 class="text-warning mb-3">
+            Recent Activities
+        </h4>
+
+       <ul class="list-unstyled activity-list">
+
+<% recentApplications.forEach(function(app){ %>
+
+<li>
+👨‍💼
+<%= app.name %>
+applied for
+<b><%= app.position %></b>
+</li>
+
+<% }) %>
+
+</ul>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+let appData = <%- JSON.stringify(monthlyApplications || []) %>;
+let inquiryData = <%- JSON.stringify(monthlyInquiries || []) %>;
+
+const months = [
+    "Jan","Feb","Mar","Apr","May","Jun",
+    "Jul","Aug","Sep","Oct","Nov","Dec"
+];
+
+let applicationCounts = new Array(12).fill(0);
+let inquiryCounts = new Array(12).fill(0);
+
+appData.forEach(function(item){
+    applicationCounts[item.month - 1] = item.total;
+});
+
+inquiryData.forEach(function(item){
+    inquiryCounts[item.month - 1] = item.total;
+});
+
+const ctx = document.getElementById("salesChart");
+
+new Chart(ctx,{
+    type:'line',
+    data:{
+        labels: months,
+        datasets:[
+            {
+                label:'Applications',
+                data: applicationCounts,
+                borderColor:'#ff7a00',
+                backgroundColor:'rgba(255,122,0,0.15)',
+                borderWidth:4,
+                pointRadius:6,
+                fill:true,
+                tension:.4
+            },
+            {
+                label:'Inquiries',
+                data: inquiryCounts,
+                borderColor:'#198754',
+                backgroundColor:'rgba(25,135,84,0.15)',
+                borderWidth:4,
+                pointRadius:6,
+                fill:true,
+                tension:.4
+            }
+        ]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                display:true,
+                position:'top'
+            }
+        },
+        scales:{
+            y:{
+                beginAtZero:true
+            }
+        }
+    }
+});
+
+</script>
+
+
+
+<%- include("footer.ejs") %>

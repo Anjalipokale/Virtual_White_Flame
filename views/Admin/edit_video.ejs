@@ -1,0 +1,71 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    font-family: Arial;
+    background: #f4f4f4;
+}
+
+.edit-box{
+    width: 450px;
+    background: white;
+    margin: 80px auto;
+    padding: 25px;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px gray;
+}
+
+video{
+    width: 250px;
+    border-radius: 10px;
+}
+
+input{
+    width: 90%;
+    padding: 10px;
+}
+
+button{
+    background: green;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+</style>
+
+
+<div class="edit-box">
+
+<h2>Edit Video</h2>
+
+<!-- Old Video -->
+<video controls>
+    <source src="<%= data.video %>" type="video/mp4">
+</video>
+
+<br><br>
+
+
+<form action="/admin/update-video/<%= data.id %>"
+      method="post"
+      enctype="multipart/form-data">
+
+    <input type="file" name="video" required>
+
+    <br><br>
+
+    <button>
+        Update
+    </button>
+
+</form>
+
+</div>
+
+
+<%- include("footer.ejs") %>

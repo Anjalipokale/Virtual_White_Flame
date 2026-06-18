@@ -1,0 +1,100 @@
+<%- include("Navbar") %>
+
+<style>
+
+.contact-box{
+    width: 80%;
+    margin-top: 100px;
+    margin-left: 280px;
+    margin-right: auto;
+    text-align: center;
+}
+
+.contact-box h2{
+    color: #003366;
+    font-size: 32px;
+    margin-bottom: 25px;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: 0 0 15px #ccc;
+}
+
+table th{
+    background: #289341;
+    color: white;
+    padding: 15px;
+}
+
+table td{
+    padding: 12px;
+    background: #f9f9f9;
+}
+
+table tr:hover td{
+    background: #e6f2ff;
+}
+
+.delete-btn{
+    background: #e53935;
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.delete-btn:hover{
+    background: #b71c1c;
+}
+
+</style>
+
+
+<div class="contact-box">
+
+<h2>Contact Messages</h2>
+
+<table border="1">
+
+<tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Phone</th>
+    <th>Subject</th>
+    <th>Message</th>
+    <th>Date</th>
+    <th>Action</th>
+</tr>
+
+
+<% data.forEach(function(item){ %>
+
+<tr>
+    <td><%= item.id %></td>
+    <td><%= item.name %></td>
+    <td><%= item.email %></td>
+    <td><%= item.phone %></td>
+    <td><%= item.subject %></td>
+    <td><%= item.message %></td>
+    <td><%= item.created_at %></td>
+
+    <td>
+        <a href="/admin/delete-contact/<%= item.id %>" class="delete-btn">
+            Delete
+        </a>
+    </td>
+
+</tr>
+
+<% }) %>
+
+</table>
+
+</div>
+
+
+<%- include("Footer") %>
