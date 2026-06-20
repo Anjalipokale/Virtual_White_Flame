@@ -1,4 +1,4 @@
- var NAV_ITEMS = [
+var NAV_ITEMS = [
     { label:'Home',               icon:'fa-home',           cat:'Main' },
     { label:'About Us',           icon:'fa-building',       cat:'About' },
     { label:'Company History',    icon:'fa-landmark',       cat:'About' },
@@ -285,12 +285,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 window.addEventListener("load", function () {
 
   let index = 0;
   const slider = document.getElementById("slider");
   const cards = document.querySelectorAll(".testimonial-card");
+
+  if (!slider || cards.length === 0) return;
 
   function showSlide() {
     slider.style.transform = `translateX(-${index * 100}%)`;
@@ -306,8 +307,7 @@ window.addEventListener("load", function () {
     showSlide();
   }
 
-  showSlide(); // initial
-
+  showSlide();
   setInterval(nextSlide, 2500);
 
 });

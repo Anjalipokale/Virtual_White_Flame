@@ -117,7 +117,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
             Explore exciting opportunities and become a part of our growing team.
         </p>
     </div>
+ 
+    <% if(client){ %>
 
+<div class="my-application-banner">
+
+    <div>
+        <h4>
+            Welcome, <%= client.username %>
+        </h4>
+
+        <p>
+            Track your applied jobs and recruitment status.
+        </p>
+    </div>
+
+    <a href="/my-applications" class="my-applications-btn">
+        <i class="fas fa-briefcase"></i>
+        My Applications
+    </a>
+
+</div>
+
+<% } %>
     <!-- Department Filter -->
 
     <div class="job-filter">
@@ -150,10 +172,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     <p><b>Experience:</b> <%= job.experience %></p>
     <p><b>Location:</b> <%= job.location %></p>
 
-    <button class="apply-btn open-modal"
-            data-job="<%= job.job_title %>">
-        Apply Now
-    </button>
+    <% if(client){ %>
+
+<button class="apply-btn open-modal"
+        data-job="<%= job.job_title %>">
+    Apply Now
+</button>
+
+<% } else { %>
+
+<a href="/client-login"
+   class="apply-btn">
+    Login To Apply
+</a>
+
+<% } %>
 
 </div>
 
@@ -172,6 +205,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         <span class="close-modal">&times;</span>
 
         <h2>Apply for Position</h2>
+
 <form action="/save-application" method="post" enctype="multipart/form-data">
 
 <div class="form-group">
@@ -183,8 +217,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 </div>
 
 <div class="form-group">
-    <input type="tel" name="mobile" placeholder="Mobile Number" required>
-</div>
+<input
+    type="tel"
+    name="mobile"
+    placeholder="Phone Number"
+    pattern="[0-9]{10}"
+    maxlength="10"
+    minlength="10"
+    oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,10)"
+    title="Please enter exactly 10 digits"
+    required></div>
 
 <div class="form-group">
 

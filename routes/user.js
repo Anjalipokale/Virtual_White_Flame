@@ -89,37 +89,60 @@ res.render("user/support_services.ejs");
 
 router.post("/support-inquiry", async (req, res) => {
 
-    try {
 
-        let { name, phone, email, message } = req.body;
+try {
 
-        await exe(`
-            INSERT INTO support_inquiry
-            (
-                name,
-                phone,
-                email,
-                message
-            )
-            VALUES
-            (
-                '${name}',
-                '${phone}',
-                '${email}',
-                '${message}'
-            )
-        `);
+    let { name, phone, email, message } = req.body;
 
-        res.redirect("/contact");
-
-    } catch(err){
-
-        console.log(err);
-        res.send("Error");
-
+    // Name Validation
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        return res.send("Name should contain only letters");
     }
 
+    // Phone Validation
+    if (!/^[0-9]{10}$/.test(phone)) {
+        return res.send("Phone number must be exactly 10 digits");
+    }
+
+    // Email Validation
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.send("Invalid email address");
+    }
+
+    // Message Validation
+    if (!message || message.trim() === "") {
+        return res.send("Message is required");
+    }
+
+    await exe(`
+        INSERT INTO support_inquiry
+        (
+            name,
+            phone,
+            email,
+            message
+        )
+        VALUES
+        (
+            '${name}',
+            '${phone}',
+            '${email}',
+            '${message}'
+        )
+    `);
+
+    res.redirect("/support_services");
+
+} catch(err){
+
+    console.log(err);
+    res.send("Error");
+
+}
+
+
 });
+
 
 router.get("/services", function(req,res){
 res.render("user/services.ejs");
@@ -434,45 +457,53 @@ router.post("/save-application", async (req, res) => {
 
     try {
 
+        if (!req.session.client) {
+            return res.redirect("/client-login");
+        }
+
         if (!req.files || !req.files.resume) {
             return res.send("Please Select Resume");
         }
 
-        let resume = req.files.resume; 
+        let resume = req.files.resume;
 
         let resumeName = Date.now() + "_" + resume.name;
 
         await resume.mv("public/resume/" + resumeName);
 
         let applicationId = "VWF" + Date.now();
-        let currentTime = new Date().toLocaleString("sv-SE", {
-          timeZone: "Asia/Kolkata"
-          });
 
-       await exe(`
-    INSERT INTO job_applications
-    (
-        application_id,
-        name,
-        email,
-        mobile,
-        position,
-        resume,
-        status,
-        created_at
-    )
-    VALUES
-    (
-        '${applicationId}',
-        '${req.body.name}',
-        '${req.body.email}',
-        '${req.body.mobile}',
-        '${req.body.position}',
-        '${resumeName}',
-        'Applied',
-        '${currentTime}'
-    )
-`);
+        let currentTime = new Date().toLocaleString("sv-SE", {
+            timeZone: "Asia/Kolkata"
+        });
+
+        
+        await exe(`
+            INSERT INTO job_applications
+            (
+                application_id,
+                client_id,
+                name,
+                email,
+                mobile,
+                position,
+                resume,
+                status,
+                created_at
+            )
+            VALUES
+            (
+                '${applicationId}',
+                '${req.session.client.id}',
+                '${req.body.name}',
+                '${req.body.email}',
+                '${req.body.mobile}',
+                '${req.body.position}',
+                '${resumeName}',
+                'Applied',
+                '${currentTime}'
+            )
+        `);
 
         res.redirect("/career?success=" + applicationId);
 
@@ -522,38 +553,57 @@ router.get("/contact", async (req, res) => {
 
 router.post("/contact-submit", async (req, res) => {
 
-    try {
 
-        await exe(`
-            INSERT INTO contact_messages
-            (
-                name,
-                email,
-                phone,
-                subject,
-                message
-            )
-            VALUES
-            (
-                '${req.body.name}',
-                '${req.body.email}',
-                '${req.body.phone}',
-                '${req.body.subject}',
-                '${req.body.message}'
-            )
-        `);
+try {
 
-        res.redirect("/contact");
+    let { name, email, phone, subject, message } = req.body;
 
-    } catch (err) {
-
-        console.log(err);
-        res.send("Contact Form Error");
-
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        return res.send("Name should contain only letters");
     }
 
-});
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.send("Invalid Email Address");
+    }
 
+    if (!/^[0-9]{10}$/.test(phone)) {
+        return res.send("Please enter a valid 10-digit mobile number");
+    }
+
+    if (!message || message.trim() === "") {
+        return res.send("Message is required");
+    }
+
+    await exe(`
+        INSERT INTO contact_messages
+        (
+            name,
+            email,
+            phone,
+            subject,
+            message
+        )
+        VALUES
+        (
+            '${name}',
+            '${email}',
+            '${phone}',
+            '${subject}',
+            '${message}'
+        )
+    `);
+
+    res.redirect("/contact");
+
+} catch (err) {
+
+    console.log(err);
+    res.send("Contact Form Error");
+
+}
+
+
+});
 
 /* =========================
    Callback Request
@@ -561,33 +611,53 @@ router.post("/contact-submit", async (req, res) => {
 
 router.post("/save-callback", async (req, res) => {
 
-    try {
 
-        await exe(`
-            INSERT INTO callbacks
-            (
-                name,
-                mobile,
-                preferred_time
-            )
-            VALUES
-            (
-                '${req.body.name}',
-                '${req.body.mobile}',
-                '${req.body.time}'
-            )
-        `);
+try {
 
-        res.redirect("/contact");
+    let { name, mobile, time } = req.body;
 
-    } catch (err) {
-
-        console.log(err);
-        res.send("Callback Save Error");
-
+    // Name Validation
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        return res.send("Name should contain only letters");
     }
 
+    // Mobile Validation
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        return res.send("Mobile number must be exactly 10 digits");
+    }
+
+    // Time Validation
+    if (!time || time.trim() === "") {
+        return res.send("Preferred time is required");
+    }
+
+    await exe(`
+        INSERT INTO callbacks
+        (
+            name,
+            mobile,
+            preferred_time
+        )
+        VALUES
+        (
+            '${name}',
+            '${mobile}',
+            '${time}'
+        )
+    `);
+
+    res.redirect("/contact");
+
+} catch (err) {
+
+    console.log(err);
+    res.send("Callback Save Error");
+
+}
+
+
 });
+
 
 
 /* =========================
@@ -597,6 +667,23 @@ router.post("/save-callback", async (req, res) => {
 router.post("/save-inquiry", async (req, res) => {
 
     try {
+
+        let { product_name, name, email, mobile, message } = req.body;
+
+        // Name Validation
+        if (!/^[A-Za-z ]+$/.test(name)) {
+            return res.send("Name should contain only letters");
+        }
+
+        // Mobile Validation
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            return res.send("Mobile number must be exactly 10 digits");
+        }
+
+        // Email Validation
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+            return res.send("Invalid email address");
+        }
 
         const currentTime = new Date().toLocaleString("sv-SE", {
             timeZone: "Asia/Kolkata"
@@ -614,11 +701,11 @@ router.post("/save-inquiry", async (req, res) => {
             )
             VALUES
             (
-                '${req.body.product_name}',
-                '${req.body.name}',
-                '${req.body.email}',
-                '${req.body.mobile}',
-                '${req.body.message}',
+                '${product_name}',
+                '${name}',
+                '${email}',
+                '${mobile}',
+                '${message}',
                 '${currentTime}'
             )
         `);
@@ -634,75 +721,223 @@ router.post("/save-inquiry", async (req, res) => {
 
 });
 
-
 /* =========================
    Dealer Inquiry
 ========================= */
 
 router.post("/dealer-inquiry", async (req, res) => {
 
-    try {
 
-        const currentTime = new Date().toLocaleString("sv-SE", {
-            timeZone: "Asia/Kolkata"
-        });
+try {
 
-        await exe(`
-            INSERT INTO dealer_requests
-            (
-                dealer_name,
-                city,
-                mobile,
-                created_at
-            )
-            VALUES
-            (
-                '${req.body.dealer_name}',
-                '${req.body.city}',
-                '${req.body.mobile}',
-                '${currentTime}'
-            )
-        `);
+    let { dealer_name, city, mobile } = req.body;
 
-        res.redirect("/contact");
-
-    } catch (err) {
-
-        console.log(err);
-        res.send("Dealer Inquiry Error");
-
+    // Dealer Name Validation
+    if (!/^[A-Za-z ]+$/.test(dealer_name)) {
+        return res.send("Dealer Name should contain only letters");
     }
+
+    // City Validation
+    if (!/^[A-Za-z ]+$/.test(city)) {
+        return res.send("City should contain only letters");
+    }
+
+    // Mobile Validation
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        return res.send("Mobile number must be exactly 10 digits");
+    }
+
+    const currentTime = new Date().toLocaleString("sv-SE", {
+        timeZone: "Asia/Kolkata"
+    });
+
+    await exe(`
+        INSERT INTO dealer_requests
+        (
+            dealer_name,
+            city,
+            mobile,
+            created_at
+        )
+        VALUES
+        (
+            '${dealer_name}',
+            '${city}',
+            '${mobile}',
+            '${currentTime}'
+        )
+    `);
+
+    res.redirect("/contact");
+
+} catch (err) {
+
+    console.log(err);
+    res.send("Dealer Inquiry Error");
+
+}
+
 
 });
 
 
 // client login
 router.get("/client-login", (req, res) => {
-    res.render("user/client-login");
+
+    res.render("user/client-login", {
+        error: ""
+    });
+
 });
 
 router.post("/client-login", async (req, res) => {
 
     try {
 
-        const { email, password } = req.body;
+        let data = await exe(
+            `SELECT * FROM client_register
+             WHERE email='${req.body.email}'
+             AND password='${req.body.password}'`
+        );
 
-        const sql =
-        "INSERT INTO client_login (email, password) VALUES (?, ?)";
+        if(data.length > 0){
 
-        await exe(sql, [email, password]);
+            req.session.client = data[0];
 
-        console.log("Data Saved Successfully");
+            res.redirect("/career");
 
-        res.redirect("/career");
+        }else{
 
-    } catch (err) {
+            res.render("user/client-login", {
+                error: "Invalid Email or Password"
+            });
+
+        }
+
+    } catch(err){
 
         console.log(err);
-        res.send("Database Error");
+        res.send("Login Error");
 
     }
 
 });
 
+// Client Register Page
+router.get("/client-register", (req, res) => {
+
+    res.render("user/client_register", {
+        error: ""
+    });
+
+});
+
+// Save Client Register
+router.post("/client-register", async (req, res) => {
+
+    try {
+
+        let check = await exe(
+            `SELECT * FROM client_register
+             WHERE email='${req.body.email}'`
+        );
+
+        if(check.length > 0){
+
+            return res.render("user/client_register", {
+                error: "Email Already Registered"
+            });
+
+        }
+
+        await exe(
+            `INSERT INTO client_register
+            (
+                username,
+                email,
+                password
+            )
+            VALUES
+            (
+                '${req.body.username}',
+                '${req.body.email}',
+                '${req.body.password}'
+            )`
+        );
+
+        res.redirect("/client-login");
+
+    } catch(err){
+
+        console.log(err);
+
+        res.send(err.sqlMessage || err.message);
+
+    }
+
+});
+
+router.post("/client-login", async (req, res) => {
+
+    try {
+
+        let data = await exe(
+            `SELECT * FROM client_register
+             WHERE email='${req.body.email}'
+             AND password='${req.body.password}'`
+        );
+
+        if(data.length > 0){
+
+            req.session.client = data[0];
+
+            return res.redirect("/career");
+
+        }
+
+        res.render("user/client-login", {
+            error: "Invalid Email or Password. Please Register First."
+        });
+
+    } catch(err){
+
+        console.log(err);
+
+        res.render("user/client-login", {
+            error: "Login Failed"
+        });
+
+    }
+
+});
+
+
+
+
+router.get("/client-logout", (req, res) => {
+
+    req.session.destroy(() => {
+
+        res.redirect("/");
+
+    });
+
+});
+
+
+router.get("/my-applications", async (req, res) => {
+
+    if (!req.session.client) {
+        return res.redirect("/client-login");
+    }
+
+    let data = await exe(
+        `SELECT * FROM job_applications
+         WHERE client_id='${req.session.client.id}'
+         ORDER BY id DESC`
+    );
+
+    res.render("user/my-applications", { data });
+
+});
 module.exports = router;

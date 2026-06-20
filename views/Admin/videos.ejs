@@ -209,7 +209,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Video</th>
                         <th>Category</th>
                         <th width="220">Action</th>
@@ -220,11 +220,11 @@ body{
 
                 <% if(videos.length > 0){ %>
 
-                    <% videos.forEach(function(item){ %>
+                    <% videos.forEach(function(item, index){ %>
 
                     <tr>
 
-                        <td><%= item.id %></td>
+                        <td><%= index + 1 %></td>
 
                         <td>
 

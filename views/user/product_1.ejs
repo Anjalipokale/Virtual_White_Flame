@@ -11,24 +11,66 @@
 
         <h2>Product Inquiry</h2>
 
-       <form action="/save-inquiry" method="post">
+  <form action="/save-inquiry" method="post">
 
-     <input type="text"id="productName"name="product_name">
-     
-     <input type="text" name="name"  placeholder="Your Name"  required>
 
-     <input type="email" name="email" placeholder="Your Email" required>
+<input type="text" id="productName" name="product_name">
 
-    <input type="tel"  name="mobile"  placeholder="Your Mobile Number"  required>
+<!-- Name -->
+<input
+    type="text"
+    name="name"
+    placeholder="Your Name"
+    pattern="[A-Za-z ]+"
+    title="Only letters are allowed"
+    required
+>
 
-     <textarea name="message"
-          placeholder="Your Inquiry"
-          rows="4"></textarea>
+<!-- Email -->
+<input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+>
 
-      <button type="submit"> Submit Inquiry</button>
+<!-- Mobile -->
+<input
+    type="tel"
+    name="mobile"
+    placeholder="Your Mobile Number"
+    pattern="[0-9]{10}"
+    maxlength="10"
+    minlength="10"
+    title="Enter exactly 10 digits"
+    required
+>
+
+<!-- Message -->
+<textarea
+    name="message"
+    placeholder="Your Inquiry"
+    rows="4"
+    required
+></textarea>
+
+<button type="submit">Submit Inquiry</button>
 
 
 </form>
+
+<script>
+// Name field - only letters and spaces
+document.querySelector('input[name="name"]').addEventListener('input', function() {
+    this.value = this.value.replace(/[^A-Za-z ]/g, '');
+});
+
+// Mobile field - only 10 digits
+document.querySelector('input[name="mobile"]').addEventListener('input', function() {
+    this.value = this.value.replace(/\D/g, '').slice(0, 10);
+});
+</script>
+
 
     </div>
 </div>

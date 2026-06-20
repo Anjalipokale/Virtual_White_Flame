@@ -2154,3 +2154,42 @@ background: linear-gradient(
         font-size: 30px;
     }
 }
+
+.my-application-banner{
+    max-width:1200px;
+    margin:20px auto 35px;
+    padding:20px 25px;
+    background:linear-gradient(135deg,#198754,#ff7a00);
+    border-radius:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    color:#fff;
+    flex-wrap:wrap;
+}
+
+.my-application-banner h4{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+}
+
+.my-application-banner p{
+    margin:5px 0 0;
+}
+
+.my-applications-btn{
+    background:#fff;
+    color:#198754;
+    text-decoration:none;
+    padding:12px 22px;
+    border-radius:10px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.my-applications-btn:hover{
+    color:#ff7a00;
+    transform:translateY(-2px);
+}

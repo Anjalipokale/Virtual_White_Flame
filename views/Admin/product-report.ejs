@@ -1,0 +1,252 @@
+<%- include("Navbar") %>
+
+<style>
+
+body{
+    margin:0;
+    padding:0;
+    background:#f3f6f3;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+/* MAIN WRAPPER */
+.content-wrapper{
+    margin-left:250px;
+    padding:20px;
+}
+
+/* BOX */
+.report-container{
+    width:100%;
+    background:#fff;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 3px 12px rgba(0,0,0,0.08);
+}
+
+/* TITLE */
+.report-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:700;
+    color:#198754;
+    margin-bottom:20px;
+}
+
+/* BUTTONS */
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:50px;
+    margin-bottom:25px;
+}
+
+.btn-success{
+    background:#198754 !important;
+    border:none !important;
+}
+
+.btn-danger{
+    background:#fd7e14 !important;
+    border:none !important;
+}
+
+/* TABLE */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+.report-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:13px;
+}
+
+.report-table th{
+    background:#198754 !important;
+    color:#fff !important;
+    padding:10px;
+    text-align:center;
+    position:sticky;
+    top:0;
+}
+
+.report-table td{
+    padding:8px;
+    text-align:center;
+    word-wrap:break-word;
+}
+
+.report-table tr:nth-child(even){
+    background:#fff7ed;
+}
+
+.report-table tr:hover{
+    background:#ffe8cc;
+}
+
+.report-table img{
+    width:55px;
+    height:55px;
+    object-fit:cover;
+    border-radius:8px;
+    border:2px solid #fd7e14;
+}
+
+/* =========================
+   PRINT FIX (IMPORTANT)
+========================= */
+@media print {
+
+    /* A4 PAGE SETTING (VERY IMPORTANT) */
+    @page {
+        size: A4 portrait;   /* ✔️ straight print */
+        margin: 10mm;
+    }
+
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+    }
+
+    /* hide everything */
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* show only report */
+    .report-container,
+    .report-container * {
+        visibility: visible !important;
+    }
+
+    .report-container {
+        position: absolute !important;
+        left: 0;
+        top: 0;
+        width: 100% !important;
+    }
+
+    /* hide navbar/footer/sidebar */
+    nav,
+    header,
+    footer,
+    .navbar,
+    .sidebar,
+    .main-header,
+    .main-footer,
+    .fixed-top {
+        display: none !important;
+    }
+
+    /* remove left space */
+    .content-wrapper {
+        margin-left: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* TABLE SMALL FOR A4 */
+    .report-table {
+        font-size: 10px !important;
+        width: 100% !important;
+    }
+
+    .report-table th,
+    .report-table td {
+        border: 1px solid #000 !important;
+        padding: 4px !important;
+    }
+
+    .report-table img {
+        width: 30px !important;
+        height: 30px !important;
+    }
+
+    tr {
+        page-break-inside: avoid !important;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+}
+
+</style>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+
+    <div class="report-container">
+
+        <!-- BUTTONS -->
+       <div class="action-buttons no-print">
+
+    <button onclick="window.print()" class="btn btn-success">
+        Print Report
+    </button>
+
+    <a href="/admin/products-csv" class="btn btn-danger">
+         Download PDF
+    </a>
+
+ 
+
+</div>
+
+        <!-- TITLE -->
+        <div class="report-title">
+            Products Full Report
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-wrapper">
+
+            <table class="table table-bordered report-table">
+
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Product Name</th>
+                        <th>Short Description</th>
+                        <th>Description</th>
+                        <th>Feature 1</th>
+                        <th>Feature 2</th>
+                        <th>Feature 3</th>
+                        <th>Feature 4</th>
+                        <th>Main Image</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% products.forEach((p,index)=>{ %>
+                    <tr>
+                        <td><%= index + 1 %></td>
+                        <td><b><%= p.product_name %></b></td>
+                        <td><%= p.short_description %></td>
+                        <td><%= p.description %></td>
+                        <td><%= p.feature1 %></td>
+                        <td><%= p.feature2 %></td>
+                        <td><%= p.feature3 %></td>
+                        <td><%= p.feature4 %></td>
+                        <td>
+                            <img src="/uploads/<%= p.main_image %>">
+                        </td>
+                        <td>
+                            <%= new Date(p.created_at).toLocaleDateString('en-IN') %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>

@@ -2,139 +2,207 @@
 
 <style>
 .client-login-section{
-    min-height: 90vh;
-    background: linear-gradient(
+    min-height:100vh;
+    background:linear-gradient(
         135deg,
         #f4f8f4,
         #e8f3ea,
-        #f9fbf9
+        #fff5eb
     );
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:50px 15px;
 }
 
 .login-card{
-    background: #fff;
-    border-radius: 20px;
-    padding: 45px;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.08);
-    border-top: 5px solid #2e7d32;
+    background:#fff;
+    border-radius:25px;
+    padding:45px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    border-top:5px solid #198754;
+    border-bottom:5px solid #ff7a00;
 }
 
 .login-icon{
-    width: 80px;
-    height: 80px;
-    background: #e8f5e9;
-    color: #2e7d32;
-    font-size: 32px;
-    border-radius: 50%;
-    margin: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-title{
-    color: #1b4332;
-    font-weight: 700;
-}
-
-.login-subtitle{
-    color: #666;
-    font-size: 14px;
-}
-
-.form-control{
-    height: 50px;
-    border-radius: 10px;
-}
-
-.form-control:focus{
-    box-shadow: none;
-    border-color: #2e7d32;
-}
-
-.login-btn{
-    background: #2e7d32;
-    border: none;
-    height: 50px;
-    border-radius: 10px;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-.login-btn:hover{
-    background: #1b5e20;
+    width:90px;
+    height:90px;
+    background:linear-gradient(
+        135deg,
+        #198754,
+        #ff7a00
+    );
+    color:#fff;
+    font-size:35px;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .company-text{
-    color: #2e7d32;
-    font-weight: 600;
-    letter-spacing: 1px;
+    color:#ff7a00;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+.login-title{
+    color:#1b4332;
+    font-weight:700;
+}
+
+.login-subtitle{
+    color:#666;
+    font-size:14px;
+}
+
+.form-control{
+    height:55px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    padding-left:15px;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:0 0 10px rgba(25,135,84,.2);
+}
+
+.login-btn{
+    background:orange;
+    border:none;
+    height:55px;
+    border-radius:12px;
+    font-weight:600;
+    color:#fff;
+    transition:.3s;
+}
+
+.login-btn:hover{
+    color:#ff7a00;
+    transform:translateY(-2px);
+}
+
+.register-link{
+    text-align:center;
+    margin-top:20px;
+}
+
+.register-link a{
+    color:#198754;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.register-link a:hover{
+    color:#ff7a00;
+}
+
+.portal-info{
+    text-align:center;
+    margin-top:20px;
+    color:#777;
+    font-size:13px;
 }
 </style>
 
 <section class="client-login-section">
 
-    <div class="col-lg-4 col-md-6">
 
-        <div class="login-card">
+<div class="col-lg-4 col-md-6">
 
-            <div class="text-center mb-4">
+    <div class="login-card">
 
-                <div class="login-icon">
-                    <i class="fas fa-user-lock"></i>
-                </div>
+        <div class="text-center mb-4">
 
-                <p class="company-text mt-3 mb-1">
-                    CLIENT PORTAL
-                </p>
+            <div class="login-icon">
+                <i class="fas fa-user-lock"></i>
+            </div>
 
-                <h2 class="login-title">
-                    Client Login
-                </h2>
+            <p class="company-text mt-3 mb-1">
+                CLIENT PORTAL
+            </p>
 
-                <p class="login-subtitle">
-                    <!-- Login to access your documents, certificates and company resources. -->
-                </p>
+            <h2 class="login-title">
+                Client Login
+            </h2>
+
+            <p class="login-subtitle">
+                Login to apply for jobs and track your application status.
+            </p>
+
+        </div>
+
+        <% if(typeof error !== 'undefined' && error){ %>
+
+        <div class="alert alert-danger text-center">
+
+            <i class="fas fa-exclamation-circle me-2"></i>
+
+            <%= error %>
+
+        </div>
+
+        <% } %>
+
+        <form action="/client-login" method="POST">
+
+            <div class="mb-3">
+
+                <input
+                    type="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="Enter Email Address"
+                    required>
 
             </div>
 
-            <form action="/client-login" method="POST">
+            <div class="mb-4">
 
-                <div class="mb-3">
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        placeholder="Enter Email Address"
-                        required>
-                </div>
+                <input
+                    type="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="Enter Password"
+                    required>
 
-                <div class="mb-4">
-                    <input
-                        type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Enter Password"
-                        required>
-                </div>
+            </div>
 
-                <button
-                    type="submit"
-                    class="btn login-btn w-100">
+            <button
+                type="submit"
+                class="btn login-btn w-100">
 
-                    Login
+                <i class="fas fa-sign-in-alt me-2"></i>
 
-                </button>
+                Login
 
-            </form>
+            </button>
+
+        </form>
+
+        <div class="register-link">
+
+            Don't have an account?
+
+            <a href="/client-register">
+                Register Here
+            </a>
+
+        </div>
+
+        <div class="portal-info">
+
+            Access your applications, interview updates,
+            and application status anytime.
 
         </div>
 
     </div>
+
+</div>
+
 
 </section>
 

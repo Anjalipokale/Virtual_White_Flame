@@ -1,0 +1,150 @@
+<%- include("Navbar") %>
+
+<style>
+body{
+    background:#f5f7f5;
+    font-family:'Segoe UI', sans-serif;
+}
+
+.content-wrapper{
+    margin-left:250px;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+    margin-top:50px;
+    margin-bottom:60px;
+}
+
+.report-container{
+    width:98%;
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.10);
+}
+
+.report-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:800;
+    color:#1b5e20;
+    margin-bottom:20px;
+}
+
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.btn-success{
+    background:#2e7d32 !important;
+    border:none !important;
+}
+
+.btn-danger{
+    background:#d32f2f !important;
+    border:none !important;
+}
+
+.report-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12px;
+}
+
+.report-table th{
+    background:#2e7d32;
+    color:#fff;
+    padding:8px;
+    text-align:center;
+}
+
+.report-table td{
+    padding:6px;
+    text-align:center;
+    border:1px solid #ddd;
+    word-break:break-word;
+}
+
+@media print{
+    .navbar, .sidebar, .action-buttons{
+        display:none !important;
+    }
+
+    body{
+        background:#fff;
+    }
+
+    .content-wrapper{
+        margin:0;
+        padding:0;
+    }
+
+    .report-container{
+        box-shadow:none;
+        width:100%;
+    }
+}
+</style>
+
+<div class="content-wrapper">
+
+<div class="report-container" style="margin-top: 55px;">
+
+    <!-- BUTTONS -->
+    <div class="action-buttons no-print">
+        <button onclick="window.print()" class="btn btn-success">
+            Print Report
+        </button>
+
+        <a href="/admin/applications-csv" class="btn btn-danger">
+            Download PDF
+        </a>
+    </div>
+
+    <!-- TITLE -->
+    <div class="report-title">
+        Applications Full Report
+    </div>
+
+    <!-- TABLE -->
+    <table class="report-table">
+
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Mobile</th>
+                <th>Position</th>
+             
+                <th>Status</th>
+                <th>Apply Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% applications.forEach((a,index)=> { %>
+            <tr>
+                  <td><%= index + 1 %></td>
+                <td><%= a.name %></td>
+                <td><%= a.email %></td>
+                <td><%= a.mobile %></td>
+                <td><%= a.position %></td>
+
+               
+                <td><%= a.status %></td>
+                <td><%= new Date(a.apply_date).toLocaleDateString('en-IN') %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<%- include("Footer") %>3

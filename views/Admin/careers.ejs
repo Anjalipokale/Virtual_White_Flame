@@ -106,6 +106,9 @@ body{
 
 </style>
 
+
+
+
 <div class="main-wrapper">
 
     <!-- Add Job -->
@@ -208,7 +211,7 @@ body{
                     <thead>
 
                         <tr>
-                            <th>ID</th>
+                            <th>Sr No</th>
                             <th>Job Title</th>
                             <th>Department</th>
                             <th>Experience</th>
@@ -220,11 +223,11 @@ body{
 
                     <tbody>
 
-                        <% careers.forEach(function(j){ %>
+                        <% careers.forEach(function(j,index){ %>
 
                         <tr>
 
-                            <td><%= j.id %></td>
+                            <td><%= index + 1 %></td>
 
                             <td><%= j.job_title %></td>
 

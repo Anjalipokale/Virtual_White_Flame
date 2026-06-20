@@ -1,0 +1,206 @@
+<%- include("Navbar") %>
+
+<style>
+body{
+    background:#f5f7f5;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* CENTER WRAPPER */
+.content-wrapper{
+    margin-left:250px;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+    margin-top: 60px;
+    margin-bottom:70px;
+}
+
+/* MAIN BOX */
+.report-container{
+    width:95%;
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.10);
+}
+
+/* TITLE */
+.report-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:800;
+    color:#1b5e20;
+    margin-bottom:20px;
+}
+
+/* BUTTONS */
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.btn-success{
+    background:#2e7d32 !important;
+    border:none !important;
+}
+
+.btn-danger{
+    background:#ff9800 !important;
+    border:none !important;
+}
+
+/* TABLE WRAPPER */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+/* TABLE */
+.report-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:13px;
+}
+
+/* HEADER */
+.report-table th{
+    background:#2e7d32 !important;
+    color:#fff !important;
+    padding:10px;
+    text-align:center;
+}
+
+/* TD */
+.report-table td{
+    padding:8px;
+    text-align:center;
+    word-break:break-word;
+}
+
+/* ROW COLORS */
+.report-table tr:nth-child(even){
+    background:#fff7ed;
+}
+
+.report-table tr:hover{
+    background:#ffe8cc;
+}
+
+/* PRINT */
+@media print{
+
+    @page{
+        size:A4 landscape;
+        margin:10mm;
+    }
+
+    body{
+        background:#fff !important;
+    }
+
+    .sidebar,
+    .navbar,
+    .action-buttons{
+        display:none !important;
+    }
+
+    .content-wrapper{
+        margin-left:0 !important;
+        padding:0 !important;
+    }
+
+    .report-container{
+        box-shadow:none !important;
+        padding:5px !important;
+        width:100% !important;
+    }
+
+    .report-table{
+        font-size:9px !important;
+        table-layout:fixed;
+    }
+
+    .report-table th,
+    .report-table td{
+        border:1px solid #000 !important;
+        padding:4px !important;
+    }
+
+    tr{
+        page-break-inside:avoid;
+    }
+
+    thead{
+        display:table-header-group;
+    }
+}
+</style>
+
+<div class="content-wrapper">
+
+    <div class="report-container" style="margin-top: 55px;">
+
+        <!-- BUTTONS -->
+        <div class="action-buttons no-print">
+
+            <button onclick="window.print()" class="btn btn-success">
+                Print Report
+            </button>
+
+            <a href="/admin/inquiries-csv" class="btn btn-danger">
+                Download PDF
+            </a>
+
+        </div>
+
+        <!-- TITLE -->
+        <div class="report-title">
+            Inquiries Report
+        </div>
+
+        <!-- TABLE -->
+        <div class="table-wrapper">
+
+            <table class="table table-bordered report-table">
+
+                <thead>
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile</th>
+                        <th>Message</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <% inquiries.forEach((i,index)=>{ %>
+
+                    <tr>
+                        <td><%= index+1 %></td>
+                        <td><%= i.name %></td>
+                        <td><%= i.email %></td>
+                        <td><%= i.mobile %></td>
+                        <td><%= i.message %></td>
+                        <td><%= new Date(i.created_at).toLocaleDateString('en-IN') %></td>
+                    </tr>
+
+                    <% }) %>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<%- include("Footer") %>

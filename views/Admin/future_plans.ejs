@@ -58,20 +58,20 @@
             <table class="table table-bordered">
 
                 <tr>
-                    <th>ID</th>
+                    <th>Sr No</th>
                     <th>Title</th>
                     <th>Description</th>
 
                     <th width="180">Action</th>
                 </tr>
 
-                <% future_goals.forEach(function(f){ %>
+                <% future_goals.forEach(function(f, index){ %>
 
                 <tr>
 
-                    <td><%= f.id %></td>
+                    <td><%= index + 1 %></td>
                     <td><%= f.goal_title %></td>
- <td><%= f.goal_description %></td>
+                 <td><%= f.goal_description %></td>
 
 
                     <td>

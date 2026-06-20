@@ -14,6 +14,10 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use((req, res, next) => {
+    res.locals.client = req.session ? req.session.client : null;
+    next();
+});
 app.use(upload());
 
 app.use(express.urlencoded({ extended: true }));

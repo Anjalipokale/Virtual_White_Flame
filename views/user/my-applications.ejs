@@ -1,0 +1,287 @@
+<%- include("navbar.ejs") %>
+
+<style>
+.my-app-section{
+    min-height:90vh;
+    background:linear-gradient(135deg,#f5fff7,#fff8f0);
+    padding:120px 40px 60px;
+}
+
+.page-title{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.page-title h2{
+    color:#198754;
+    font-weight:700;
+}
+
+.page-title p{
+    color:#666;
+}
+
+.app-card{
+    background:#fff;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    overflow:hidden;
+}
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:linear-gradient(90deg,#198754,#ff7a00);
+    color:#fff;
+}
+
+.table th{
+    padding:15px;
+    border:none;
+    text-align:center;
+}
+
+.table td{
+    padding:15px;
+    vertical-align:middle;
+    text-align:center;
+}
+
+.status{
+    padding:8px 15px;
+    border-radius:30px;
+    font-size:13px;
+    font-weight:600;
+}
+
+.applied{
+    background:#fff3cd;
+    color:#856404;
+}
+
+.review{
+    background:#cfe2ff;
+    color:#084298;
+}
+
+.selected{
+    background:#d1e7dd;
+    color:#0f5132;
+}
+
+.rejected{
+    background:#f8d7da;
+    color:#842029;
+}
+
+.empty-box{
+    background:#fff;
+    padding:60px;
+    text-align:center;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.empty-box i{
+    font-size:60px;
+    color:#ff7a00;
+    margin-bottom:20px;
+}
+
+.portal-banner{
+    background:linear-gradient(135deg,#198754,#ff7a00);
+    border-radius:20px;
+    padding:25px 30px;
+    color:#fff;
+    margin-bottom:30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+
+.portal-banner h4{
+    margin:0;
+    font-size:26px;
+    font-weight:700;
+}
+
+.portal-banner p{
+    margin:5px 0 0;
+}
+
+.portal-badge{
+    background:#fff;
+    color:#198754;
+    padding:12px 20px;
+    border-radius:12px;
+    font-weight:700;
+}
+
+.application-id{
+    font-weight:700;
+    color:#198754;
+}
+
+.position-name{
+    font-weight:600;
+}
+
+.date-box{
+    font-weight:600;
+    color:#333;
+}
+
+.time-box{
+    font-size:13px;
+    color:#777;
+}
+
+.table tbody tr{
+    transition:.3s;
+}
+
+.table tbody tr:hover{
+    background:#f8fff9;
+}
+</style>
+
+<section class="my-app-section">
+
+    <div class="page-title">
+        <h2>My Applications</h2>
+        <p>Track your application progress here</p>
+    </div>
+
+    <div class="portal-banner">
+
+    <div>
+        <h4>
+            Job Application Portal
+        </h4>
+
+        <p>
+            Track your application progress in real time.
+        </p>
+    </div>
+
+    <div class="portal-badge">
+        Total Applications : <%= data.length %>
+    </div>
+
+</div>
+
+    <% if(data.length > 0){ %>
+
+    <div class="app-card">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>Application ID</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Applied Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% data.forEach(app => { %>
+
+                <tr>
+
+                  <td class="application-id">
+                     <%= app.application_id %>
+                   </td>
+
+                   <td class="position-name">
+                 <%= app.position %></td>
+                    <td>
+
+                        <% if(app.status === 'Applied'){ %>
+
+                            <span class="status applied">
+                                Applied
+                            </span>
+
+                        <% } else if(app.status === 'Under Review'){ %>
+
+                            <span class="status review">
+                                Under Review
+                            </span>
+
+                        <% } else if(app.status === 'Selected'){ %>
+
+                            <span class="status selected">
+                                Selected
+                            </span>
+
+                        <% } else if(app.status === 'Rejected'){ %>
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="status review">
+                                <%= app.status %>
+                            </span>
+
+                        <% } %>
+
+                    </td>
+
+                  <td>
+
+    <div class="date-box">
+        <%= new Date(app.created_at).toLocaleDateString('en-IN') %>
+    </div>
+
+    <div class="time-box">
+        <%= new Date(app.created_at).toLocaleTimeString('en-IN',{
+            hour:'2-digit',
+            minute:'2-digit'
+        }) %>
+    </div>
+
+</td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    <% } else { %>
+
+    <div class="empty-box">
+
+        <i class="fas fa-briefcase"></i>
+
+        <h4>No Applications Found</h4>
+
+        <p>
+            You have not applied for any job yet.
+        </p>
+
+        <a href="/career" class="btn btn-success">
+            Apply Now
+        </a>
+
+    </div>
+
+    <% } %>
+
+</section>
+
+<%- include("footer.ejs") %>

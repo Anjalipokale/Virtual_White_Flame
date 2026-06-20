@@ -185,7 +185,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Image</th>
                         <th>Title</th>
                         <th>Description</th>
@@ -195,11 +195,11 @@ body{
 
                 <tbody>
 
-                    <% infrastructure.forEach(function(i){ %>
+                    <% infrastructure.forEach(function(i, index){ %>
 
                     <tr>
 
-                        <td><%= i.id %></td>
+                        <td><%= index + 1 %></td>
 
                         <td>
                             <img src="/uploads/<%= i.infra_image %>"

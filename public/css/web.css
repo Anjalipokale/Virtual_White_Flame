@@ -671,6 +671,843 @@ nav.navbar {
   }
 }
 
+/* ==========================================================================
+   1. GLOBAL STYLES & RESET
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green: #2e7d32;
+  --orange: #e65100;
+  --h-orange: #ff6d00;
+  --h-green: #43a047;
+  --nav-bg: #fff;
+  --text: #1a1a1a;
+  --mid: #444;
+  --light: #777;
+  --mega-bg: #fff;
+  --border: #f0f0f0;
+  --f1: "Montserrat", sans-serif;
+  --f2: "Open Sans", sans-serif;
+  --r: 8px;
+  --t: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: var(--f2);
+  background: #f0f2f0;
+  margin: 0;
+}
+
+/* ==========================================================================
+   2. NAVBAR CORE LAYOUT
+   ========================================================================== */
+nav.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--nav-bg);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  font-family: var(--f1);
+  height: 80px; /* Logo ke liye perfect height */
+  display: flex;
+  align-items: center;
+}
+
+.nav-inner {
+  max-width: 1320px; /* Ekdam corners me space badhane ke liye width grow ki */
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center; 
+  height: 100%;
+  padding: 0 20px;
+}
+
+/* LOGO (Shifted fully to the left side) */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  margin-right: 15px; /* Logo ke turant baad se menu start hoga */
+  margin-bottom: 0;
+}
+
+.nav-logo .logo-img {
+  height: 62px; /* Bada logo jaisa aapko chahiye tha */
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+/* ==========================================================================
+   3. NAVIGATION MENU ITEMS
+   ========================================================================== */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 4px; 
+  list-style: none;
+  margin: 0 !important; /* Bootstrap margins hata kar left shift lock kiya */
+  padding: 0;
+  height: 100%;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px; 
+  font-size: 15px;  
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--r);
+  transition: color var(--t), background var(--t);
+  white-space: nowrap;
+  cursor: pointer;
+  line-height: 1; /* Exact center alignment */
+  position: relative;
+}
+
+.nav-link .arrow {
+  font-size: 10px;
+  transition: transform var(--t);
+  color: var(--light);
+}
+
+.nav-item:hover > .nav-link {
+  color: var(--h-orange);
+}
+
+.nav-item:hover > .nav-link .arrow {
+  transform: rotate(180deg);
+  color: var(--h-orange);
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 15px;
+  left: 12px;
+  right: 12px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--h-orange);
+  transform: scaleX(0);
+  transition: transform var(--t);
+}
+
+.nav-item:hover > .nav-link::after {
+  transform: scaleX(1);
+}
+
+/* ==========================================================================
+   4. DROPDOWNS (About Us / Gallery / Services Mega)
+   ========================================================================== */
+.dropdown {
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  background: var(--mega-bg);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.13);
+  border: 1px solid var(--border);
+  min-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity var(--t), transform var(--t), visibility var(--t);
+  z-index: 500;
+}
+
+.nav-item:hover > .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.dropdown::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 7px solid transparent;
+  border-bottom-color: var(--mega-bg);
+  filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.06));
+}
+
+/* Simple List Dropdown */
+.dropdown-list {
+  list-style: none;
+  padding: 8px 0;
+}
+
+.dropdown-list li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mid);
+  text-decoration: none;
+  transition: background var(--t), color var(--t), padding-left var(--t);
+  border-radius: 6px;
+  margin: 0 6px;
+}
+
+.dropdown-list li a:hover {
+  background: #fff3e0;
+  color: var(--h-orange);
+  padding-left: 26px;
+}
+
+.dropdown-list li a .di {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--green);
+  flex-shrink: 0;
+  transition: background var(--t), color var(--t);
+}
+
+.dropdown-list li a:hover .di {
+  background: var(--h-orange);
+  color: #fff;
+}
+
+/* Mega Dropdown (Services) */
+.mega-dropdown {
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  min-width: 300px;
+}
+
+.mega-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: 10px;
+  gap: 4px;
+}
+
+.mega-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--mid);
+  transition: background var(--t), color var(--t), transform var(--t);
+}
+
+.mega-item:hover {
+  background: linear-gradient(135deg, #fff3e0, #ffe0b2);
+  color: var(--h-orange);
+  transform: translateY(-2px);
+}
+
+.mega-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: background var(--t);
+}
+
+.mega-item:hover .mega-icon {
+  background: linear-gradient(135deg, var(--h-orange), #ff8a50);
+}
+
+.mega-text strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.mega-text span {
+  font-size: 11px;
+  color: var(--light);
+  line-height: 1.4;
+}
+
+/* Gallery Grid Dropdown */
+.gallery-dropdown {
+  min-width: 260px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 14px;
+}
+
+.gallery-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 6px;
+  border-radius: 10px;
+  text-decoration: none;
+  background: #f9f9f9;
+  color: var(--mid);
+  font-size: 12px;
+  font-weight: 600;
+  transition: background var(--t), color var(--t), transform var(--t);
+}
+
+.gallery-card:hover {
+  background: var(--h-orange);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+.gallery-card .gc-icon {
+  font-size: 22px;
+}
+
+/* ==========================================================================
+   5. RIGHT CONTROLS PANEL
+   ========================================================================== */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0; 
+  height: 100%;
+  margin-left: auto; /* Baaki bachi saari jagah left me chhod kar right end me fix ho jayega */
+}
+
+.nav-divider {
+  width: 1px;
+  height: 26px;
+  background: #e0e0e0;
+}
+
+/* SEARCH ICON BUTTON */
+.search-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--light);
+  font-size: 14px;
+  transition: background var(--t), color var(--t), border-color var(--t), transform var(--t);
+  flex-shrink: 0;
+}
+
+.search-icon-btn:hover {
+  background: var(--h-orange);
+  color: #fff;
+  border-color: var(--h-orange);
+  transform: scale(1.08);
+}
+
+/* BROCHURE DOWNLOAD BUTTON */
+.btn-brochure {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: var(--orange);
+  color: #fff;
+  font-family: var(--f1);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 9px 18px;
+  border-radius: 24px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background var(--t), transform var(--t), box-shadow var(--t);
+  box-shadow: 0 3px 12px rgba(230, 81, 0, 0.35);
+  white-space: nowrap;
+}
+
+.btn-brochure:hover {
+  background: var(--h-green);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18 rgba(67, 160, 71, 0.4);
+}
+
+/* ==========================================================================
+   6. PROFILE DROPDOWN (NEW MOUSE HOVER)
+   ========================================================================== */
+.profile-dropdown {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 5px;
+  z-index: 1050;
+}
+
+.profile-avatar {
+  width: 38px;
+  height: 38px;
+  background: #f4f4f4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light);
+  font-size: 22px;
+  transition: all var(--t);
+  border: 1.5px solid #e0e0e0;
+}
+
+.profile-dropdown:hover .profile-avatar {
+  color: var(--h-orange);
+  border-color: var(--h-orange);
+  background: #fff3e0;
+  transform: scale(1.05);
+}
+
+.profile-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0; /* Pure corner alignment secure karega */
+  background: #fff;
+  min-width: 140px;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity var(--t), transform var(--t), visibility var(--t);
+}
+
+.profile-menu::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 12px;
+  border: 6px solid transparent;
+  border-bottom-color: #fff;
+}
+
+.profile-dropdown:hover .profile-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.profile-menu-list {
+  list-style: none;
+  padding: 5px 0;
+  margin: 0;
+}
+
+.profile-menu-list li a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--mid);
+  text-decoration: none;
+  transition: background var(--t), color var(--t);
+}
+
+.profile-menu-list li a:hover {
+  background: #fff3e0;
+  color: var(--h-orange);
+}
+
+.profile-menu-list li a.logout-link:hover {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+/* ==========================================================================
+   7. SEARCH OVERLAY WINDOW
+   ========================================================================== */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(5px);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 100px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.search-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-box {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 24px 18px;
+  width: 580px;
+  max-width: 93vw;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.22);
+  transform: translateY(-22px) scale(0.97);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-overlay.open .search-box {
+  transform: translateY(0) scale(1);
+}
+
+.sb-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.sb-header .sb-ico {
+  color: var(--h-orange);
+  font-size: 17px;
+}
+
+.sb-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-family: var(--f1);
+  color: var(--text);
+  background: transparent;
+}
+
+.sb-input::placeholder {
+  color: #bbb;
+}
+
+.sb-close {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--light);
+  font-size: 13px;
+  transition: background var(--t), color var(--t);
+  flex-shrink: 0;
+}
+
+.sb-close:hover {
+  background: #ffccbc;
+  color: var(--orange);
+}
+
+.sb-divider {
+  height: 1px;
+  background: #f0f0f0;
+  margin-bottom: 12px;
+}
+
+.sb-results {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background var(--t), color var(--t);
+  text-decoration: none;
+  color: var(--mid);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+
+.sb-item:hover {
+  background: #fff3e0;
+  color: var(--h-orange);
+}
+
+.sb-hint {
+  font-size: 11.5px;
+  color: #ccc;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   8. RESPONSIVE BREAKPOINTS (Mobile/Tablet Friendly)
+   ========================================================================== */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 19px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1010;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background-color: var(--text);
+  border-radius: 3px;
+  transition: transform var(--t), opacity var(--t);
+}
+
+/* Mid-Size Laptop screen alignment scaling */
+@media screen and (max-width: 1260px) {
+  .nav-link {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+}
+
+/* Breakpoint for Tablets/Smaller Laptops (Hamburger triggers here to avoid overflow) */
+@media screen and (max-width: 1180px) {
+  .menu-toggle {
+    display: flex;
+  }
+  
+  .menu-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 280px;
+    height: 100vh;
+    background: var(--nav-bg);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 80px 24px 40px;
+    gap: 10px;
+    margin: 0 !important;
+    transition: right var(--t);
+    overflow-y: auto;
+  }
+
+  .nav-menu.active {
+    right: 0;
+  }
+
+  .nav-item {
+    width: 100%;
+    height: auto;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 12px 16px;
+    justify-content: space-between;
+    font-size: 15px;
+  }
+
+  .nav-link::after {
+    display: none;
+  }
+
+  .dropdown, .mega-dropdown {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    min-width: 100%;
+    box-shadow: none;
+    border: none;
+    display: none;
+    background: #f9f9f9;
+    border-radius: 8px;
+    margin-top: 5px;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .dropdown.open, .mega-dropdown.open {
+    display: block;
+  }
+
+  .dropdown::before {
+    display: none;
+  }
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .nav-inner {
+    height: 75px;
+  }
+
+  .nav-right {
+    margin-left: auto;
+    margin-right: 15px;
+    gap: 10px;
+  }
+
+  .nav-divider {
+    display: none;
+  }
+}
+
+/* Small Mobile Screens */
+@media screen and (max-width: 576px) {
+  .nav-inner {
+    padding: 0 12px;
+    height: 60px;
+  }
+
+  .nav-logo .logo-img {
+    height: 42px; /* Mobile par automatic elegant scaling */
+  }
+
+  .btn-brochure {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .nav-right {
+    gap: 6px;
+  }
+  
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+    font-size: 18px;
+  }
+}
+/* LINK UNDERLINE HOVER FIX */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;         /* Line ko text ke ekdam niche push karega */
+  left: 12px;
+  right: 12px;
+  height: 3px;       /* Line thodi clear dikhegi */
+  border-radius: 2px;
+  background: var(--h-orange);
+  transform: scaleX(0);
+  transition: transform var(--t);
+}
+
+.nav-item:hover > .nav-link::after {
+  transform: scaleX(1);
+}
+/* ALL LINKS UNDERLINE EQUAL LEVEL FIX */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;       /* Line ko thoda sa upar uthaya taaki Services aur baaki links bilkul ek barabar line me aayein */
+  left: 12px;
+  right: 12px;
+  height: 3px;       
+  border-radius: 2px;
+  background: var(--h-orange);
+  transform: scaleX(0);
+  transition: transform var(--t);
+}
+
+.nav-item:hover > .nav-link::after {
+  transform: scaleX(1);
+}
+/* ==========================================================================
+   PERFECT LEVEL HOVER LINE FIX (FORCING SAME BASELINE)
+   ========================================================================== */
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px; 
+  font-size: 15px;  
+  font-weight: 600;
+  color: var(--text);
+  text-decoration: none;
+  border-radius: var(--r);
+  transition: color var(--t), background var(--t);
+  white-space: nowrap;
+  cursor: pointer;
+  
+  /* ✅ LEVEL FIX: Yeh sabhi links ke text aur icons ko ek barabar level floor dega */
+  height: 40px;          /* Strict uniform height de di saare links ko */
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;          /* Ab height strict hai, toh bottom: 2px sabke liye barabar kaam karega */
+  left: 12px;
+  right: 12px;
+  height: 3px;       
+  border-radius: 2px;
+  background: var(--h-orange);
+  transform: scaleX(0);
+  transition: transform var(--t);
+}
+
+.nav-item:hover > .nav-link::after {
+  transform: scaleX(1);
+}
+
 /* =========================
    ABOUT PAGE BANNER
 ========================= */

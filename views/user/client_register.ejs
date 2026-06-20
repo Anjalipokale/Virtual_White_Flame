@@ -1,0 +1,151 @@
+<style>
+.client-register-section{
+    min-height:90vh;
+    background:linear-gradient(135deg,#f4fff6,#fff7ef);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 20px;
+}
+
+.register-card{
+    width:100%;
+    max-width:450px;
+    background:#fff;
+    padding:20px;
+    border-radius:20px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    border-top:6px solid orange;
+}
+
+.register-icon{
+    width:90px;
+    height:90px;
+    margin:auto;
+    background:#e9f8ef;
+    color:#198754;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:35px;
+}
+
+.register-title{
+    text-align:center;
+    margin-top:20px;
+    color:#198754;
+    font-weight:700;
+}
+
+.register-subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
+
+.form-control{
+    height:55px;
+    border-radius:12px;
+    border:1px solid #ddd;
+    margin-bottom:18px;
+}
+
+.form-control:focus{
+    border-color:#198754;
+    box-shadow:none;
+}
+
+.register-btn{
+    width:100%;
+    height:55px;
+    border:none;
+    border-radius:12px;
+    background:green;
+    color:#fff;
+    font-weight:600;
+    font-size:16px;
+    transition:.3s;
+}
+
+.register-btn:hover{
+    transform:translateY(-2px);
+}
+
+.login-link{
+    text-align:center;
+    margin-top:20px;
+}
+
+.login-link a{
+    color:#ff7a00;
+    text-decoration:none;
+    font-weight:600;
+}
+</style>
+
+<%- include("navbar.ejs") %>
+
+<section class="client-register-section">
+
+
+<div class="register-card">
+
+    <div class="register-icon">
+        <i class="fas fa-user-plus"></i>
+    </div>
+
+    <h2 class="register-title">
+        Client Registration
+    </h2>
+
+    <p class="register-subtitle">
+        Create your account to access client services
+    </p>
+
+    <form action="/client-register" method="POST">
+
+        <input
+            type="text"
+            name="username"
+            class="form-control"
+            placeholder="Enter Username"
+            required>
+
+        <input
+            type="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter Email Address"
+            required>
+
+        <input
+            type="password"
+            name="password"
+            class="form-control"
+            placeholder="Enter Password"
+            required>
+
+        <button
+            type="submit"
+            class="register-btn">
+
+            Register Account
+
+        </button>
+
+    </form>
+
+    <div class="login-link">
+        Already have an account?
+        <a href="/client-login">
+            Login Here
+        </a>
+    </div>
+
+</div>
+
+
+</section>
+
+<%- include("footer.ejs") %>

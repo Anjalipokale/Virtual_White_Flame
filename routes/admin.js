@@ -1,12 +1,56 @@
 var express = require("express");
 var exe = require("./connection");
-var path = require("path"); 
+var path = require("path");
+const PDFDocument = require("pdfkit");
+const { Parser } = require("json2csv"); 
 var fs = require("fs");
+const { append } = require("vary");
 
 
 var router = express.Router();
 
-router.get("/", async function(req, res){
+router.get("/", async function(req,res){
+    res.render("admin/admin_register")
+})
+
+router.post("/admin-login", async (req, res) => {
+
+    const data = await exe(`
+        SELECT * FROM admin_login
+        WHERE email='${req.body.email}'
+        AND password='${req.body.password}'
+    `);
+
+    if(data.length > 0){
+        req.session.admin = true;
+        res.redirect("/admin/index");
+    }else{
+        res.send("Invalid Email or Password");
+    }
+
+});
+
+router.get("/forgot-password", (req, res) => {
+    res.render("admin/forgot_password");
+});
+
+router.post("/forgot-password", async (req, res) => {
+
+    await exe(`
+        UPDATE admin_login
+        SET password='${req.body.new_password}'
+        WHERE email='${req.body.email}'
+    `);
+
+    res.redirect("/");
+});
+
+
+
+router.get("/index", async function(req, res){
+     if (!req.session.admin) {
+        return res.redirect("/admin");
+    }
 
     try{
 
@@ -66,6 +110,477 @@ router.get("/", async function(req, res){
 
     }
 
+});
+
+// reports
+router.get("/reports", async function(req, res) {
+
+    let products = await exe("SELECT COUNT(*) as total FROM products");
+    let inquiries = await exe("SELECT COUNT(*) as total FROM inquiries");
+    let applications = await exe("SELECT COUNT(*) as total FROM job_applications");
+    let testimonials = await exe("SELECT COUNT(*) as total FROM testimonials");
+    let gallery = await exe("SELECT COUNT(*) as total FROM gallery");
+    let videos = await exe("SELECT COUNT(*) as total FROM videos");
+    let contacts = await exe("SELECT COUNT(*) as total FROM contact_messages");
+    let dealers = await exe("SELECT COUNT(*) as total FROM dealer_requests");
+
+    let obj = {
+        products: products[0].total,
+        inquiries: inquiries[0].total,
+        applications: applications[0].total,
+        testimonials: testimonials[0].total,
+        gallery: gallery[0].total,
+        videos: videos[0].total,
+        contacts: contacts[0].total,
+        dealers: dealers[0].total
+    };
+
+    res.render("admin/reports", obj);
+
+});
+
+router.get("/report/products", async function(req, res) {
+
+    let products = await exe("SELECT * FROM products ORDER BY id DESC");
+
+    res.render("admin/product-report", {
+        products
+    });
+
+});
+
+
+router.get("/products-csv", async (req, res) => {
+
+    let products = await exe(`
+        SELECT
+            product_name,
+            short_description,
+            description,
+            feature1,
+            feature2,
+            feature3,
+            feature4,
+            main_image,
+            created_at
+        FROM products
+    `);
+
+    const { Parser } = require("json2csv");
+
+    const fields = [
+        "product_name",
+        "short_description",
+        "description",
+        "feature1",
+        "feature2",
+        "feature3",
+        "feature4",
+        "main_image",
+        "created_at"
+    ];
+
+    const parser = new Parser({ fields });
+    const csv = parser.parse(products);
+
+    res.setHeader("Content-Type", "text/csv");
+    res.setHeader(
+        "Content-Disposition",
+        "attachment; filename=products-report.csv"
+    );
+
+    res.status(200).end(csv);
+});
+
+
+
+router.get("/products-csv", async function(req, res) {
+
+    let products = await exe(`
+        SELECT 
+            product_name,
+            short_description,
+            description,
+            feature1,
+            feature2,
+            feature3,
+            feature4,
+            main_image,
+            created_at
+        FROM products
+    `);
+
+    const fields = [
+        "product_name",
+        "short_description",
+        "description",
+        "feature1",
+        "feature2",
+        "feature3",
+        "feature4",
+        "main_image",
+        "created_at"
+    ];
+
+    const json2csv = new Parser({ fields });
+    const csv = json2csv.parse(products);
+
+    res.header("Content-Type", "text/csv");
+    res.attachment("products-report.csv");
+    res.send(csv);
+});
+
+
+
+// inquiries
+
+
+router.get("/report/inquiries", async function(req, res){
+
+    let inquiries = await exe("SELECT * FROM inquiries ORDER BY id DESC");
+
+    res.render("admin/inquiries-report.ejs", {
+        inquiries
+    });
+});
+
+router.get("/inquiries-csv", async function(req, res){
+
+    let data = await exe("SELECT name,email,mobile,message,created_at FROM inquiries");
+
+    const fields = ["name","email","mobile","message","created_at"];
+
+    const json2csv = new Parser({ fields });
+    const csv = json2csv.parse(data);
+
+    res.header("Content-Type","text/csv");
+    res.attachment("inquiries-report.csv");
+    res.send(csv);
+});
+
+// applications
+
+
+
+router.get("/applications-report", async (req, res) => {
+    let applications = await exe(
+        "SELECT * FROM job_applications ORDER BY id DESC"
+    );
+
+    res.render("admin/applications-report.ejs", { applications });
+});
+
+
+router.get("/applications-csv", async (req, res) => {
+
+    try {
+
+        let applications = await exe(
+            "SELECT * FROM job_applications"
+        );
+
+        let csv = [];
+
+        csv.push([
+            "ID",
+            "Name",
+            "Email",
+            "Mobile",
+            "Position",
+            "Resume",
+            "Client ID",
+            "Application ID",
+            "Status",
+            "Apply Date"
+        ].join(","));
+
+        applications.forEach(a => {
+
+            csv.push([
+                a.id,
+                a.name,
+                a.email,
+                a.mobile,
+                a.position,
+                a.resume,
+                a.client_id,
+                a.application_id,
+                a.status,
+                a.apply_date
+            ].join(","));
+
+        });
+
+        const csvData = csv.join("\n");
+
+        res.setHeader("Content-Type", "text/csv");
+
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=applications-report.csv"
+        );
+
+        res.status(200).send("\uFEFF" + csvData);
+
+    } catch (err) {
+
+        console.log(err);
+        res.status(500).send("CSV generation failed");
+
+    }
+
+});
+
+
+
+// testimonials
+
+router.get("/testimonials-report", async (req, res) => {
+    try {
+        let testimonials = await exe(`
+            SELECT * FROM testimonials ORDER BY id DESC
+        `);
+
+        res.render("admin/testimonials-report.ejs", {
+            testimonials
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error loading testimonials report");
+    }
+});
+
+
+router.get("/testimonials-csv", async (req, res) => {
+    try {
+        let testimonials = await exe("SELECT * FROM testimonials");
+
+        let csv = [];
+
+        // HEADER
+        csv.push([
+            "ID",
+            "Company Name",
+            "City",
+            "Description",
+            "Image",
+            "Created At"
+        ].join(","));
+
+        // DATA
+        testimonials.forEach(t => {
+            csv.push([
+                t.id,
+                t.company_name,
+                t.city,
+                t.description,
+                t.image,
+                t.created_at
+            ].join(","));
+        });
+
+        let csvData = csv.join("\n");
+
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=testimonials-report.csv"
+        );
+
+        res.status(200).send("\uFEFF" + csvData);
+
+    } catch (err) {
+        console.log("CSV ERROR:", err);
+        res.status(500).send("CSV generation failed");
+    }
+});
+
+
+// gallery
+
+router.get("/gallery-report", async (req, res) => {
+    try {
+        let gallery = await exe(`
+            SELECT * FROM gallery ORDER BY id DESC
+        `);
+
+        res.render("admin/gallery-report.ejs", {
+            gallery
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error loading gallery report");
+    }
+});
+
+router.get("/gallery-csv", async (req, res) => {
+    try {
+        let gallery = await exe("SELECT * FROM gallery");
+
+        let csv = [];
+
+        // HEADER
+        csv.push([
+            "ID",
+            "Title",
+            "Image",
+            "Category"
+        ].join(","));
+
+        // DATA
+        gallery.forEach(g => {
+            csv.push([
+                g.id,
+                g.title,
+                g.image,
+                g.category
+            ].join(","));
+        });
+
+        let csvData = csv.join("\n");
+
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=gallery-report.csv"
+        );
+
+        res.status(200).send("\uFEFF" + csvData);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("CSV generation failed");
+    }
+});
+
+// contact
+
+router.get("/contacts-report", async (req, res) => {
+    try {
+        let contacts = await exe(`
+            SELECT * FROM contact_messages ORDER BY id DESC
+        `);
+
+        res.render("admin/contacts-report.ejs", {
+            contacts
+        });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("Error loading contacts report");
+    }
+});
+
+router.get("/contacts-csv", async (req, res) => {
+    try {
+        let contacts = await exe("SELECT * FROM contact_messages");
+
+        let csv = [];
+
+        // HEADER
+        csv.push([
+            "ID",
+            "Name",
+            "Email",
+            "Phone",
+            "Subject",
+            "Message",
+            "Created At"
+        ].join(","));
+
+
+        // DATA
+        contacts.forEach(c => {
+            csv.push([
+                c.id,
+                c.name,
+                c.email,
+                c.phone,
+                c.subject,
+                c.message,
+                c.created_at
+            ].join(","));
+        });
+
+        let csvData = csv.join("\n");
+
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=contacts-report.csv"
+        );
+
+        res.status(200).send("\uFEFF" + csvData);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("CSV generation failed");
+    }
+});
+
+
+    // <!-- Dealers -->
+
+router.get("/dealers-report", async (req, res) => {
+    try {
+
+        console.log("REPORT ROUTE HIT");
+
+        let dealers = await exe("SELECT * FROM dealer_requests");
+
+        console.log("DATA:", dealers);
+
+        res.render("admin/dealers-report.ejs", {
+            dealers
+        });
+
+    } catch (err) {
+        console.log("❌ ACTUAL ERROR:", err);
+        res.status(500).send(err.message);
+    }
+});
+router.get("/dealers-csv", async (req, res) => {
+    try {
+        let dealers = await exe("SELECT * FROM dealer_requests");
+
+        let csv = [];
+
+        csv.push([
+            "ID",
+            "Dealer Name",
+            "City",
+            "Mobile",
+            "Status",
+            "Created At"
+        ].join(","));
+
+        dealers.forEach(d => {
+            csv.push([
+                d.id,
+                d.dealer_name,
+                d.city,
+                d.mobile,
+                d.status,
+                d.created_at
+            ].join(","));
+        });
+
+        let csvData = csv.join("\n");
+
+        res.setHeader("Content-Type", "text/csv; charset=utf-8");
+        res.setHeader(
+            "Content-Disposition",
+            "attachment; filename=dealers-requests-report.csv"
+        );
+
+        res.status(200).send("\uFEFF" + csvData);
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).send("CSV generation failed");
+    }
 });
 
 /* Add Product Page */
@@ -256,25 +771,23 @@ router.get("/delete-product/:id", async function (req, res) {
 });
 
 /* Inquiry List */
-
-router.get("/inquiries", async function(req,res){
+router.get("/inquiries", async function(req, res){
 
     let inquiries = await exe(`
-    SELECT *,
-    DATE_FORMAT(
-        created_at + INTERVAL 330 MINUTE,
-        '%d-%m-%Y %h:%i %p'
-    ) AS indian_time
-    FROM inquiries
-    ORDER BY id DESC
-`);
+        SELECT *,
+        DATE_FORMAT(
+            created_at,
+            '%d-%m-%Y %h:%i %p'
+        ) AS indian_time
+        FROM inquiries
+        ORDER BY id DESC
+    `);
 
-    res.render("admin/inquiries.ejs",{
+    res.render("admin/inquiries.ejs", {
         inquiries: inquiries
     });
 
 });
-
 router.get("/delete-inquiry/:id", async function(req,res){
 
     let id = req.params.id;
@@ -994,33 +1507,61 @@ router.post("/update-culture/:id", function(req,res){
 
 router.get("/applications", async function(req,res){
 
-    var data = await exe("SELECT * FROM job_applications ORDER BY id DESC");
+    var data = await exe(`
+        SELECT * FROM job_applications
+        WHERE record_status != 'deleted'
+        ORDER BY id DESC
+    `);
 
     res.render("admin/applications.ejs", {
         applications: data
     });
 
 });
-router.get("/delete-application/:id", async function(req,res){
+router.get("/deleted-applications", async function(req,res){
 
-    var id = req.params.id;
+    let data = await exe(`
+        SELECT * FROM job_applications
+        WHERE record_status='deleted'
+        ORDER BY id DESC
+    `);
 
-router.get("/delete-application/:id", async function(req,res){
+    res.render("admin/deleted-applications.ejs", {
+        applications: data
+    });
+});
+router.get("/restore-application/:id", async function(req,res){
 
     var id = req.params.id;
 
     await exe(`
-        DELETE FROM job_applications
+        UPDATE job_applications
+        SET record_status='active'
         WHERE id='${id}'
     `);
 
-    res.redirect("/admin/applications");
+    res.redirect("/admin/deleted-applications");
 
 });
-    await exe(sql);
+
+router.get("/delete-application/:id", async function(req,res){
+
+    await exe(`
+        UPDATE job_applications
+        SET record_status='deleted'
+        WHERE id='${req.params.id}'
+    `);
 
     res.redirect("/admin/applications");
+});
+router.get("/permanent-delete-application/:id", async (req,res)=>{
 
+    await exe(`
+        DELETE FROM job_applications
+        WHERE id='${req.params.id}'
+    `);
+
+    res.redirect("/admin/deleted-applications");
 });
 
 
@@ -1574,7 +2115,15 @@ router.get("/change-status/:id/:status", async (req,res)=>{
 
 router.get("/contact-list", async function(req, res){
 
-    var sql = "SELECT * FROM contact_messages ORDER BY id DESC";
+    var sql = `
+        SELECT *,
+        DATE_FORMAT(
+            created_at + INTERVAL 330 MINUTE,
+            '%d-%m-%Y %h:%i %p'
+        ) AS indian_time
+        FROM contact_messages
+        ORDER BY id DESC
+    `;
 
     var result = await exe(sql);
 
@@ -2747,5 +3296,25 @@ router.post("/client-login", async function(req,res){
 });
 
 
+router.get("/clients", async (req, res) => {
 
+    let clients = await exe(
+        "SELECT * FROM client_register ORDER BY id DESC"
+    );
+
+    res.render("admin/clients", {
+        clients
+    });
+
+});
+
+router.get("/delete-client/:id", async (req, res) => {
+
+    let id = req.params.id;
+
+    await exe(`DELETE FROM client_register WHERE id='${id}'`);
+
+    res.redirect("/admin/clients");
+
+});
 module.exports = router;

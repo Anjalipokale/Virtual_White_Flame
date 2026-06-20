@@ -181,7 +181,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Image</th>
                         <th width="220">Action</th>
                     </tr>
@@ -191,12 +191,12 @@ body{
 
                 <% if(events.length > 0){ %>
 
-                    <% events.forEach(function(e){ %>
+                    <% events.forEach(function(e,index){ %>
 
                     <tr>
 
                         <td>
-                            <%= e.id %>
+                            <%= index + 1 %>
                         </td>
 
                         <td>

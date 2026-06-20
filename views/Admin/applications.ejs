@@ -160,6 +160,35 @@ tr:hover{
     }
 
 }
+.top-actions{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.top-actions input{
+    width:300px;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+}
+
+.top-actions button{
+    background:#2E7D32;
+    color:#fff;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.top-actions button:hover{
+    background:#1B5E20;
+}
 
 </style>
 
@@ -167,11 +196,34 @@ tr:hover{
 
 
 <h2>Job Applications</h2>
+<div class="top-actions">
 
-<table>
+    <input
+        type="text"
+        id="searchInput"
+        placeholder="Search Candidate Name..."
+    >
+
+    <button onclick="downloadCSV()">CSV</button>
+
+    <button onclick="printTable()">Print</button>
+    <a href="/admin/deleted-applications"
+   style="
+   background:#e53935;
+   color:white;
+   padding:10px 15px;
+   border-radius:8px;
+   text-decoration:none;
+   font-weight:600;">
+   Deleted Records
+</a>
+
+</div>
+
+<table id="applicationTable">
 
     <tr>
-        <th>ID</th>
+        <th>Sr.No</th>
         <th>Application ID</th>
         <th>Name</th>
         <th>Email</th>
@@ -182,11 +234,11 @@ tr:hover{
         <th>Action</th>
     </tr>
 
-    <% applications.forEach(function(a){ %>
+    <% applications.forEach(function(a,index){ %>
 
     <tr>
 
-        <td><%= a.id %></td>
+        <td><%= index + 1 %></td>
 
         <td><%= a.application_id %></td>
 
@@ -254,5 +306,107 @@ tr:hover{
 
 
 </div>
+<script>
 
+// Search Candidate Name
+
+document.getElementById("searchInput").addEventListener("keyup", function(){
+
+    let filter = this.value.toLowerCase();
+
+    let rows = document.querySelectorAll("#applicationTable tr");
+
+    rows.forEach((row,index)=>{
+
+        if(index === 0) return; // Header Skip
+
+        let name = row.cells[2].innerText.toLowerCase();
+
+        if(name.includes(filter)){
+            row.style.display = "";
+        }else{
+            row.style.display = "none";
+        }
+
+    });
+
+});
+
+
+// CSV Download
+
+function downloadCSV(){
+
+    let csv = [];
+    let rows = document.querySelectorAll("#applicationTable tr");
+
+    rows.forEach((row)=>{
+
+        let cols = row.querySelectorAll("td,th");
+
+        let rowData = [];
+
+        cols.forEach((col)=>{
+            rowData.push('"' + col.innerText + '"');
+        });
+
+        csv.push(rowData.join(","));
+
+    });
+
+    let blob = new Blob([csv.join("\n")],{
+        type:"text/csv"
+    });
+
+    let link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+
+    link.download = "job_applications.csv";
+
+    link.click();
+
+}
+
+
+// Print Table
+
+function printTable(){
+
+    let table = document.getElementById("applicationTable").outerHTML;
+
+    let win = window.open("", "", "width=1200,height=700");
+
+    win.document.write(`
+        <html>
+        <head>
+            <title>Job Applications</title>
+            <style>
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                }
+                th,td{
+                    border:1px solid #000;
+                    padding:8px;
+                    text-align:center;
+                }
+            </style>
+        </head>
+        <body>
+
+            <h2>Job Applications</h2>
+
+            ${table}
+
+        </body>
+        </html>
+    `);
+
+    win.document.close();
+    win.print();
+
+}
+
+</script>
 <%- include("footer.ejs") %>

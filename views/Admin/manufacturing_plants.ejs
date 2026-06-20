@@ -202,7 +202,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Logo</th>
                         <th>Name</th>
                         <th>Phone</th>
@@ -212,11 +212,11 @@ body{
 
                 <tbody>
 
-                    <% plants.forEach(function(p){ %>
+                    <% plants.forEach(function(p,index){ %>
 
                     <tr>
 
-                        <td><%= p.id %></td>
+                        <td><%= index + 1 %></td>
 
                         <td>
                             <img src="/uploads/<%= p.plant_logo %>"

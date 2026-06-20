@@ -1,0 +1,162 @@
+<%- include("Navbar") %>
+
+<style>
+body{
+    background:#f5f7f5;
+    font-family:'Segoe UI', sans-serif;
+}
+
+.content-wrapper{
+    margin-left:250px;
+    padding:20px;
+    display:flex;
+    justify-content:center;
+    margin-top:50px;
+    margin-bottom:60px;
+}
+
+.report-container{
+    width:98%;
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.10);
+}
+
+.report-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:800;
+    color:#1b5e20;
+    margin-bottom:20px;
+}
+
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.btn-success{
+    background:#2e7d32 !important;
+    border:none !important;
+}
+
+.btn-danger{
+    background:#d32f2f !important;
+    border:none !important;
+}
+
+.report-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:13px;
+}
+
+.report-table th{
+    background:#2e7d32;
+    color:#fff;
+    padding:10px;
+    text-align:center;
+}
+
+.report-table td{
+    padding:8px;
+    text-align:center;
+    border:1px solid #ddd;
+    word-break:break-word;
+}
+
+.report-table img{
+    width:60px;
+    height:60px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+@media print{
+    .navbar,.sidebar,.action-buttons{
+        display:none !important;
+    }
+
+    body{
+        background:#fff;
+    }
+
+    .content-wrapper{
+        margin:0;
+        padding:0;
+    }
+
+    .report-container{
+        box-shadow:none;
+        width:100%;
+    }
+}
+</style>
+
+<div class="content-wrapper">
+
+<div class="report-container" style="margin-top: 55px;">
+
+    <!-- BUTTONS -->
+    <div class="action-buttons no-print">
+
+        <button onclick="window.print()" class="btn btn-success">
+            Print Report
+        </button>
+
+        <a href="/admin/gallery-csv" class="btn btn-danger">
+            Download PDF
+        </a>
+
+      
+
+    </div>
+
+    <!-- TITLE -->
+    <div class="report-title">
+        Gallery Report
+    </div>
+
+    <!-- TABLE -->
+    <table class="report-table">
+
+        <thead>
+            <tr>
+                <th>Sr No</th>
+                <th>Title</th>
+                <th>Image</th>
+                <th>Category</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% gallery.forEach((g, index) => { %>
+            <tr>
+
+                <td><%= index + 1 %></td>
+
+                <td><%= g.title %></td>
+<td>
+    <% if(g.image){ %>
+        <img src="<%= g.image %>" width="60" height="60">
+    <% } else { %>
+        N/A
+    <% } %>
+</td>
+
+                <td><%= g.category %></td>
+
+            </tr>
+            <% }) %>
+        </tbody>
+
+    </table>
+
+</div>
+
+</div>
+
+<%- include("Footer") %>

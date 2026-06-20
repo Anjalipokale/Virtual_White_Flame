@@ -188,7 +188,7 @@ body{
                     <thead>
 
                         <tr>
-                            <th>ID</th>
+                            <th>Sr No</th>
                             <th>Image</th>
                             <th>Title</th>
                             <th width="180">Action</th>
@@ -200,11 +200,11 @@ body{
 
                         <% if(culture.length > 0){ %>
 
-                            <% culture.forEach(function(c){ %>
+                            <% culture.forEach(function(c,index){ %>
 
                             <tr>
 
-                                <td><%= c.id %></td>
+                                <td><%= index + 1 %></td>
 
                                 <td>
 

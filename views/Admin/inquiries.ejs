@@ -92,7 +92,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Product</th>
                         <th>Name</th>
                         <th>Email</th>
@@ -105,11 +105,11 @@ body{
 
                 <tbody>
 
-                    <% inquiries.forEach(function(inquiry){ %>
+                    <% inquiries.forEach(function(inquiry, index){ %>
 
                     <tr>
 
-                        <td><%= inquiry.id %></td>
+                        <td><%= index + 1 %></td>
 
                         <td><%= inquiry.product_name %></td>
 

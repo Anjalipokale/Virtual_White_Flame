@@ -9,11 +9,11 @@
 </tr>
 
 
-<% gallery.forEach(function(img){ %>
+<% gallery.forEach(function(img, index){ %>
 
 <tr>
 
-<td><%= img.id %></td>
+<td><%= index + 1 %></td>
 
 <td>
 <img src="<%= img.image %>" width="100">

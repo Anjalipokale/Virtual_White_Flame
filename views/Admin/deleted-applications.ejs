@@ -1,0 +1,212 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+body{
+    background:#f4f6f9;
+    font-family:Arial,sans-serif;
+}
+
+.page-container{
+    width:78%;
+    margin-top:90px;
+    margin-bottom:50px;
+    margin-left:280px;
+    background:#fff;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    overflow-x:auto;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+}
+
+.page-header h1{
+    color:#23c167;
+    margin:0;
+}
+
+.back-btn{
+    background:#2196F3;
+    color:#fff;
+    text-decoration:none;
+    padding:10px 15px;
+    border-radius:8px;
+    font-weight:600;
+}
+
+.back-btn:hover{
+    background:#1565C0;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    text-align:center;
+}
+
+th{
+    background:#48ae6f;
+    color:#fff;
+    padding:12px;
+    font-size:14px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    font-size:13px;
+}
+
+tr:hover{
+    background:#f9f9f9;
+}
+
+.status-badge{
+    background:#f79227;
+    color:#fff;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:bold;
+}
+
+.restore-btn{
+    background:#2E7D32;
+    color:#fff;
+    text-decoration:none;
+    padding:8px 15px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:600;
+    display:inline-block;
+}
+
+.restore-btn:hover{
+    background:#1B5E20;
+}
+
+@media(max-width:768px){
+
+    .page-container{
+        width:95%;
+        margin:20px auto;
+    }
+
+    .page-header{
+        flex-direction:column;
+        gap:15px;
+    }
+
+    th,
+    td{
+        padding:8px;
+        font-size:12px;
+    }
+
+}
+.restore-btn{
+    background:#2E7D32;
+    color:#fff;
+    padding:8px 10px;
+    border-radius:6px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+}
+
+.restore-btn:hover{
+    background:#1B5E20;
+}
+
+.delete-btn{
+    background:#d32f2f;
+    color:#fff;
+    padding:8px 10px;
+    border-radius:6px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+}
+
+.delete-btn:hover{
+    background:#b71c1c;
+}
+
+</style>
+
+<div class="page-container">
+
+    <div class="page-header">
+
+        <h1>Deleted Applications</h1>
+
+        <a href="/admin/applications" class="back-btn">
+            Active Applications
+        </a>
+
+    </div>
+
+    <table border="1">
+
+        <tr>
+            <th>sr.no</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+
+       <% applications.forEach(function(a,index){ %>
+
+        <tr>
+
+            <td><%= index + 1 %></td>
+
+            <td><%= a.name %></td>
+
+            <td><%= a.email %></td>
+
+            <td>
+                <span class="status-badge">
+                    <%= a.record_status %>
+                </span>
+            </td>
+<td style="display:flex; gap:10px; justify-content:center;">
+
+    <!-- Restore -->
+    <a href="/admin/restore-application/<%= a.id %>"
+       class="restore-btn"
+       title="Restore"
+       onclick="return confirm('Restore Application?')">
+
+        <i class="fa-solid fa-rotate-left"></i>
+    </a>
+
+    <!-- Delete Permanently -->
+   <a href="/admin/permanent-delete-application/<%= a.id %>"
+   class="delete-btn"
+   title="Delete Permanently"
+   onclick="return confirm('Are you sure you want to permanently delete this application?')">
+
+    <i class="fa-solid fa-trash"></i>
+</a>
+</td>
+
+        </tr>
+
+        <% }) %>
+
+    </table>
+
+</div>
+
+<%- include("footer.ejs") %>

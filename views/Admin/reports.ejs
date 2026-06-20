@@ -1,0 +1,342 @@
+<%- include('Navbar') %>
+
+<style>
+
+    body{
+    margin:0;
+    padding:0;
+    background:#f5f7f5;
+    font-family:'Segoe UI', sans-serif;
+}
+
+/* ========================= */
+/* SIDEBAR SAFE WRAPPER     */
+/* ========================= */
+.content-wrapper{
+    margin-left:250px;
+    padding:20px;
+    margin-top: 100px;
+}
+
+/* ========================= */
+/* REPORT CONTAINER         */
+/* ========================= */
+.report-container{
+    width:100%;
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow:0 6px 20px rgba(0,0,0,0.10);
+}
+
+/* TITLE */
+.report-title{
+    text-align:center;
+    font-size:24px;
+    font-weight:800;
+    color:#1b5e20;
+    margin-bottom:20px;
+}
+
+/* ========================= */
+/* BUTTONS                  */
+/* ========================= */
+.action-buttons{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+    margin-top:40px;
+    margin-bottom:20px;
+}
+
+.btn-success{
+    background:#2e7d32 !important;
+    border:none !important;
+    color:#fff !important;
+}
+
+.btn-success:hover{
+    background:#1b5e20 !important;
+}
+
+.btn-danger{
+    background:#ff9800 !important;
+    border:none !important;
+    color:#fff !important;
+}
+
+.btn-danger:hover{
+    background:#ef6c00 !important;
+}
+
+/* ========================= */
+/* TABLE WRAPPER           */
+/* ========================= */
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+/* TABLE */
+.report-table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:13px;
+}
+
+/* HEADER */
+.report-table th{
+    background:#2e7d32 !important;
+    color:#fff !important;
+    padding:10px;
+    text-align:center;
+    position:sticky;
+    top:0;
+}
+
+/* TD */
+.report-table td{
+    padding:8px;
+    text-align:center;
+    word-break:break-word;
+}
+
+/* ROW COLORS */
+.report-table tr:nth-child(even){
+    background:#fff7ed;
+}
+
+.report-table tr:hover{
+    background:#ffe8cc;
+}
+
+/* IMAGE */
+.report-table img{
+    width:55px;
+    height:55px;
+    object-fit:cover;
+    border-radius:8px;
+    border:2px solid #ff9800;
+}
+
+/* ========================= */
+/* DASHBOARD CARDS         */
+/* ========================= */
+.glass-card{
+    border-radius:16px;
+    padding:22px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+    transition:0.3s ease;
+}
+
+.glass-card:hover{
+    transform:translateY(-5px);
+}
+
+.icon{
+    font-size:28px;
+    opacity:0.9;
+}
+
+.card-label{
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-top:10px;
+    opacity:0.95;
+}
+
+.card-value{
+    font-size:32px;
+    font-weight:800;
+    margin-top:8px;
+}
+
+/* ========================= */
+/* GREEN + ORANGE THEME     */
+/* ========================= */
+
+.c1{ background:linear-gradient(135deg,#2e7d32,#66bb6a); }
+.c2{ background:linear-gradient(135deg,#1b5e20,#43a047); }
+.c3{ background:linear-gradient(135deg,#ff9800,#ffb74d); }
+.c4{ background:linear-gradient(135deg,#ef6c00,#ffa726); }
+.c5{ background:linear-gradient(135deg,#2e7d32,#26a69a); }
+.c6{ background:linear-gradient(135deg,#ff6d00,#ff8a65); }
+.c7{ background:linear-gradient(135deg,#1b5e20,#5e35b1); }
+.c8{ background:linear-gradient(135deg,#ff9800,#1976d2); }
+
+/* LINKS */
+a.card-link{
+    text-decoration:none;
+}
+
+.content-wrapper{
+    margin-left:260px;
+    padding:30px;
+}
+
+.dashboard-container{
+    margin-top:120px;
+}
+
+.card-link{
+    text-decoration:none;
+    color:inherit;
+}
+
+/* ========================= */
+/* PRINT FIX                */
+/* ========================= */
+@media print{
+
+    @page{
+        size:A4 landscape;
+        margin:10mm;
+    }
+
+    body{
+        background:#fff !important;
+    }
+
+    .sidebar,
+    .navbar,
+    .action-buttons{
+        display:none !important;
+    }
+
+    .content-wrapper{
+        margin-left:0 !important;
+        padding:0 !important;
+    }
+
+    .report-container{
+        box-shadow:none !important;
+        padding:5px !important;
+    }
+
+    .report-title{
+        font-size:16px;
+        margin-bottom:10px;
+    }
+
+    .report-table{
+        font-size:9px !important;
+        table-layout:fixed;
+    }
+
+    .report-table th,
+    .report-table td{
+        border:1px solid #000 !important;
+        padding:4px !important;
+    }
+
+    .report-table img{
+        width:30px !important;
+        height:30px !important;
+    }
+
+    tr{
+        page-break-inside:avoid;
+    }
+
+    thead{
+        display:table-header-group;
+    }
+}
+</style>
+
+
+
+<div class="content-wrapper">
+
+    <h2 class="dashboard-title">
+        📊 Dashboard Reports
+    </h2>
+
+    <div class="row g-4">
+
+        <!-- Products -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/report/products" class="card-link">
+                <div class="glass-card c1">
+                    <i class="fas fa-box icon"></i>
+                    <div class="card-label">Products</div>
+                    <div class="card-value"><%= products %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Inquiries -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/report/inquiries" class="card-link">
+                <div class="glass-card c2">
+                    <i class="fas fa-question-circle icon"></i>
+                    <div class="card-label">Inquiries</div>
+                    <div class="card-value"><%= inquiries %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Applications -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/applications-report" class="card-link">
+                <div class="glass-card c3">
+                    <i class="fas fa-file-alt icon"></i>
+                    <div class="card-label">Applications</div>
+                    <div class="card-value"><%= applications %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Testimonials -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/testimonials-report" class="card-link">
+                <div class="glass-card c4">
+                    <i class="fas fa-quote-right icon"></i>
+                    <div class="card-label">Testimonials</div>
+                    <div class="card-value"><%= testimonials %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Gallery -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/gallery-report" class="card-link">
+                <div class="glass-card c5">
+                    <i class="fas fa-image icon"></i>
+                    <div class="card-label">Gallery</div>
+                    <div class="card-value"><%= gallery %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Contacts -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/contacts-report" class="card-link">
+                <div class="glass-card c7">
+                    <i class="fas fa-address-book icon"></i>
+                    <div class="card-label">Contacts</div>
+                    <div class="card-value"><%= contacts %></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Dealers -->
+        <div class="col-lg-3 col-md-6">
+            <a href="/admin/dealers-report" class="card-link">
+                <div class="glass-card c8">
+                    <i class="fas fa-store icon"></i>
+                    <div class="card-label">Dealers</div>
+                    <div class="card-value"><%= dealers %></div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+</div>

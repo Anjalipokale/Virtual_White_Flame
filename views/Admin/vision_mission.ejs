@@ -164,7 +164,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Sr No</th>
                         <th>Title</th>
                         <th width="200">Action</th>
                     </tr>
@@ -172,11 +172,11 @@ body{
 
                 <tbody>
 
-                    <% vision.forEach(function(v){ %>
+                    <% vision.forEach(function(v, index){ %>
 
                     <tr>
 
-                        <td><%= v.id %></td>
+                        <td><%= index +1 %></td>
 
                         <td><%= v.vision_title %></td>
 
