@@ -162,6 +162,15 @@ body{
     }
 }
 
+.alert-danger{
+    background:#f8d7da;
+    color:#842029;
+    padding:12px;
+    border-radius:8px;
+    margin-bottom:15px;
+    text-align:center;
+    border:1px solid #f5c2c7;
+}
 </style>
 </head>
 <body>
@@ -201,7 +210,15 @@ body{
         <p>
             Sign in with your authorized credentials
         </p>
+           
+        <% if(error){ %>
 
+<div id="errorAlert" class="alert alert-danger text-center mb-3">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    <%= error %>
+</div>
+
+<% } %>
         <form action="/admin/admin-login" method="POST">
 
             <div class="input-group">
@@ -241,6 +258,18 @@ body{
     </div>
 
 </div>
+<script>
 
+setTimeout(function(){
+
+    let alertBox = document.getElementById("errorAlert");
+
+    if(alertBox){
+        alertBox.style.display = "none";
+    }
+
+}, 3000);
+
+</script>
 </body>
 </html>

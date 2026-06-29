@@ -941,7 +941,7 @@
     'STEP 03': 'पायरी ०३',
     'STEP 04': 'पायरी ०४',
     'STEP 05': 'पायरी ०५',
-    'Reach Out': 'संपर्क करा',
+    'Reach Out': 'संपर्क साधा',
     'Call, email or WhatsApp us': 'कॉल, ईमेल किंवा व्हाट्सअॅप करा',
     'Requirement Study': 'आवश्यकता अभ्यास',
     'We assess your fuel needs': 'आम्ही तुमच्या इंधनाच्या गरजा मूल्यांकन करतो',
@@ -1011,7 +1011,7 @@
     'Partnership opportunities': 'भागीदारी संधी',
     'Efficient onboarding': 'कार्यक्षम ऑनबोर्डिंग',
     'Business collaboration support': 'व्यवसाय सहयोग सहाय्य',
-
+    
     /* CTA Section */
     'Ready to Work With Us?': 'आमच्यासोबत काम करण्यास तयार आहात?',
     'Explore our business solutions and discover how Virtual White Flame can support your operational and growth objectives.': 'आमच्या व्यवसाय समाधानांचा शोध घ्या आणि व्हर्च्युअल व्हाईट फ्लेम तुमच्या ऑपरेशनल आणि वाढीच्या उद्दिष्टांना कसे समर्थन देऊ शकते ते जाणून घ्या.',

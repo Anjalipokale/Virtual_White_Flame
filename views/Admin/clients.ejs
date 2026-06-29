@@ -11,6 +11,7 @@ body{
     margin-top:90px;
     padding:25px;
     min-height:100vh;
+    margin-bottom:60px;
 }
 
 /* Header */
@@ -101,6 +102,30 @@ body{
     color:#666;
 }
 
+
+.dt-buttons{
+    margin-bottom:15px;
+}
+
+.dt-button{
+    background:#198754 !important;
+    color:white !important;
+    border:none !important;
+    border-radius:8px !important;
+    padding:8px 15px !important;
+    margin-right:5px !important;
+}
+
+.dataTables_filter{
+    margin-bottom:15px;
+}
+
+.dataTables_filter input{
+    border-radius:8px;
+    border:1px solid #ccc;
+    padding:5px 10px;
+}
+
 </style>
 
 <div class="main-wrapper">
@@ -113,7 +138,28 @@ body{
         </h2>
 
     </div>
+        
 
+    <!-- DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+
+<!-- Buttons -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.bootstrap5.min.css">
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.bootstrap5.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
     <div class="count-box">
 
         <h3>
@@ -130,8 +176,7 @@ body{
 
         <div class="table-responsive">
 
-            <table class="table table-hover">
-
+<table id="clientTable" class="table table-hover">
                 <thead>
 
                     <tr>
@@ -187,5 +232,27 @@ body{
     </div>
 
 </div>
+
+<script>
+$(document).ready(function () {
+    $('#clientTable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'csv',
+                text: 'CSV Export'
+            },
+            {
+                extend: 'pdf',
+                text: 'PDF Export'
+            },
+            {
+                extend: 'print',
+                text: 'Print'
+            }
+        ]
+    });
+});
+</script>
 
 <%- include("footer.ejs") %>

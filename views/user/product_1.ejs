@@ -151,19 +151,19 @@ document.querySelector('input[name="mobile"]').addEventListener('input', functio
 
         <span>Share Now</span>
 
-        <a href="#" target="_blank" class="social-icon">
+        <a href="https://www.facebook.com/" target="_blank" class="social-icon">
             <i class="fab fa-facebook-f"></i>
         </a>
 
-        <a href="#" target="_blank" class="social-icon">
+        <a href="https://www.linkedin.com/" target="_blank" class="social-icon">
             <i class="fab fa-linkedin-in"></i>
         </a>
 
-        <a href="#" target="_blank" class="social-icon">
+        <a href="https://www.instagram.com/" target="_blank" class="social-icon">
             <i class="fab fa-instagram"></i>
         </a>
 
-        <a href="#" target="_blank" class="social-icon">
+        <a href="https://www.whatsapp.com/" target="_blank" class="social-icon">
             <i class="fab fa-whatsapp"></i>
         </a>
 
@@ -261,15 +261,25 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <link rel="stylesheet" href="/js/script.js">
 
 <script>
+
+// FAQ
+
 const faqItems = document.querySelectorAll(".faq-item");
 
 faqItems.forEach(item => {
+
     const btn = item.querySelector(".faq-question");
 
     btn.addEventListener("click", () => {
+
         item.classList.toggle("active");
+
     });
+
 });
+
+
+// Product Image Change
 
 const mainImage = document.querySelector(".main-image");
 const thumbnails = document.querySelectorAll(".related-images img");
@@ -287,6 +297,9 @@ thumbnails.forEach(img => {
 
 });
 
+
+// Inquiry Modal Open
+
 function openInquiry(productName){
 
     document.getElementById("productName").value = productName;
@@ -294,6 +307,51 @@ function openInquiry(productName){
     document.getElementById("inquiryModal").style.display = "block";
 
 }
+
+
+// Success Popup
+
+window.addEventListener("load", function(){
+
+    const params = new URLSearchParams(window.location.search);
+
+    if(params.get("success")){
+
+        let popup = document.createElement("div");
+
+        popup.innerHTML = "✅ Your  Product Inquiry Has Been Successfully Submitted";
+
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.background = "#198754";
+        popup.style.color = "#fff";
+        popup.style.padding = "20px 35px";
+        popup.style.borderRadius = "12px";
+        popup.style.fontSize = "18px";
+        popup.style.fontWeight = "600";
+        popup.style.textAlign = "center";
+        popup.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
+        popup.style.zIndex = "9999";
+
+        document.body.appendChild(popup);
+
+        setTimeout(function(){
+
+            popup.remove();
+
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+
+        }, 3000);
+
+    }
+
+});
 
 </script>
 <%- include("footer.ejs") %>

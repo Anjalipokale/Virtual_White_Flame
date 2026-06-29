@@ -138,6 +138,7 @@ table tr:hover td{
 <% }) %>
 
 </table>
+<div id="pagination" style="text-align:center; margin-top:20px;"></div>
 
 </div>
 
@@ -240,5 +241,75 @@ function printTable(){
 
 }
 
+// ==========================
+// Pagination
+// ==========================
+
+const rowsPerPage = 10;
+const tableRows = document.querySelectorAll("#contactTable tr:not(:first-child)");
+const pagination = document.getElementById("pagination");
+
+let currentPage = 1;
+
+function displayRows(page){
+
+    currentPage = page;
+
+    tableRows.forEach((row,index)=>{
+
+        let start = (page - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+
+        if(index >= start && index < end){
+            row.style.display = "";
+        }else{
+            row.style.display = "none";
+        }
+
+    });
+
+    renderPagination();
+
+}
+
+function renderPagination(){
+
+    let pageCount = Math.ceil(tableRows.length / rowsPerPage);
+
+    pagination.innerHTML = "";
+
+    for(let i=1; i<=pageCount; i++){
+
+        let btn = document.createElement("button");
+
+        btn.innerText = i;
+
+        btn.style.margin = "0 5px";
+        btn.style.padding = "8px 15px";
+        btn.style.border = "none";
+        btn.style.borderRadius = "5px";
+        btn.style.cursor = "pointer";
+
+        if(i === currentPage){
+            btn.style.background = "#289341";
+            btn.style.color = "#fff";
+        }else{
+            btn.style.background = "#ddd";
+        }
+
+        btn.addEventListener("click", function(){
+            displayRows(i);
+        });
+
+        pagination.appendChild(btn);
+
+    }
+
+}
+
+displayRows(1);
+
 </script>
+
+
 <%- include("Footer") %>

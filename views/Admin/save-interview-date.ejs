@@ -1,0 +1,17 @@
+<form action="/admin/save-interview-date" method="post">
+
+    <input
+        type="hidden"
+        name="id"
+        value="<%= application.id %>">
+
+    <input
+        type="datetime-local"
+        name="interview_date"
+        required>
+
+    <button type="submit">
+        Save
+    </button>
+
+</form>

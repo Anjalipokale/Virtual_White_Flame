@@ -183,80 +183,162 @@
             <thead>
                 <tr>
                     <th>Application ID</th>
-                    <th>Position</th>
-                    <th>Status</th>
-                    <th>Applied Date</th>
+                      <th>Position</th>
+                       <th>Status</th>
+                     <th>Applied Date</th>
+                     <th>Status Updated</th>
+                      <th>Interview Date</th>
+                      <th>Action</th>
                 </tr>
             </thead>
 
-            <tbody>
+           <tbody>
 
-                <% data.forEach(app => { %>
+<% data.forEach(function(app){ %>
 
-                <tr>
+<tr>
 
-                  <td class="application-id">
-                     <%= app.application_id %>
-                   </td>
+    <td class="application-id">
+        <%= app.application_id %>
+    </td>
 
-                   <td class="position-name">
-                 <%= app.position %></td>
-                    <td>
+    <td class="position-name">
+        <%= app.position %>
+    </td>
 
-                        <% if(app.status === 'Applied'){ %>
+    <td>
 
-                            <span class="status applied">
-                                Applied
-                            </span>
+        <% if(app.status === 'Applied'){ %>
 
-                        <% } else if(app.status === 'Under Review'){ %>
+            <span class="status applied">
+                Applied
+            </span>
 
-                            <span class="status review">
-                                Under Review
-                            </span>
+        <% } else if(app.status === 'Under Review'){ %>
 
-                        <% } else if(app.status === 'Selected'){ %>
+            <span class="status review">
+                Under Review
+            </span>
 
-                            <span class="status selected">
-                                Selected
-                            </span>
+        <% } else if(app.status === 'Shortlisted'){ %>
 
-                        <% } else if(app.status === 'Rejected'){ %>
+            <span class="status review">
+                Shortlisted
+            </span>
 
-                            <span class="status rejected">
-                                Rejected
-                            </span>
+        <% } else if(app.status === 'Interview Scheduled'){ %>
 
-                        <% } else { %>
+            <span class="status review">
+                Interview Scheduled
+            </span>
 
-                            <span class="status review">
-                                <%= app.status %>
-                            </span>
+        <% } else if(app.status === 'Selected'){ %>
 
-                        <% } %>
+            <span class="status selected">
+                Selected
+            </span>
 
-                    </td>
+        <% } else { %>
 
-                  <td>
+            <span class="status rejected">
+                <%= app.status %>
+            </span>
 
-    <div class="date-box">
-        <%= new Date(app.created_at).toLocaleDateString('en-IN') %>
-    </div>
+        <% } %>
 
-    <div class="time-box">
-        <%= new Date(app.created_at).toLocaleTimeString('en-IN',{
-            hour:'2-digit',
-            minute:'2-digit'
-        }) %>
-    </div>
+    </td>
+
+    <!-- Applied Date -->
+
+    <td>
+
+        <div class="date-box">
+            <%= new Date(app.created_at).toLocaleDateString('en-IN') %>
+        </div>
+
+        <div class="time-box">
+            <%= new Date(app.created_at).toLocaleTimeString('en-IN',{
+                hour:'2-digit',
+                minute:'2-digit'
+            }) %>
+        </div>
+
+    </td>
+
+    <!-- Status Updated Date -->
+
+    <td>
+
+        <% if(app.status_updated_at){ %>
+
+            <div class="date-box">
+                <%= new Date(app.status_updated_at).toLocaleDateString('en-IN') %>
+            </div>
+
+            <div class="time-box">
+                <%= new Date(app.status_updated_at).toLocaleTimeString('en-IN',{
+                    hour:'2-digit',
+                    minute:'2-digit'
+                }) %>
+            </div>
+
+        <% } else { %>
+
+            -
+
+        <% } %>
+
+    </td>
+
+    <!-- Interview Date -->
+
+    <td>
+
+        <% if(app.interview_date){ %>
+
+            <div class="date-box">
+                <%= new Date(app.interview_date).toLocaleDateString('en-IN') %>
+            </div>
+
+            <div class="time-box">
+                <%= new Date(app.interview_date).toLocaleTimeString('en-IN',{
+                    hour:'2-digit',
+                    minute:'2-digit'
+                }) %>
+            </div>
+
+        <% } else { %>
+
+            -
+
+        <% } %>
+
+    </td>
+ <td>
+
+<% if(app.status === 'Applied'){ %>
+
+    <a href="/delete-my-application/<%= app.id %>"
+       class="btn btn-danger btn-sm"
+       onclick="return confirm('Delete Application?')">
+       Delete
+    </a>
+
+<% } else { %>
+
+    <span style="color:gray;font-weight:bold;">
+        Locked
+    </span>
+
+<% } %>
 
 </td>
 
-                </tr>
+</tr>
 
-                <% }) %>
+<% }) %>
 
-            </tbody>
+</tbody>
 
         </table>
 

@@ -235,6 +235,7 @@ body{
 </tbody>
 
             </table>
+            <div id="pagination" style="text-align:center; margin-top:20px;"></div>
 
         </div>
 
@@ -242,7 +243,79 @@ body{
 
 </div>
 <script>
+// Product Pagination
 
+const rowsPerPage = 10;
+const tableRows = document.querySelectorAll("#productTable tbody tr");
+const pagination = document.getElementById("pagination");
+
+let currentPage = 1;
+
+function showPage(page){
+
+    currentPage = page;
+
+    tableRows.forEach((row,index)=>{
+
+        let start = (page - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+
+        if(index >= start && index < end){
+            row.style.display = "";
+        }else{
+            row.style.display = "none";
+        }
+
+    });
+
+    updateButtons();
+}
+
+function updateButtons(){
+
+    let buttons = pagination.querySelectorAll("button");
+
+    buttons.forEach(btn=>{
+        btn.style.background = "#198754";
+    });
+
+    if(buttons[currentPage - 1]){
+        buttons[currentPage - 1].style.background = "#ff6b00";
+    }
+
+}
+
+function createPagination(){
+
+    let totalPages = Math.ceil(tableRows.length / rowsPerPage);
+
+    pagination.innerHTML = "";
+
+    for(let i = 1; i <= totalPages; i++){
+
+        let btn = document.createElement("button");
+
+        btn.innerText = i;
+
+        btn.style.margin = "5px";
+        btn.style.padding = "8px 14px";
+        btn.style.border = "none";
+        btn.style.borderRadius = "6px";
+        btn.style.color = "#fff";
+        btn.style.cursor = "pointer";
+        btn.style.background = "#198754";
+
+        btn.addEventListener("click", function(){
+            showPage(i);
+        });
+
+        pagination.appendChild(btn);
+    }
+
+}
+
+createPagination();
+showPage(1);
 // Search Product Name
 
 document.getElementById("searchInput").addEventListener("keyup", function(){

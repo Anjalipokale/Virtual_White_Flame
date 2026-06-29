@@ -224,12 +224,14 @@ tr:hover{
 
     <tr>
         <th>Sr.No</th>
-        <th>Application ID</th>
         <th>Name</th>
         <th>Email</th>
         <th>Mobile</th>
         <th>Position</th>
+        <th>Applied On</th>
         <th>Status</th>
+        <th>Status Updated</th>
+        <th>Interview Date</th>
         <th>Resume</th>
         <th>Action</th>
     </tr>
@@ -240,8 +242,6 @@ tr:hover{
 
         <td><%= index + 1 %></td>
 
-        <td><%= a.application_id %></td>
-
         <td><%= a.name %></td>
 
         <td><%= a.email %></td>
@@ -251,17 +251,59 @@ tr:hover{
         <td><%= a.position %></td>
 
         <td>
+            <%= a.created_at %>
+        </td>
+
+        <td>
             <span class="status-text">
                 <%= a.status %>
             </span>
         </td>
- 
+
         <td>
+            <%= a.status_updated_at || '-' %>
+        </td>
+
+<td>
+
+    <% if(a.interview_date){ %>
+
+        <%= new Date(a.interview_date).toLocaleDateString('en-IN') %>
+
+        <br>
+
+        <small>
+            <%= new Date(a.interview_date).toLocaleTimeString('en-IN',{
+                hour:'2-digit',
+                minute:'2-digit'
+            }) %>
+        </small>
+
+    <% } else if(a.status === 'Interview Scheduled'){ %>
+
+        <a href="/admin/interview-form/<%= a.id %>"
+           class="status-btn interview-btn">
+            Select Date
+        </a>
+
+    <% } else { %>
+
+        -
+
+    <% } %>
+
+</td>
+
+        <td>
+
             <a class="view-btn"
                href="/resume/<%= a.resume %>"
                target="_blank">
-                View Resume
+
+               View Resume
+
             </a>
+
         </td>
 
         <td style="min-width:220px;">
@@ -304,6 +346,7 @@ tr:hover{
 
 </table>
 
+<div id="pagination" style="text-align:center; margin-top:20px;"></div>
 
 </div>
 <script>
@@ -408,5 +451,112 @@ function printTable(){
 
 }
 
+// Interview Schedule Success Popup
+
+window.addEventListener("load", function(){
+
+    const params = new URLSearchParams(window.location.search);
+
+    if(params.get("schedule")){
+
+        let popup = document.createElement("div");
+
+        popup.innerHTML = "✅ Interview Scheduled Successfully";
+
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.background = "#198754";
+        popup.style.color = "#fff";
+        popup.style.padding = "20px 35px";
+        popup.style.borderRadius = "12px";
+        popup.style.fontSize = "18px";
+        popup.style.fontWeight = "600";
+        popup.style.textAlign = "center";
+        popup.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
+        popup.style.zIndex = "99999";
+
+        document.body.appendChild(popup);
+
+        setTimeout(function(){
+
+            popup.remove();
+
+            window.history.replaceState(
+                {},
+                document.title,
+                window.location.pathname
+            );
+
+        },3000);
+
+    }
+
+});
+
+// Pagination
+
+const rowsPerPage = 10;
+const table = document.getElementById("applicationTable");
+const rows = table.querySelectorAll("tr:not(:first-child)");
+const pagination = document.getElementById("pagination");
+
+let currentPage = 1;
+
+function displayRows(page){
+
+    rows.forEach((row,index)=>{
+
+        if(
+            index >= (page - 1) * rowsPerPage &&
+            index < page * rowsPerPage
+        ){
+            row.style.display = "";
+        }
+        else{
+            row.style.display = "none";
+        }
+
+    });
+
+}
+
+function setupPagination(){
+
+    pagination.innerHTML = "";
+
+    let pageCount = Math.ceil(rows.length / rowsPerPage);
+
+    for(let i = 1; i <= pageCount; i++){
+
+        let btn = document.createElement("button");
+
+        btn.innerText = i;
+
+        btn.style.margin = "5px";
+        btn.style.padding = "8px 12px";
+        btn.style.border = "none";
+        btn.style.borderRadius = "5px";
+        btn.style.background = "#2E7D32";
+        btn.style.color = "#fff";
+        btn.style.cursor = "pointer";
+
+        btn.addEventListener("click", function(){
+
+            currentPage = i;
+
+            displayRows(currentPage);
+
+        });
+
+        pagination.appendChild(btn);
+
+    }
+
+}
+
+displayRows(currentPage);
+setupPagination();
 </script>
 <%- include("footer.ejs") %>

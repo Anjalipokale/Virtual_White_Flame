@@ -132,11 +132,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         </p>
     </div>
 
-    <a href="/my-applications" class="my-applications-btn">
-        <i class="fas fa-briefcase"></i>
-        My Applications
-    </a>
+   <a href="/my-applications" class="my-applications-btn">
 
+    <i class="fas fa-briefcase"></i>
+
+    My Applications
+
+    <% if(client){ %>
+        <span class="badge">
+            <%= applicationCount %>
+        </span>
+    <% } %>
+
+</a>
 </div>
 
 <% } %>
@@ -230,15 +238,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <div class="form-group">
 
-<select name="position" required>
-    <option value="">Select Position</option>
-    <option>Sales Executive</option>
-    <option>Marketing Manager</option>
-    <option>Production Supervisor</option>
-    <option>Plant Operator</option>
-    <option>Accountant</option>
-    <option>HR Executive</option>
-</select>
+<input
+    type="text"
+    name="position"
+    id="positionInput"
+    readonly
+    required>
 
 </div>
 
@@ -246,8 +251,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <label>Upload Resume</label>
 
-<input type="file" name="resume" accept=".pdf,.doc,.docx" required>
-
+<input
+    type="file"
+    name="resume"
+    accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    required>
 </div>
 
 <button type="submit" class="submit-btn">
@@ -256,108 +264,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 </form>
 
+
+
     </div>
     
 </div>
 
-<!-- Application Tracking Section Start -->
 
-<section class="tracking-section">
-
-    <div class="section-title">
-        <span class="title-tag">APPLICATION STATUS</span>
-        <h2>Track Your Application</h2>
-        <p>
-            Enter your Application ID to check the current recruitment status.
-        </p>
-    </div>
-
-    <!-- Tracking Search -->
-
-    <div class="tracking-search">
-
-    <form action="/track-application" method="GET">
-
-        <input
-            type="text"
-            name="application_id"
-            placeholder="Enter Application ID (Example: VWF2026001)"
-            required
-        >
-
-        <button type="submit" class="track-btn">
-            Track Status
-        </button>
-
-    </form>
-
-</div>
-
-   <!-- Tracking Result Card -->
-
-<% if(trackingId){ %>
-
-<div style="background:#e8f5e9;padding:20px;margin-top:20px;border-radius:10px;text-align:center;">
-
-    <h3>Application Submitted Successfully</h3>
-
-    <h2>Your Tracking ID:</h2>
-
-    <h1 style="color:green;">
-        <%= trackingId %>
-    </h1>
-
-    <p>Please save this ID for tracking your application.</p>
-
-</div>
-
-<% } %>
-
-<% if(application){ %>
-
-<div class="tracking-card">
-
-    <div class="tracking-header">
-
-        <h3>
-            Application ID :
-            <%= application.application_id %>
-        </h3>
-
-        <span class="status-badge">
-            <%= application.status %>
-        </span>
-
-    </div>
-
-    <div class="status-list">
-
-        <div class="status-item <%= application.status=='Applied' || application.status=='Under Review' || application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
-            ✓ Applied
-        </div>
-
-        <div class="status-item <%= application.status=='Under Review' || application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
-            ✓ Under Review
-        </div>
-
-        <div class="status-item <%= application.status=='Shortlisted' || application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
-            ✓ Shortlisted
-        </div>
-
-        <div class="status-item <%= application.status=='Interview Scheduled' || application.status=='Selected' ? 'completed':'' %>">
-            ✓ Interview Scheduled
-        </div>
-
-        <div class="status-item <%= application.status=='Selected' ? 'completed':'' %>">
-            ✓ Selected
-        </div>
-
-    </div>
-
-</div>
-
-<% } %>
-</section>
 <!-- FAQ Section Start -->
 
 <section class="faq-section">
@@ -493,11 +406,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 </div>
 
 <script>
-window.addEventListener("load", function() {
+
+// Tracking Section Auto Scroll
+
+window.addEventListener("load", function () {
 
     var section = document.getElementById("tracking-section");
 
-    if(section){
+    if (section) {
         section.scrollIntoView({
             behavior: "smooth",
             block: "start"
@@ -505,6 +421,101 @@ window.addEventListener("load", function() {
     }
 
 });
+
+
+// Success Popup
+
+window.addEventListener("load", function () {
+
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("success")) {
+
+        let popup = document.createElement("div");
+
+        popup.innerHTML = "✅ Your Application Submitted Successfully";
+
+        popup.style.position = "fixed";
+        popup.style.top = "50%";
+        popup.style.left = "50%";
+        popup.style.transform = "translate(-50%, -50%)";
+        popup.style.background = "#198754";
+        popup.style.color = "#fff";
+        popup.style.padding = "20px 35px";
+        popup.style.borderRadius = "12px";
+        popup.style.fontWeight = "600";
+        popup.style.fontSize = "18px";
+        popup.style.textAlign = "center";
+        popup.style.boxShadow = "0 5px 20px rgba(0,0,0,0.3)";
+        popup.style.zIndex = "9999";
+
+        document.body.appendChild(popup);
+
+        setTimeout(function () {
+            popup.remove();
+
+            // URL मधून success parameter remove करेल
+            window.history.replaceState({}, document.title, "/career");
+
+        }, 3000);
+
+    }
+
+});
+
+
+// Apply Now Button Click
+
+document.querySelectorAll(".open-modal").forEach(function (btn) {
+
+    btn.addEventListener("click", function () {
+
+        let jobTitle = this.getAttribute("data-job");
+
+        let positionInput = document.getElementById("positionInput");
+
+        if (positionInput) {
+            positionInput.value = jobTitle;
+        }
+
+        let modal = document.getElementById("jobModal");
+
+        if (modal) {
+            modal.style.display = "flex";
+        }
+
+    });
+
+});
+
+
+// Close Modal Button
+
+let closeBtn = document.querySelector(".close-modal");
+
+if (closeBtn) {
+
+    closeBtn.addEventListener("click", function () {
+
+        document.getElementById("jobModal").style.display = "none";
+
+    });
+
+}
+
+
+// Click Outside Modal Close
+
+window.addEventListener("click", function (e) {
+
+    let modal = document.getElementById("jobModal");
+
+    if (modal && e.target === modal) {
+        modal.style.display = "none";
+    }
+
+});
+
 </script>
 
 

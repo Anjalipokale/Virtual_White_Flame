@@ -147,7 +147,8 @@ body{
                 <input type="text"
                        name="title"
                        class="form-control"
-                       placeholder="Enter Image Title">
+                       placeholder="Enter Image Title"
+                       required>
             </div>
 
             <div class="mb-3">
@@ -157,7 +158,8 @@ body{
 
                 <input type="file"
                        name="image"
-                       class="form-control">
+                       class="form-control"
+                       required>
             </div>
 
             <div class="mb-4">
@@ -268,11 +270,86 @@ body{
                 </tbody>
 
             </table>
-
+            <div id="pagination" style="text-align:center; margin-top:20px;"></div>
         </div>
 
     </div>
 
 </div>
+<script>
 
+const rowsPerPage = 10;
+const tableRows = document.querySelectorAll(".table tbody tr");
+
+let currentPage = 1;
+
+function showPage(page){
+
+    currentPage = page;
+
+    tableRows.forEach((row,index)=>{
+
+        if(
+            index >= (page - 1) * rowsPerPage &&
+            index < page * rowsPerPage
+        ){
+            row.style.display = "";
+        }
+        else{
+            row.style.display = "none";
+        }
+
+    });
+
+    createPagination();
+
+}
+
+function createPagination(){
+
+    const pageCount = Math.ceil(
+        tableRows.length / rowsPerPage
+    );
+
+    let pagination =
+        document.getElementById("pagination");
+
+    pagination.innerHTML = "";
+
+    for(let i=1;i<=pageCount;i++){
+
+        let btn =
+            document.createElement("button");
+
+        btn.innerText = i;
+
+        btn.style.margin = "5px";
+        btn.style.padding = "8px 15px";
+        btn.style.border = "none";
+        btn.style.borderRadius = "5px";
+        btn.style.cursor = "pointer";
+
+        if(i === currentPage){
+            btn.style.background = "#198754";
+            btn.style.color = "#fff";
+        }else{
+            btn.style.background = "#ddd";
+        }
+
+        btn.addEventListener(
+            "click",
+            function(){
+                showPage(i);
+            }
+        );
+
+        pagination.appendChild(btn);
+
+    }
+
+}
+
+showPage(1);
+
+</script>
 <%- include("footer.ejs") %>

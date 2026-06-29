@@ -93,6 +93,7 @@ textarea.form-control{
     background:#198754;
     color:white;
     padding:14px;
+    text-align:center;
 }
 
 .table td{
@@ -139,6 +140,22 @@ textarea.form-control{
         margin-right:20px;
         width:auto;
     }
+}
+
+.pagination-btn{
+    padding:8px 14px;
+    margin:0 5px;
+    border:none;
+    border-radius:6px;
+    background:#198754;
+    color:#fff;
+    cursor:pointer;
+    font-weight:600;
+}
+
+.pagination-btn:disabled{
+    background:#ccc;
+    cursor:not-allowed;
 }
 </style>
 
@@ -210,7 +227,7 @@ textarea.form-control{
 
         <div class="table-responsive">
 
-            <table class="table">
+            <table class="table" id="blogTable">
 
                 <thead>
                     <tr>
@@ -254,11 +271,71 @@ textarea.form-control{
                 </tbody>
 
             </table>
-
+<div id="pagination" style="text-align:center;margin-top:20px;"></div>
         </div>
 
     </div>
 
 </div>
+<script>
 
+const rowsPerPage = 10;
+
+const table = document.getElementById("blogTable");
+const rows = table.querySelectorAll("tbody tr");
+
+let currentPage = 1;
+
+function showPage(page){
+
+    currentPage = page;
+
+    let start = (page - 1) * rowsPerPage;
+    let end = start + rowsPerPage;
+
+    rows.forEach((row,index)=>{
+
+        if(index >= start && index < end){
+            row.style.display = "";
+        }else{
+            row.style.display = "none";
+        }
+
+    });
+
+    renderPagination();
+
+}
+
+function renderPagination(){
+
+    const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+    document.getElementById("pagination").innerHTML = `
+
+        <button
+            class="pagination-btn"
+            onclick="showPage(${currentPage - 1})"
+            ${currentPage === 1 ? "disabled" : ""}>
+            Prev
+        </button>
+
+        <span style="font-weight:600;padding:0 10px;">
+            Page ${currentPage} of ${totalPages}
+        </span>
+
+        <button
+            class="pagination-btn"
+            onclick="showPage(${currentPage + 1})"
+            ${currentPage === totalPages ? "disabled" : ""}>
+            Next
+        </button>
+
+    `;
+
+}
+
+showPage(1);
+
+</script>
 <%- include("Footer") %>

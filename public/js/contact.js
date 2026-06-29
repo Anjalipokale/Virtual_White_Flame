@@ -8,7 +8,7 @@ const modal = document.getElementById("dealerModal");
 if(openBtn){
 
     openBtn.addEventListener("click", () => {
-        modal.style.display = "block";
+        modal.style.display = "flex";
     });
 
     closeBtn.addEventListener("click", () => {

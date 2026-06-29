@@ -311,8 +311,8 @@ body{
 /* Product Page 1 */
 .pro_banner1{
     width: 100%;
-    height: 400px;
-    background: url("/img/banner_pro1.jpg") no-repeat center center;
+    height:350px;
+    background: url("/img/P1.png") no-repeat center center;
     background-size: cover;
 
     display: flex;
@@ -371,7 +371,7 @@ body{
 
 .product-image-box{
     width: 500px;
-    background: #bffaaa;
+    background: #4faf42;
     padding: 30px;
 }
 

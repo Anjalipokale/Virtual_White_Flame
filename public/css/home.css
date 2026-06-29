@@ -18,7 +18,7 @@ body {
 /* home slider */
 .slider-container {
     width: 100%;
-    height: 650px;
+    height:550px;
     overflow: hidden;
     position: relative;
     border-top: 4px solid rgb(31, 99, 57);

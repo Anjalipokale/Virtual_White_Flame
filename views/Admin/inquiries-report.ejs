@@ -138,6 +138,33 @@ body{
         display:table-header-group;
     }
 }
+
+.pagination-container{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+
+.page-btn{
+    padding:8px 14px;
+    background:#2e7d32;
+    color:#fff;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:600;
+}
+
+.page-btn:hover{
+    background:#1b5e20;
+    color:#fff;
+}
+
+.active-page{
+    background:#ff9800 !important;
+}
 </style>
 
 <div class="content-wrapper">
@@ -196,11 +223,12 @@ body{
                 </tbody>
 
             </table>
-
+          
         </div>
 
     </div>
 
 </div>
+
 
 <%- include("Footer") %>

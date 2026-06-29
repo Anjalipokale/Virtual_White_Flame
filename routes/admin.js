@@ -5,15 +5,32 @@ const PDFDocument = require("pdfkit");
 const { Parser } = require("json2csv"); 
 var fs = require("fs");
 const { append } = require("vary");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "komalkhandave8720@gmail.com",
+        pass: "hpzw cvkg sili wbny"
+    }
+});
+
+
 
 
 var router = express.Router();
 
 router.get("/", async function(req,res){
-    res.render("admin/admin_register")
-})
+
+    res.render("admin/admin_register",{
+        error:null
+    });
+
+});
 
 router.post("/admin-login", async (req, res) => {
+
+    // console.log(req.body);
 
     const data = await exe(`
         SELECT * FROM admin_login
@@ -21,22 +38,29 @@ router.post("/admin-login", async (req, res) => {
         AND password='${req.body.password}'
     `);
 
+    // console.log(data);
+
     if(data.length > 0){
+
         req.session.admin = true;
         res.redirect("/admin/index");
+
     }else{
-        res.send("Invalid Email or Password");
+
+        res.render("admin/admin_register",{
+            error:"Invalid Email or Password"
+        });
+
     }
 
 });
-
 router.get("/forgot-password", (req, res) => {
     res.render("admin/forgot_password");
 });
 
 router.post("/forgot-password", async (req, res) => {
 
-    await exe(`
+    await exe(` 
         UPDATE admin_login
         SET password='${req.body.new_password}'
         WHERE email='${req.body.email}'
@@ -595,15 +619,50 @@ router.post("/save-product", async function (req, res) {
 
     try {
 
+        let product_name = req.body.product_name?.trim();
+        let short_description = req.body.short_description?.trim();
+        let description = req.body.description?.trim();
+
+        // Validation
+        if (!product_name || product_name.length < 3) {
+            return res.send("Product Name must be at least 3 characters");
+        }
+
+        if (!short_description || short_description.length < 10) {
+            return res.send("Short Description must be at least 10 characters");
+        }
+
+        if (!description || description.length < 20) {
+            return res.send("Description must be at least 20 characters");
+        }
+
         let imageName = "";
 
         if (req.files && req.files.main_image) {
 
             let image = req.files.main_image;
 
+            // Allowed Image Types
+            let allowedTypes = [
+                "image/jpeg",
+                "image/png",
+                "image/webp"
+            ];
+
+            if (!allowedTypes.includes(image.mimetype)) {
+                return res.send("Only JPG, PNG and WEBP images are allowed");
+            }
+
+            // Max Size 2 MB
+            if (image.size > 2 * 1024 * 1024) {
+                return res.send("Image size must be less than 2 MB");
+            }
+
             imageName = Date.now() + "_" + image.name;
 
             await image.mv("./public/uploads/" + imageName);
+        } else {
+            return res.send("Please upload product image");
         }
 
         let sql = `
@@ -620,13 +679,13 @@ router.post("/save-product", async function (req, res) {
         )
         VALUES
         (
-            '${req.body.product_name}',
-            '${req.body.short_description}',
-            '${req.body.description}',
-            '${req.body.feature1}',
-            '${req.body.feature2}',
-            '${req.body.feature3}',
-            '${req.body.feature4}',
+            '${product_name}',
+            '${short_description}',
+            '${description}',
+            '${req.body.feature1 || ""}',
+            '${req.body.feature2 || ""}',
+            '${req.body.feature3 || ""}',
+            '${req.body.feature4 || ""}',
             '${imageName}'
         )
         `;
@@ -635,7 +694,8 @@ router.post("/save-product", async function (req, res) {
 
         res.redirect("/admin/products");
 
-    } catch (err) {
+    }
+    catch (err) {
 
         console.log(err);
         res.send("Error While Saving Product");
@@ -1228,7 +1288,7 @@ router.post("/update-event/:id", function(req, res){
     var image = req.files.image;
     var imageName = Date.now() + "_" + image.name;
 
-    image.mv("public/upload/" + imageName, async function(err){
+    image.mv("public/uploads/" + imageName, async function(err){
 
         if(err){
             return res.send("Upload Error");
@@ -1236,7 +1296,7 @@ router.post("/update-event/:id", function(req, res){
 
         var sql = `
         UPDATE events
-        SET image='/upload/${imageName}'
+        SET image='${imageName}'
         WHERE id='${id}'
         `;
 
@@ -2089,28 +2149,116 @@ router.get("/delete-application/:id", async function(req,res){
 
 });
 
-router.get("/change-status/:id/:status", async (req,res)=>{
+router.get("/change-status/:id/:status", async(req,res)=>{
 
-    try{
+    let currentTime = new Date().toLocaleString("sv-SE",{
+        timeZone:"Asia/Kolkata"
+    });
 
-        await exe(`
-            UPDATE job_applications
-            SET status='${req.params.status}'
-            WHERE id='${req.params.id}'
-        `);
+    await exe(`
+        UPDATE job_applications
+        SET
+        status='${req.params.status}',
+        status_updated_at='${currentTime}'
+        WHERE id='${req.params.id}'
+    `);
 
-        res.redirect("/admin/applications");
-
-    }
-    catch(err){
-
-        console.log(err);
-        res.send("Status Update Error");
-
-    }
+    res.redirect("/admin/applications");
 
 });
 
+router.post("/save-interview-date/:id", async(req,res)=>{
+
+    try{
+
+        let currentTime = new Date().toLocaleString("sv-SE",{
+            timeZone:"Asia/Kolkata"
+        });
+
+        await exe(`
+            UPDATE job_applications
+            SET
+            interview_date='${req.body.interview_date}',
+            status='Interview Scheduled',
+            status_updated_at='${currentTime}'
+            WHERE id='${req.params.id}'
+        `);
+
+        let application = await exe(`
+            SELECT *
+            FROM job_applications
+            WHERE id='${req.params.id}'
+        `);
+
+        let user = application[0];
+
+       
+
+        let info = await transporter.sendMail({
+            from:"komalkhandave8720@gmail.com",
+            to:user.email,
+            subject:"Interview Scheduled - Virtual White Flame",
+            html:`
+                <h2>Hello ${user.name}</h2>
+
+                <p>Congratulations!</p>
+
+                <p>
+                    Your application for
+                    <b>${user.position}</b>
+                    has been shortlisted.
+                </p>
+
+                <p>
+                    Your interview has been scheduled.
+                </p>
+
+                <p>
+                    <b>Interview Date & Time:</b><br>
+                    ${new Date(user.interview_date).toLocaleString("en-IN")}
+                </p>
+
+                <br>
+
+                <p>
+                    Please login and check your
+                    My Applications section.
+                </p>
+
+                <br>
+
+                <p>
+                    Regards,<br>
+                    HR Team<br>
+                    Virtual White Flame
+                </p>
+            `
+        });
+
+       
+    res.redirect("/admin/applications?schedule=1");
+    }
+    catch(err){
+
+        console.log("MAIL ERROR");
+        console.log(err);
+
+        res.send("Email Send Error");
+    }
+
+});
+router.get("/interview-form/:id", async(req,res)=>{
+
+    let application = await exe(`
+        SELECT * FROM job_applications
+        WHERE id='${req.params.id}'
+    `);
+
+    res.render("admin/interview-form",{
+        application: application[0]
+    });
+
+});
 // contact
 
 router.get("/contact-list", async function(req, res){
@@ -3315,6 +3463,18 @@ router.get("/delete-client/:id", async (req, res) => {
     await exe(`DELETE FROM client_register WHERE id='${id}'`);
 
     res.redirect("/admin/clients");
+
+});
+
+router.get("/logout", (req, res) => {
+
+    req.session.admin = null;
+
+    req.session.destroy(() => {
+
+        res.redirect("/admin");
+
+    });
 
 });
 module.exports = router;

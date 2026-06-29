@@ -12,7 +12,6 @@ body{
     margin-right:20px;
     margin-bottom:50px;
     width:calc(100% - 290px);
-
 }
 
 .admin-card{
@@ -63,6 +62,12 @@ textarea{
     background:#e55f00;
 }
 
+.error{
+    color:red;
+    font-size:14px;
+    margin-top:5px;
+}
+
 @media(max-width:992px){
     .product-container{
         margin-left:20px;
@@ -82,8 +87,10 @@ textarea{
 
         <form action="/admin/save-product"
               method="post"
-              enctype="multipart/form-data">
+              enctype="multipart/form-data"
+              id="productForm">
 
+            <!-- Product Name -->
             <div class="mb-3">
                 <label class="form-label">
                     Product Name
@@ -91,32 +98,44 @@ textarea{
 
                 <input type="text"
                        name="product_name"
+                       id="product_name"
                        class="form-control"
                        required>
+
+                <div class="error" id="productNameError"></div>
             </div>
 
+            <!-- Short Description -->
             <div class="mb-3">
                 <label class="form-label">
                     Short Description
                 </label>
 
                 <textarea name="short_description"
+                          id="short_description"
                           class="form-control"
                           rows="3"
                           required></textarea>
+
+                <div class="error" id="shortDescriptionError"></div>
             </div>
 
+            <!-- Full Description -->
             <div class="mb-3">
                 <label class="form-label">
                     Full Description
                 </label>
 
                 <textarea name="description"
+                          id="description"
                           class="form-control"
                           rows="6"
                           required></textarea>
+
+                <div class="error" id="descriptionError"></div>
             </div>
 
+            <!-- Features -->
             <div class="row">
 
                 <div class="col-md-6 mb-3">
@@ -161,6 +180,7 @@ textarea{
 
             </div>
 
+            <!-- Image -->
             <div class="mb-4">
                 <label class="form-label">
                     Main Product Image
@@ -168,9 +188,12 @@ textarea{
 
                 <input type="file"
                        name="main_image"
+                       id="main_image"
                        class="form-control"
-                       accept="image/*"
+                       accept=".jpg,.jpeg,.png,.webp"
                        required>
+
+                <div class="error" id="imageError"></div>
             </div>
 
             <button type="submit"
@@ -183,5 +206,77 @@ textarea{
     </div>
 
 </div>
+
+<script>
+document.getElementById("productForm").addEventListener("submit", function(e){
+
+    let isValid = true;
+
+    // Clear old errors
+    document.getElementById("productNameError").innerText = "";
+    document.getElementById("shortDescriptionError").innerText = "";
+    document.getElementById("descriptionError").innerText = "";
+    document.getElementById("imageError").innerText = "";
+
+    let productName = document.getElementById("product_name").value.trim();
+    let shortDescription = document.getElementById("short_description").value.trim();
+    let description = document.getElementById("description").value.trim();
+    let image = document.getElementById("main_image");
+
+    // Product Name Validation
+    if(productName.length < 3){
+        document.getElementById("productNameError").innerText =
+        "Product Name must be at least 3 characters.";
+        isValid = false;
+    }
+
+    // Short Description Validation
+    if(shortDescription.length < 10){
+        document.getElementById("shortDescriptionError").innerText =
+        "Short Description must be at least 10 characters.";
+        isValid = false;
+    }
+
+    // Description Validation
+    if(description.length < 20){
+        document.getElementById("descriptionError").innerText =
+        "Full Description must be at least 20 characters.";
+        isValid = false;
+    }
+
+    // Image Validation
+    if(image.files.length === 0){
+        document.getElementById("imageError").innerText =
+        "Please select an image.";
+        isValid = false;
+    }else{
+
+        let file = image.files[0];
+
+        let allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if(!allowedTypes.includes(file.type)){
+            document.getElementById("imageError").innerText =
+            "Only JPG, PNG and WEBP images are allowed.";
+            isValid = false;
+        }
+
+        // Max 2MB
+        if(file.size > 2 * 1024 * 1024){
+            document.getElementById("imageError").innerText =
+            "Image size must be less than 2 MB.";
+            isValid = false;
+        }
+    }
+
+    if(!isValid){
+        e.preventDefault();
+    }
+});
+</script>
 
 <%- include("footer.ejs") %>

@@ -96,12 +96,20 @@
     </div>
 
     <h2 class="register-title">
-        Client Registration
+        User Registration
     </h2>
 
     <p class="register-subtitle">
-        Create your account to access client services
+        Create your account to access user services
     </p>
+
+    <% if(exists){ %>
+
+<div class="alert alert-danger">
+    Email already registered. Please login.
+</div>
+
+<% } %>
 
     <form action="/client-register" method="POST">
 

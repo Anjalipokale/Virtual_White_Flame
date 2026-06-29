@@ -2820,6 +2820,7 @@ nav.navbar {
     display: flex;
     align-items: center;
     justify-content: center;
+    height:350px;
 }
 
 .history-banner-overlay{

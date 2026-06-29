@@ -123,7 +123,7 @@ body{
 
 .sidebar ul li a.active,
 .dropdown-toggle.active{
-    background:#ff7a00;
+    
     color:#fff !important;
     box-shadow:orange;
 }
@@ -248,48 +248,6 @@ body{
     color:var(--orange);
 }
 
-/* ======================
-   MOBILE
-====================== */
-
-@media(max-width:768px){
-
-    .sidebar{
-        width:70px;
-    }
-
-    .logo h3,
-    .logo span{
-        display:none;
-    }
-
-    .sidebar ul li a{
-        justify-content:center;
-        font-size:18px;
-    }
-
-    .sidebar ul li a span{
-        display:none;
-    }
-
-    .top-navbar{
-        left:70px;
-    }
-
-    .main-content{
-        margin-left:70px;
-    }
-
-    .admin-footer{
-        left:70px;
-        flex-direction:column;
-        justify-content:center;
-        gap:2px;
-        height:70px;
-        text-align:center;
-    }
-}
-
 .logo{
     text-align:center;
     padding:10px 10px;
@@ -396,6 +354,238 @@ body{
     border-radius:12px;
 }
 
+/* Tablet */
+@media (max-width: 992px){
+
+    .sidebar{
+        width:220px;
+    }
+
+    .top-navbar{
+        left:220px;
+        padding:0 15px;
+    }
+
+    .main-content{
+        margin-left:220px;
+        padding:20px;
+    }
+
+    .admin-footer{
+        left:220px;
+    }
+}
+
+/* Mobile */
+@media (max-width:768px){
+
+    .sidebar{
+        width:72px;
+    }
+
+    .logo img{
+        width:46px;
+        height:46px;
+    }
+
+    .logo h4{
+        font-size:10px;
+        margin-top:6px;
+        margin-bottom:1px;
+        line-height:1.1;
+    }
+
+    .logo span{
+        font-size:8px;
+        letter-spacing:0;
+    }
+
+    .sidebar ul li{
+        margin:6px 4px;
+    }
+
+    /* Top-level items: icon on top, tiny label below — applies to ALL link text
+       (span-wrapped or plain text nodes like "Registered Clients") so nothing
+       overflows the narrow rail and disappears */
+    .sidebar > ul > li > a{
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        gap:4px;
+        padding:10px 2px;
+        font-size:9px;
+        line-height:1.15;
+        text-align:center;
+        white-space:normal;
+        word-break:break-word;
+        overflow-wrap:break-word;
+        min-width:0;
+    }
+
+    .sidebar > ul > li > a i{
+        font-size:17px;
+    }
+
+    .sidebar > ul > li > a span{
+        display:block;
+    }
+
+    /* Positioning (top/left) is set by JS via inline style as position:fixed,
+       so the flyout escapes the sidebar's overflow:auto clipping box.
+       This rule only covers the flyout's appearance. */
+    .dropdown-menu-custom{
+        min-width:220px;
+        max-height:70vh;
+        overflow-y:auto;
+        background:#198754;
+        border-radius:10px;
+        box-shadow:0 8px 20px rgba(0,0,0,.3);
+        z-index:9999;
+    }
+
+    .dropdown-menu-custom li a{
+        font-size:14px;
+    }
+
+    .top-navbar{
+        left:72px;
+        height:60px;
+        padding:0 10px;
+    }
+
+    .top-navbar h4{
+        font-size:16px;
+    }
+
+    /* Admin name shrinks instead of vanishing */
+    .admin-details{
+        display:flex;
+        flex-direction:column;
+        line-height:1.15;
+    }
+
+    .admin-details h6{
+        font-size:11px;
+    }
+
+    .admin-details small{
+        font-size:9px;
+    }
+
+    .admin-info{
+        gap:8px;
+    }
+
+    .admin-info img{
+        width:36px;
+        height:36px;
+    }
+
+    .main-content{
+        margin-left:72px;
+        margin-top:75px;
+        padding:15px;
+    }
+
+    .dashboard-card{
+        padding:18px;
+    }
+
+    .admin-footer{
+        left:72px;
+        height:auto;
+        padding:10px;
+        flex-direction:column;
+        text-align:center;
+    }
+}
+
+/* Small Mobile */
+@media (max-width:480px){
+
+    .top-navbar h4{
+        font-size:14px;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        max-width:55%;
+    }
+
+    .admin-info img{
+        width:35px;
+        height:35px;
+    }
+
+    .main-content{
+        padding:10px;
+    }
+
+    .dashboard-card{
+        padding:14px;
+        border-radius:12px;
+    }
+
+    .dropdown-menu-custom{
+        min-width:180px;
+        max-height:60vh;
+    }
+
+    .admin-details small{
+        display:none;
+    }
+
+    .admin-details h6{
+        font-size:10px;
+    }
+
+    .sidebar > ul > li > a{
+        font-size:8px;
+    }
+}
+
+/* Extra Small Mobile */
+@media (max-width:360px){
+
+    .sidebar{
+        width:64px;
+    }
+
+    .top-navbar,
+    .main-content,
+    .admin-footer{
+        left:64px;
+    }
+
+    .main-content{
+        margin-left:64px;
+    }
+
+    .dropdown-menu-custom{
+        min-width:160px;
+    }
+
+    .sidebar > ul > li > a{
+        padding:8px 2px;
+        font-size:7.5px;
+    }
+
+    .sidebar > ul > li > a i{
+        font-size:15px;
+    }
+
+    .logo h4{
+        font-size:9px;
+    }
+
+    .logo span{
+        font-size:7px;
+    }
+
+    .admin-details{
+        display:none;
+    }
+}
+
 </style>
 </head>
 
@@ -440,7 +630,7 @@ body{
     <ul>
 
     <li>
-        <a href="/admin" class="active">
+        <a href="/admin/index" class="active">
             <i class="fas fa-gauge"></i>
             <span>Dashboard</span>
         </a>
@@ -720,14 +910,13 @@ body{
     </a>
 </li>
 
-</li>
-    <li>
-        <a href="#">
-            <i class="fas fa-right-from-bracket"></i>
-            <span>Logout</span>
-        </a>
-    </li>
 
+    <li>
+    <a href="/admin/logout">
+        <i class="fas fa-right-from-bracket"></i>
+        <span>Logout</span>
+    </a>
+</li>
 </ul>
 
 
@@ -736,16 +925,63 @@ body{
 function toggleDropdown(event){
     event.preventDefault();
 
-    let menu = event.currentTarget.nextElementSibling;
+    let toggle = event.currentTarget;
+    let menu = toggle.nextElementSibling;
 
     document.querySelectorAll('.dropdown-menu-custom').forEach(item => {
         if(item !== menu){
             item.classList.remove('show');
+            item.style.position = '';
+            item.style.top = '';
+            item.style.left = '';
+            item.style.maxHeight = '';
         }
     });
 
+    let isOpening = !menu.classList.contains('show');
     menu.classList.toggle('show');
+
+    if(isOpening && window.innerWidth <= 768){
+        // Mobile: place the flyout with fixed positioning, calculated from the
+        // toggle's real on-screen position, so it escapes the sidebar's
+        // overflow:auto clipping instead of being hidden inside it.
+        let rect = toggle.getBoundingClientRect();
+        let left = rect.right + 6;
+        let top = rect.top;
+
+        menu.style.position = 'fixed';
+        menu.style.left = left + 'px';
+        menu.style.top = top + 'px';
+        menu.style.maxHeight = (window.innerHeight - top - 10) + 'px';
+
+        // Nudge back on screen if it would overflow the right/bottom edge
+        requestAnimationFrame(function(){
+            let menuRect = menu.getBoundingClientRect();
+            if(menuRect.right > window.innerWidth){
+                menu.style.left = Math.max(4, window.innerWidth - menuRect.width - 4) + 'px';
+            }
+            if(menuRect.bottom > window.innerHeight){
+                menu.style.top = Math.max(4, window.innerHeight - menuRect.height - 4) + 'px';
+            }
+        });
+    } else if(!isOpening || window.innerWidth > 768){
+        menu.style.position = '';
+        menu.style.top = '';
+        menu.style.left = '';
+        menu.style.maxHeight = '';
+    }
 }
+
+window.addEventListener('resize', function(){
+    if(window.innerWidth > 768){
+        document.querySelectorAll('.dropdown-menu-custom').forEach(function(menu){
+            menu.style.position = '';
+            menu.style.top = '';
+            menu.style.left = '';
+            menu.style.maxHeight = '';
+        });
+    }
+});
 </script>
 
 </body>

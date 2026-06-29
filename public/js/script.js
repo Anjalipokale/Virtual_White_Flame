@@ -1,64 +1,77 @@
 var NAV_ITEMS = [
-    { label:'Home',               icon:'fa-home',           cat:'Main' },
-    { label:'About Us',           icon:'fa-building',       cat:'About' },
-    { label:'Company History',    icon:'fa-landmark',       cat:'About' },
-    { label:'Vision & Mission',   icon:'fa-eye',            cat:'About' },
-    { label:'Founders',           icon:'fa-star',           cat:'About' },
-    { label:'Team',               icon:'fa-users',          cat:'About' },
-    { label:'Presence',           icon:'fa-map-marker-alt', cat:'About' },
-    { label:'Biomass Supply Management',                            icon:'fa-seedling', cat:'Services' },
-    { label:'Biomass Briquettes & Pellets Manufacture',             icon:'fa-fire',     cat:'Services' },
-    { label:'Build Own Operate & Transfer for Boiler & Co-Generation Plant', icon:'fa-cog', cat:'Services' },
-    { label:'Operation and Management',                             icon:'fa-tools',    cat:'Services' },
-    { label:'Products',   icon:'fa-box',       cat:'Main' },
-    { label:'Plants',     icon:'fa-leaf',      cat:'Main' },
-    { label:'Videos',     icon:'fa-video',     cat:'Gallery' },
-    { label:'Images',     icon:'fa-images',    cat:'Gallery' },
-    { label:'Albums',     icon:'fa-folder',    cat:'Gallery' },
-    { label:'Career',     icon:'fa-briefcase', cat:'Main' },
-    { label:'Contact Us', icon:'fa-envelope',  cat:'Main' }
-  ];
+  // Main
+  { label:'Home',          icon:'fa-home',           cat:'Main',    url:'/' },
+  { label:'Products',      icon:'fa-box',            cat:'Main',    url:'/products' },
+  { label:'Plants',        icon:'fa-leaf',           cat:'Main',    url:'/plants' },
+  { label:'Career',        icon:'fa-briefcase',      cat:'Main',    url:'/career' },
+  { label:'Contact Us',    icon:'fa-envelope',       cat:'Main',    url:'/contact' },
 
-  var overlay = document.getElementById('searchOverlay');
-  var input   = document.getElementById('searchInput');
-  var results = document.getElementById('searchResults');
+  // About
+  { label:'About Us',          icon:'fa-building',  cat:'About',   url:'/about' },
+  { label:'Company History',   icon:'fa-landmark',  cat:'About',   url:'/company-history' },
+  { label:'Vision & Mission',  icon:'fa-eye',        cat:'About',   url:'/vision-mission' },
+  { label:'Founder',           icon:'fa-star',       cat:'About',   url:'/founder' },
 
-  function openSearch() {
-    overlay.classList.add('open');
-    setTimeout(function(){ input.focus(); }, 80);
-    render('');
+  // Services
+  { label:'Services',           icon:'fa-cogs',      cat:'Services', url:'/services' },
+  { label:'Support Services',   icon:'fa-headset',   cat:'Services', url:'/support_services' },
+  { label:'Customer Services',  icon:'fa-bolt',      cat:'Services', url:'/customer_services' },
+  { label:'Business Services',  icon:'fa-tools',     cat:'Services', url:'/business-s' },
+
+  // Gallery
+  { label:'Videos',        icon:'fa-video',          cat:'Gallery', url:'/videos' },
+  { label:'Images',        icon:'fa-images',         cat:'Gallery', url:'/images' },
+  { label:'Event Albums',  icon:'fa-folder',         cat:'Gallery', url:'/event_albums' },
+
+  // Blog
+  { label:'Blog',          icon:'fa-newspaper',      cat:'Blog',    url:'/blog' },
+
+  // Account
+  { label:'Login',           icon:'fa-sign-in-alt', cat:'Account', url:'/client-login' },
+  { label:'Register',        icon:'fa-user-plus',   cat:'Account', url:'/client_register' },
+  { label:'My Applications', icon:'fa-file-alt',    cat:'Account', url:'/my-applications' }
+];
+
+var overlay = document.getElementById('searchOverlay');
+var input   = document.getElementById('searchInput');
+var results = document.getElementById('searchResults');
+
+function openSearch() {
+  overlay.classList.add('open');
+  setTimeout(function(){ input.focus(); }, 80);
+  render('');
+}
+function closeSearch() {
+  overlay.classList.remove('open');
+  input.value = '';
+  render('');
+}
+function render(q) {
+  q = q.trim().toLowerCase();
+  var list = q === '' ? NAV_ITEMS : NAV_ITEMS.filter(function(x){ return x.label.toLowerCase().indexOf(q) !== -1; });
+  if (!list.length) {
+    results.innerHTML = '<div class="sb-empty"><i class="fa fa-search" style="font-size:22px;color:#ddd;display:block;margin:0 auto 8px"></i>No results found</div>';
+    return;
   }
-  function closeSearch() {
-    overlay.classList.remove('open');
-    input.value = '';
-    render('');
-  }
-  function render(q) {
-    q = q.trim().toLowerCase();
-    var list = q === '' ? NAV_ITEMS : NAV_ITEMS.filter(function(x){ return x.label.toLowerCase().indexOf(q) !== -1; });
-    if (!list.length) {
-      results.innerHTML = '<div class="sb-empty"><i class="fa fa-search" style="font-size:22px;color:#ddd;display:block;margin:0 auto 8px"></i>No results found</div>';
-      return;
-    }
-    results.innerHTML = list.map(function(item){
-      return '<a href="#" class="sb-item" onclick="closeSearch();return false;">'
-        + '<span class="sb-iico"><i class="fa ' + item.icon + '"></i></span>'
-        + item.label
-        + '<span class="sb-cat">' + item.cat + '</span>'
-        + '</a>';
-    }).join('');
-  }
+  results.innerHTML = list.map(function(item){
+    return '<a href="' + item.url + '" class="sb-item" onclick="closeSearch();">'
+      + '<span class="sb-iico"><i class="fa ' + item.icon + '"></i></span>'
+      + item.label
+      + '<span class="sb-cat">' + item.cat + '</span>'
+      + '</a>';
+  }).join('');
+}
 
-  document.getElementById('searchBtn').addEventListener('click', openSearch);
-  document.getElementById('searchClose').addEventListener('click', closeSearch);
-  input.addEventListener('input', function(){ render(this.value); });
-  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeSearch(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+document.getElementById('searchBtn').addEventListener('click', openSearch);
+document.getElementById('searchClose').addEventListener('click', closeSearch);
+input.addEventListener('input', function(){ render(this.value); });
+overlay.addEventListener('click', function(e){ if(e.target === overlay) closeSearch(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
 
 
-  // gallery
+// gallery
 
-  function filterGallery(category) {
+function filterGallery(category) {
 
     let items = document.querySelectorAll(".gallery-item");
 
@@ -163,61 +176,74 @@ window.onclick = function(event) {
 // about page js
 
 var NAV_ITEMS = [
-    { label:'Home',               icon:'fa-home',           cat:'Main' },
-    { label:'About Us',           icon:'fa-building',       cat:'About' },
-    { label:'Company History',    icon:'fa-landmark',       cat:'About' },
-    { label:'Vision & Mission',   icon:'fa-eye',            cat:'About' },
-    { label:'Founders',           icon:'fa-star',           cat:'About' },
-    { label:'Team',               icon:'fa-users',          cat:'About' },
-    { label:'Presence',           icon:'fa-map-marker-alt', cat:'About' },
-    { label:'Biomass Supply Management',                            icon:'fa-seedling', cat:'Services' },
-    { label:'Biomass Briquettes & Pellets Manufacture',             icon:'fa-fire',     cat:'Services' },
-    { label:'Build Own Operate & Transfer for Boiler & Co-Generation Plant', icon:'fa-cog', cat:'Services' },
-    { label:'Operation and Management',                             icon:'fa-tools',    cat:'Services' },
-    { label:'Products',   icon:'fa-box',       cat:'Main' },
-    { label:'Plants',     icon:'fa-leaf',      cat:'Main' },
-    { label:'Videos',     icon:'fa-video',     cat:'Gallery' },
-    { label:'Images',     icon:'fa-images',    cat:'Gallery' },
-    { label:'Albums',     icon:'fa-folder',    cat:'Gallery' },
-    { label:'Career',     icon:'fa-briefcase', cat:'Main' },
-    { label:'Contact Us', icon:'fa-envelope',  cat:'Main' }
-  ];
+  // Main
+  { label:'Home',          icon:'fa-home',           cat:'Main',    url:'/' },
+  { label:'Products',      icon:'fa-box',            cat:'Main',    url:'/products' },
+  { label:'Plants',        icon:'fa-leaf',           cat:'Main',    url:'/plants' },
+  { label:'Career',        icon:'fa-briefcase',      cat:'Main',    url:'/career' },
+  { label:'Contact Us',    icon:'fa-envelope',       cat:'Main',    url:'/contact' },
 
-  var overlay = document.getElementById('searchOverlay');
-  var input   = document.getElementById('searchInput');
-  var results = document.getElementById('searchResults');
+  // About
+  { label:'About Us',          icon:'fa-building',  cat:'About',   url:'/about' },
+  { label:'Company History',   icon:'fa-landmark',  cat:'About',   url:'/company-history' },
+  { label:'Vision & Mission',  icon:'fa-eye',        cat:'About',   url:'/vision-mission' },
+  { label:'Founder',           icon:'fa-star',       cat:'About',   url:'/founder' },
 
-  function openSearch() {
-    overlay.classList.add('open');
-    setTimeout(function(){ input.focus(); }, 80);
-    render('');
-  }
-  function closeSearch() {
-    overlay.classList.remove('open');
-    input.value = '';
-    render('');
-  }
-  function render(q) {
-    q = q.trim().toLowerCase();
-    var list = q === '' ? NAV_ITEMS : NAV_ITEMS.filter(function(x){ return x.label.toLowerCase().indexOf(q) !== -1; });
-    if (!list.length) {
-      results.innerHTML = '<div class="sb-empty"><i class="fa fa-search" style="font-size:22px;color:#ddd;display:block;margin:0 auto 8px"></i>No results found</div>';
-      return;
-    }
-    results.innerHTML = list.map(function(item){
-      return '<a href="#" class="sb-item" onclick="closeSearch();return false;">'
-        + '<span class="sb-iico"><i class="fa ' + item.icon + '"></i></span>'
-        + item.label
-        + '<span class="sb-cat">' + item.cat + '</span>'
-        + '</a>';
-    }).join('');
-  }
+  // Services
+  { label:'Services',           icon:'fa-cogs',      cat:'Services', url:'/services' },
+  { label:'Support Services',   icon:'fa-headset',   cat:'Services', url:'/support_services' },
+  { label:'Customer Services',  icon:'fa-bolt',      cat:'Services', url:'/customer_services' },
+  { label:'Business Services',  icon:'fa-tools',     cat:'Services', url:'/business-s' },
 
-  document.getElementById('searchBtn').addEventListener('click', openSearch);
-  document.getElementById('searchClose').addEventListener('click', closeSearch);
-  input.addEventListener('input', function(){ render(this.value); });
-  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeSearch(); });
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
+  // Gallery
+  { label:'Videos',        icon:'fa-video',          cat:'Gallery', url:'/videos' },
+  { label:'Images',        icon:'fa-images',         cat:'Gallery', url:'/images' },
+  { label:'Event Albums',  icon:'fa-folder',         cat:'Gallery', url:'/event_albums' },
+
+  // Blog
+  { label:'Blog',          icon:'fa-newspaper',      cat:'Blog',    url:'/blog' },
+
+  // Account
+  { label:'Login',           icon:'fa-sign-in-alt', cat:'Account', url:'/client-login' },
+  { label:'Register',        icon:'fa-user-plus',   cat:'Account', url:'/client_register' },
+  { label:'My Applications', icon:'fa-file-alt',    cat:'Account', url:'/my-applications' }
+];
+
+var overlay = document.getElementById('searchOverlay');
+var input   = document.getElementById('searchInput');
+var results = document.getElementById('searchResults');
+
+function openSearch() {
+  overlay.classList.add('open');
+  setTimeout(function(){ input.focus(); }, 80);
+  render('');
+}
+function closeSearch() {
+  overlay.classList.remove('open');
+  input.value = '';
+  render('');
+}
+function render(q) {
+  q = q.trim().toLowerCase();
+  var list = q === '' ? NAV_ITEMS : NAV_ITEMS.filter(function(x){ return x.label.toLowerCase().indexOf(q) !== -1; });
+  if (!list.length) {
+    results.innerHTML = '<div class="sb-empty"><i class="fa fa-search" style="font-size:22px;color:#ddd;display:block;margin:0 auto 8px"></i>No results found</div>';
+    return;
+  }
+  results.innerHTML = list.map(function(item){
+    return '<a href="' + item.url + '" class="sb-item" onclick="closeSearch();">'
+      + '<span class="sb-iico"><i class="fa ' + item.icon + '"></i></span>'
+      + item.label
+      + '<span class="sb-cat">' + item.cat + '</span>'
+      + '</a>';
+  }).join('');
+}
+
+document.getElementById('searchBtn').addEventListener('click', openSearch);
+document.getElementById('searchClose').addEventListener('click', closeSearch);
+input.addEventListener('input', function(){ render(this.value); });
+overlay.addEventListener('click', function(e){ if(e.target === overlay) closeSearch(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSearch(); });
 
 
 
@@ -285,13 +311,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
 window.addEventListener("load", function () {
 
   let index = 0;
   const slider = document.getElementById("slider");
   const cards = document.querySelectorAll(".testimonial-card");
-
-  if (!slider || cards.length === 0) return;
 
   function showSlide() {
     slider.style.transform = `translateX(-${index * 100}%)`;
@@ -307,7 +332,8 @@ window.addEventListener("load", function () {
     showSlide();
   }
 
-  showSlide();
+  showSlide(); // initial
+
   setInterval(nextSlide, 2500);
 
 });

@@ -145,6 +145,18 @@ body{
     background:#1B5E20;
 }
 
+#pagination button{
+    margin:0 5px;
+    padding:8px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+#pagination button:hover{
+    background:#1B5E20 !important;
+    color:#fff;
+}
 </style>
 
 
@@ -240,6 +252,7 @@ body{
 </tbody>
 
     </table>
+    <div id="pagination" style="text-align:center; margin-top:20px;"></div>
 
 </div>
 
@@ -343,6 +356,78 @@ function printTable(){
     win.print();
 
 }
+
+// Pagination
+
+const rowsPerPage = 10;
+
+const rows = document.querySelectorAll(
+    "#requestsTable tbody tr"
+);
+
+const pagination = document.getElementById("pagination");
+
+let currentPage = 1;
+
+function displayRows(page){
+
+    rows.forEach((row,index)=>{
+
+        let start = (page - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+
+        if(index >= start && index < end){
+            row.style.display = "";
+        }
+        else{
+            row.style.display = "none";
+        }
+
+    });
+
+}
+
+function setupPagination(){
+
+    let pageCount = Math.ceil(
+        rows.length / rowsPerPage
+    );
+
+    pagination.innerHTML = "";
+
+    for(let i=1; i<=pageCount; i++){
+
+        let btn = document.createElement("button");
+
+        btn.innerText = i;
+
+        if(i === currentPage){
+            btn.style.background = "#2E7D32";
+            btn.style.color = "#fff";
+        }
+        else{
+            btn.style.background = "#ddd";
+        }
+
+        btn.addEventListener("click", function(){
+
+            currentPage = i;
+
+            displayRows(currentPage);
+
+            setupPagination();
+
+        });
+
+        pagination.appendChild(btn);
+
+    }
+
+}
+
+displayRows(currentPage);
+
+setupPagination();
 
 </script>
 

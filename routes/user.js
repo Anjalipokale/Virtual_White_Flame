@@ -2,6 +2,15 @@ var express = require("express");
 var exe = require("./connection");
 const fs = require("fs");
 const path = require("path");
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+        user: "yourgmail@gmail.com",
+        pass: "your_app_password"
+    }
+});
 
 var router = express.Router();
 
@@ -131,7 +140,8 @@ try {
         )
     `);
 
-    res.redirect("/support_services");
+
+    res.redirect("/support_services?success=1");
 
 } catch(err){
 
@@ -339,7 +349,7 @@ router.get("/images", async function(req, res){
 
 });
 
-
+ 
 // Event Albums from database
 router.get("/event_albums", async function(req, res){
 
@@ -380,18 +390,37 @@ router.get("/career", async (req, res) => {
             "SELECT * FROM culture"
         );
 
+        let applicationCount = 0;
+
+        if(req.session.client){
+
+            let count = await exe(`
+                SELECT COUNT(*) as total
+                FROM job_applications
+                WHERE client_id='${req.session.client.id}'
+                AND record_status!='Deleted'
+            `);
+
+            applicationCount = count[0].total;
+        }
+
         res.render("user/career", {
 
-            careers,
-            culture,
+    careers,
+    culture,
 
-            whyJoin: whyJoinResult[0] || {},
-            hrContact: hrContactResult[0] || {},
+    whyJoin: whyJoinResult[0] || {},
+    hrContact: hrContactResult[0] || {},
 
-            trackingId: req.query.success || "",
-            application: null
+    trackingId: req.query.success || "",
+    msg: req.query.msg || "",
 
-        });
+    application: null,
+
+    client: req.session.client || null,
+    applicationCount: applicationCount
+
+});
 
     } catch (err) {
 
@@ -467,9 +496,27 @@ router.post("/save-application", async (req, res) => {
 
         let resume = req.files.resume;
 
+        // Only PDF, DOC, DOCX Allowed
+
+        let allowedTypes = [
+            "application/pdf",
+            "application/msword",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        ];
+
+        if (!allowedTypes.includes(resume.mimetype)) {
+            return res.send("Only PDF, DOC and DOCX files are allowed");
+        }
+
+        // Max File Size 2 MB
+
+        if (resume.size > 2 * 1024 * 1024) {
+            return res.send("Resume size must be less than 2 MB");
+        }
+
         let resumeName = Date.now() + "_" + resume.name;
 
-        await resume.mv("public/resume/" + resumeName);
+        await resume.mv("./public/resume/" + resumeName);
 
         let applicationId = "VWF" + Date.now();
 
@@ -477,7 +524,6 @@ router.post("/save-application", async (req, res) => {
             timeZone: "Asia/Kolkata"
         });
 
-        
         await exe(`
             INSERT INTO job_applications
             (
@@ -505,9 +551,9 @@ router.post("/save-application", async (req, res) => {
             )
         `);
 
-        res.redirect("/career?success=" + applicationId);
-
-    } catch (err) {
+res.redirect("/career?success=" + applicationId + "&msg=Your Application Submitted Successfully");
+    }
+    catch (err) {
 
         console.log(err);
         res.send("Application Submit Error");
@@ -553,7 +599,6 @@ router.get("/contact", async (req, res) => {
 
 router.post("/contact-submit", async (req, res) => {
 
-
 try {
 
     let { name, email, phone, subject, message } = req.body;
@@ -593,7 +638,7 @@ try {
         )
     `);
 
-    res.redirect("/contact");
+    res.redirect("/contact?success=1");
 
 } catch (err) {
 
@@ -601,7 +646,6 @@ try {
     res.send("Contact Form Error");
 
 }
-
 
 });
 
@@ -611,50 +655,49 @@ try {
 
 router.post("/save-callback", async (req, res) => {
 
+    try {
 
-try {
+        let { name, mobile, time } = req.body;
 
-    let { name, mobile, time } = req.body;
+        // Name Validation
+        if (!/^[A-Za-z ]+$/.test(name)) {
+            return res.send("Name should contain only letters");
+        }
 
-    // Name Validation
-    if (!/^[A-Za-z ]+$/.test(name)) {
-        return res.send("Name should contain only letters");
+        // Mobile Validation
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            return res.send("Mobile number must be exactly 10 digits");
+        }
+
+        // Time Validation
+        if (!time || time.trim() === "") {
+            return res.send("Preferred time is required");
+        }
+
+        await exe(`
+            INSERT INTO callbacks
+            (
+                name,
+                mobile,
+                preferred_time
+            )
+            VALUES
+            (
+                '${name}',
+                '${mobile}',
+                '${time}'
+            )
+        `);
+
+        // Success Popup Trigger
+        res.redirect("/contact?success=1");
+
+    } catch (err) {
+
+        console.log(err);
+        res.send("Callback Save Error");
+
     }
-
-    // Mobile Validation
-    if (!/^[0-9]{10}$/.test(mobile)) {
-        return res.send("Mobile number must be exactly 10 digits");
-    }
-
-    // Time Validation
-    if (!time || time.trim() === "") {
-        return res.send("Preferred time is required");
-    }
-
-    await exe(`
-        INSERT INTO callbacks
-        (
-            name,
-            mobile,
-            preferred_time
-        )
-        VALUES
-        (
-            '${name}',
-            '${mobile}',
-            '${time}'
-        )
-    `);
-
-    res.redirect("/contact");
-
-} catch (err) {
-
-    console.log(err);
-    res.send("Callback Save Error");
-
-}
-
 
 });
 
@@ -710,7 +753,8 @@ router.post("/save-inquiry", async (req, res) => {
             )
         `);
 
-        res.redirect(req.headers.referer);
+        // Success Popup
+        res.redirect(req.headers.referer + "?success=1");
 
     } catch (err) {
 
@@ -727,56 +771,55 @@ router.post("/save-inquiry", async (req, res) => {
 
 router.post("/dealer-inquiry", async (req, res) => {
 
+    try {
 
-try {
+        let { dealer_name, city, mobile } = req.body;
 
-    let { dealer_name, city, mobile } = req.body;
+        // Dealer Name Validation
+        if (!/^[A-Za-z ]+$/.test(dealer_name)) {
+            return res.send("Dealer Name should contain only letters");
+        }
 
-    // Dealer Name Validation
-    if (!/^[A-Za-z ]+$/.test(dealer_name)) {
-        return res.send("Dealer Name should contain only letters");
+        // City Validation
+        if (!/^[A-Za-z ]+$/.test(city)) {
+            return res.send("City should contain only letters");
+        }
+
+        // Mobile Validation
+        if (!/^[0-9]{10}$/.test(mobile)) {
+            return res.send("Mobile number must be exactly 10 digits");
+        }
+
+        const currentTime = new Date().toLocaleString("sv-SE", {
+            timeZone: "Asia/Kolkata"
+        });
+
+        await exe(`
+            INSERT INTO dealer_requests
+            (
+                dealer_name,
+                city,
+                mobile,
+                created_at
+            )
+            VALUES
+            (
+                '${dealer_name}',
+                '${city}',
+                '${mobile}',
+                '${currentTime}'
+            )
+        `);
+
+        // Success Popup
+        res.redirect("/contact?success=1");
+
+    } catch (err) {
+
+        console.log(err);
+        res.send("Dealer Inquiry Error");
+
     }
-
-    // City Validation
-    if (!/^[A-Za-z ]+$/.test(city)) {
-        return res.send("City should contain only letters");
-    }
-
-    // Mobile Validation
-    if (!/^[0-9]{10}$/.test(mobile)) {
-        return res.send("Mobile number must be exactly 10 digits");
-    }
-
-    const currentTime = new Date().toLocaleString("sv-SE", {
-        timeZone: "Asia/Kolkata"
-    });
-
-    await exe(`
-        INSERT INTO dealer_requests
-        (
-            dealer_name,
-            city,
-            mobile,
-            created_at
-        )
-        VALUES
-        (
-            '${dealer_name}',
-            '${city}',
-            '${mobile}',
-            '${currentTime}'
-        )
-    `);
-
-    res.redirect("/contact");
-
-} catch (err) {
-
-    console.log(err);
-    res.send("Dealer Inquiry Error");
-
-}
-
 
 });
 
@@ -826,32 +869,35 @@ router.post("/client-login", async (req, res) => {
 // Client Register Page
 router.get("/client-register", (req, res) => {
 
-    res.render("user/client_register", {
-        error: ""
-    });
+ res.render("user/client_register",{
+    exists : req.query.exists || ""
+});
 
 });
 
 // Save Client Register
-router.post("/client-register", async (req, res) => {
+router.post("/client-register", async(req,res)=>{
 
-    try {
+    try{
 
-        let check = await exe(
-            `SELECT * FROM client_register
-             WHERE email='${req.body.email}'`
-        );
+        // Email Already Exists Check
 
-        if(check.length > 0){
+        let checkUser = await exe(`
+            SELECT *
+            FROM client_register
+            WHERE email='${req.body.email}'
+        `);
 
-            return res.render("user/client_register", {
-                error: "Email Already Registered"
-            });
+        if(checkUser.length > 0){
+
+            return res.redirect("/client-register?exists=1");
 
         }
 
-        await exe(
-            `INSERT INTO client_register
+        // New User Register
+
+        await exe(`
+            INSERT INTO client_register
             (
                 username,
                 email,
@@ -862,16 +908,16 @@ router.post("/client-register", async (req, res) => {
                 '${req.body.username}',
                 '${req.body.email}',
                 '${req.body.password}'
-            )`
-        );
+            )
+        `);
 
-        res.redirect("/client-login");
+        res.redirect("/client-login?registered=1");
 
-    } catch(err){
+    }
+    catch(err){
 
         console.log(err);
-
-        res.send(err.sqlMessage || err.message);
+        res.send("Registration Error");
 
     }
 
@@ -931,13 +977,78 @@ router.get("/my-applications", async (req, res) => {
         return res.redirect("/client-login");
     }
 
-    let data = await exe(
-        `SELECT * FROM job_applications
-         WHERE client_id='${req.session.client.id}'
-         ORDER BY id DESC`
-    );
+    let data = await exe(`
+        SELECT *
+        FROM job_applications
+        WHERE client_id='${req.session.client.id}'
+        AND record_status != 'Deleted'
+        ORDER BY id DESC
+    `);
 
     res.render("user/my-applications", { data });
+
+});
+
+router.get("/delete-my-application/:id", async(req,res)=>{
+
+    try{
+
+        await exe(`
+            UPDATE job_applications
+            SET record_status='Deleted'
+            WHERE id='${req.params.id}'
+            AND client_id='${req.session.client.id}'
+        `);
+
+        res.redirect("/my-applications");
+
+    }
+    catch(err){
+
+        console.log(err);
+        res.send("Delete Error");
+
+    }
+
+});
+
+router.get("/forgot-password", (req,res)=>{
+
+    res.render("user/forgot-password");
+
+});
+
+router.post("/forgot-password", async(req,res)=>{
+
+    let user = await exe(`
+        SELECT *
+        FROM client_register
+        WHERE email='${req.body.email}'
+    `);
+
+    if(user.length == 0){
+        return res.send("Email Not Registered");
+    }
+
+    res.render("user/reset-password",{
+        email:req.body.email
+    });
+
+});
+
+router.post("/reset-password", async(req,res)=>{
+
+    if(req.body.password != req.body.confirm_password){
+        return res.send("Password Not Match");
+    }
+
+    await exe(`
+        UPDATE client_register
+        SET password='${req.body.password}'
+        WHERE email='${req.body.email}'
+    `);
+
+    res.redirect("/client-login");
 
 });
 module.exports = router;

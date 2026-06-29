@@ -122,6 +122,19 @@ body{
         width:auto;
     }
 }
+
+#pagination button{
+    margin:0 5px;
+    padding:8px 12px;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+#pagination button:hover{
+    background:#146c43 !important;
+    color:#fff;
+}
 </style>
 
 <div class="raw-container">
@@ -178,8 +191,7 @@ body{
 
         <div class="table-responsive">
 
-            <table class="table">
-
+<table class="table" id="rawMaterialTable">
                 <thead>
                     <tr>
                         <th>Sr No</th>
@@ -240,11 +252,84 @@ body{
                 </tbody>
 
             </table>
-
+         <div id="pagination" style="text-align:center; margin-top:20px;"></div>
         </div>
 
     </div>
 
 </div>
+
+<script>
+
+// Pagination
+
+const rowsPerPage = 10;
+
+const rows = document.querySelectorAll(
+    "#rawMaterialTable tbody tr"
+);
+
+const pagination = document.getElementById("pagination");
+
+let currentPage = 1;
+
+function displayRows(page){
+
+    rows.forEach((row,index)=>{
+
+        let start = (page - 1) * rowsPerPage;
+        let end = start + rowsPerPage;
+
+        if(index >= start && index < end){
+            row.style.display = "";
+        }else{
+            row.style.display = "none";
+        }
+
+    });
+
+}
+
+function setupPagination(){
+
+    let pageCount = Math.ceil(
+        rows.length / rowsPerPage
+    );
+
+    pagination.innerHTML = "";
+
+    for(let i=1; i<=pageCount; i++){
+
+        let btn = document.createElement("button");
+
+        btn.innerText = i;
+
+        if(i === currentPage){
+            btn.style.background = "#198754";
+            btn.style.color = "#fff";
+        }else{
+            btn.style.background = "#ddd";
+        }
+
+        btn.addEventListener("click", function(){
+
+            currentPage = i;
+
+            displayRows(currentPage);
+
+            setupPagination();
+
+        });
+
+        pagination.appendChild(btn);
+
+    }
+
+}
+
+displayRows(currentPage);
+setupPagination();
+
+</script>
 
 <%- include("footer.ejs") %>

@@ -1,0 +1,87 @@
+<%- include("navbar.ejs") %>
+
+<style>
+
+.schedule-box{
+    width: calc(100% - 320px);
+    margin-left: 270px;
+    margin-top: 90px;
+    margin-bottom: 70px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-top: 5px solid #198754;
+}
+
+.schedule-box h2{
+    text-align: center;
+    color: #ff8800;
+    margin-bottom: 25px;
+    font-weight: bold;
+}
+
+.form-control:focus{
+    border-color: #198754;
+    box-shadow: 0 0 5px rgba(25,135,84,.4);
+}
+
+.btn-save{
+    background: #198754;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+}
+
+.btn-save:hover{
+    background: #ff8800;
+    color: white;
+}
+
+@media(max-width:768px){
+    .schedule-box{
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+</style>
+
+<div class="schedule-box">
+
+    <h2>Schedule Interview</h2>
+
+<form action="/admin/save-interview-date/<%= application.id %>" method="POST">
+        <input
+            type="hidden"
+            name="id"
+            value="<%= application.id %>">
+
+        <label class="form-label">
+            Interview Date & Time
+        </label>
+
+        <input
+            type="datetime-local"
+            name="interview_date"
+            class="form-control"
+            required>
+
+        <br>
+
+        <button
+            type="submit"
+            class="btn btn-save">
+
+            Save Interview Schedule
+
+        </button>
+
+    </form>
+
+</div>
+
+
+
+<%- include("footer.ejs") %>
