@@ -1,10 +1,32 @@
 var NAV_ITEMS = [
+<<<<<<< HEAD
   // Main
   { label:'Home',          icon:'fa-home',           cat:'Main',    url:'/' },
   { label:'Products',      icon:'fa-box',            cat:'Main',    url:'/products' },
   { label:'Plants',        icon:'fa-leaf',           cat:'Main',    url:'/plants' },
   { label:'Career',        icon:'fa-briefcase',      cat:'Main',    url:'/career' },
   { label:'Contact Us',    icon:'fa-envelope',       cat:'Main',    url:'/contact' },
+=======
+    { label:'Home',               icon:'fa-home',           cat:'Main' },
+    { label:'About Us',           icon:'fa-building',       cat:'About' },
+    { label:'Company History',    icon:'fa-landmark',       cat:'About' },
+    { label:'Vision & Mission',   icon:'fa-eye',            cat:'About' },
+    { label:'Founders',           icon:'fa-star',           cat:'About' },
+    { label:'Team',               icon:'fa-users',          cat:'About' },
+    { label:'Presence',           icon:'fa-map-marker-alt', cat:'About' },
+    { label:'Biomass Supply Management',                            icon:'fa-seedling', cat:'Services' },
+    { label:'Biomass Briquettes & Pellets Manufacture',             icon:'fa-fire',     cat:'Services' },
+    { label:'Build Own Operate & Transfer for Boiler & Co-Generation Plant', icon:'fa-cog', cat:'Services' },
+    { label:'Operation and Management',                             icon:'fa-tools',    cat:'Services' },
+    { label:'Products',   icon:'fa-box',       cat:'Main' },
+    { label:'Plants',     icon:'fa-leaf',      cat:'Main' },
+    { label:'Videos',     icon:'fa-video',     cat:'Gallery' },
+    { label:'Images',     icon:'fa-images',    cat:'Gallery' },
+    { label:'Albums',     icon:'fa-folder',    cat:'Gallery' },
+    { label:'Career',     icon:'fa-briefcase', cat:'Main' },
+    { label:'Contact Us', icon:'fa-envelope',  cat:'Main' }
+  ];
+>>>>>>> d017bcf (Added new folder)
 
   // About
   { label:'About Us',          icon:'fa-building',  cat:'About',   url:'/about' },
@@ -311,12 +333,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 window.addEventListener("load", function () {
 
   let index = 0;
   const slider = document.getElementById("slider");
   const cards = document.querySelectorAll(".testimonial-card");
+
+  if (!slider || cards.length === 0) return;
 
   function showSlide() {
     slider.style.transform = `translateX(-${index * 100}%)`;
@@ -332,8 +355,7 @@ window.addEventListener("load", function () {
     showSlide();
   }
 
-  showSlide(); // initial
-
+  showSlide();
   setInterval(nextSlide, 2500);
 
 });

@@ -2192,6 +2192,7 @@ background: linear-gradient(
 .my-applications-btn:hover{
     color:#ff7a00;
     transform:translateY(-2px);
+<<<<<<< HEAD
 }
 
 .my-applications-btn{
@@ -2212,4 +2213,6 @@ background: linear-gradient(
     justify-content:center;
     font-size:12px;
     font-weight:bold;
+=======
+>>>>>>> d017bcf (Added new folder)
 }

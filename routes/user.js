@@ -140,8 +140,12 @@ try {
         )
     `);
 
+<<<<<<< HEAD
 
     res.redirect("/support_services?success=1");
+=======
+    res.redirect("/support_services");
+>>>>>>> d017bcf (Added new folder)
 
 } catch(err){
 
@@ -495,6 +499,7 @@ router.post("/save-application", async (req, res) => {
         }
 
         let resume = req.files.resume;
+<<<<<<< HEAD
 
         // Only PDF, DOC, DOCX Allowed
 
@@ -513,17 +518,28 @@ router.post("/save-application", async (req, res) => {
         if (resume.size > 2 * 1024 * 1024) {
             return res.send("Resume size must be less than 2 MB");
         }
+=======
+>>>>>>> d017bcf (Added new folder)
 
         let resumeName = Date.now() + "_" + resume.name;
 
         await resume.mv("./public/resume/" + resumeName);
 
         let applicationId = "VWF" + Date.now();
+<<<<<<< HEAD
 
         let currentTime = new Date().toLocaleString("sv-SE", {
             timeZone: "Asia/Kolkata"
         });
 
+=======
+
+        let currentTime = new Date().toLocaleString("sv-SE", {
+            timeZone: "Asia/Kolkata"
+        });
+
+        
+>>>>>>> d017bcf (Added new folder)
         await exe(`
             INSERT INTO job_applications
             (
@@ -599,8 +615,14 @@ router.get("/contact", async (req, res) => {
 
 router.post("/contact-submit", async (req, res) => {
 
+<<<<<<< HEAD
 try {
 
+=======
+
+try {
+
+>>>>>>> d017bcf (Added new folder)
     let { name, email, phone, subject, message } = req.body;
 
     if (!/^[A-Za-z ]+$/.test(name)) {
@@ -638,7 +660,11 @@ try {
         )
     `);
 
+<<<<<<< HEAD
     res.redirect("/contact?success=1");
+=======
+    res.redirect("/contact");
+>>>>>>> d017bcf (Added new folder)
 
 } catch (err) {
 
@@ -647,6 +673,10 @@ try {
 
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d017bcf (Added new folder)
 });
 
 /* =========================
@@ -655,8 +685,8 @@ try {
 
 router.post("/save-callback", async (req, res) => {
 
-    try {
 
+<<<<<<< HEAD
         let { name, mobile, time } = req.body;
 
         // Name Validation
@@ -696,8 +726,51 @@ router.post("/save-callback", async (req, res) => {
 
         console.log(err);
         res.send("Callback Save Error");
+=======
+try {
 
+    let { name, mobile, time } = req.body;
+>>>>>>> d017bcf (Added new folder)
+
+    // Name Validation
+    if (!/^[A-Za-z ]+$/.test(name)) {
+        return res.send("Name should contain only letters");
     }
+
+    // Mobile Validation
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        return res.send("Mobile number must be exactly 10 digits");
+    }
+
+    // Time Validation
+    if (!time || time.trim() === "") {
+        return res.send("Preferred time is required");
+    }
+
+    await exe(`
+        INSERT INTO callbacks
+        (
+            name,
+            mobile,
+            preferred_time
+        )
+        VALUES
+        (
+            '${name}',
+            '${mobile}',
+            '${time}'
+        )
+    `);
+
+    res.redirect("/contact");
+
+} catch (err) {
+
+    console.log(err);
+    res.send("Callback Save Error");
+
+}
+
 
 });
 
@@ -771,8 +844,8 @@ router.post("/save-inquiry", async (req, res) => {
 
 router.post("/dealer-inquiry", async (req, res) => {
 
-    try {
 
+<<<<<<< HEAD
         let { dealer_name, city, mobile } = req.body;
 
         // Dealer Name Validation
@@ -818,8 +891,57 @@ router.post("/dealer-inquiry", async (req, res) => {
 
         console.log(err);
         res.send("Dealer Inquiry Error");
+=======
+try {
 
+    let { dealer_name, city, mobile } = req.body;
+>>>>>>> d017bcf (Added new folder)
+
+    // Dealer Name Validation
+    if (!/^[A-Za-z ]+$/.test(dealer_name)) {
+        return res.send("Dealer Name should contain only letters");
     }
+
+    // City Validation
+    if (!/^[A-Za-z ]+$/.test(city)) {
+        return res.send("City should contain only letters");
+    }
+
+    // Mobile Validation
+    if (!/^[0-9]{10}$/.test(mobile)) {
+        return res.send("Mobile number must be exactly 10 digits");
+    }
+
+    const currentTime = new Date().toLocaleString("sv-SE", {
+        timeZone: "Asia/Kolkata"
+    });
+
+    await exe(`
+        INSERT INTO dealer_requests
+        (
+            dealer_name,
+            city,
+            mobile,
+            created_at
+        )
+        VALUES
+        (
+            '${dealer_name}',
+            '${city}',
+            '${mobile}',
+            '${currentTime}'
+        )
+    `);
+
+    res.redirect("/contact");
+
+} catch (err) {
+
+    console.log(err);
+    res.send("Dealer Inquiry Error");
+
+}
+
 
 });
 
@@ -869,13 +991,20 @@ router.post("/client-login", async (req, res) => {
 // Client Register Page
 router.get("/client-register", (req, res) => {
 
+<<<<<<< HEAD
  res.render("user/client_register",{
     exists : req.query.exists || ""
 });
+=======
+    res.render("user/client_register", {
+        error: ""
+    });
+>>>>>>> d017bcf (Added new folder)
 
 });
 
 // Save Client Register
+<<<<<<< HEAD
 router.post("/client-register", async(req,res)=>{
 
     try{
@@ -898,6 +1027,27 @@ router.post("/client-register", async(req,res)=>{
 
         await exe(`
             INSERT INTO client_register
+=======
+router.post("/client-register", async (req, res) => {
+
+    try {
+
+        let check = await exe(
+            `SELECT * FROM client_register
+             WHERE email='${req.body.email}'`
+        );
+
+        if(check.length > 0){
+
+            return res.render("user/client_register", {
+                error: "Email Already Registered"
+            });
+
+        }
+
+        await exe(
+            `INSERT INTO client_register
+>>>>>>> d017bcf (Added new folder)
             (
                 username,
                 email,
@@ -908,6 +1058,7 @@ router.post("/client-register", async(req,res)=>{
                 '${req.body.username}',
                 '${req.body.email}',
                 '${req.body.password}'
+<<<<<<< HEAD
             )
         `);
 
@@ -918,6 +1069,18 @@ router.post("/client-register", async(req,res)=>{
 
         console.log(err);
         res.send("Registration Error");
+=======
+            )`
+        );
+
+        res.redirect("/client-login");
+
+    } catch(err){
+
+        console.log(err);
+
+        res.send(err.sqlMessage || err.message);
+>>>>>>> d017bcf (Added new folder)
 
     }
 
@@ -977,6 +1140,7 @@ router.get("/my-applications", async (req, res) => {
         return res.redirect("/client-login");
     }
 
+<<<<<<< HEAD
     let data = await exe(`
         SELECT *
         FROM job_applications
@@ -984,10 +1148,18 @@ router.get("/my-applications", async (req, res) => {
         AND record_status != 'Deleted'
         ORDER BY id DESC
     `);
+=======
+    let data = await exe(
+        `SELECT * FROM job_applications
+         WHERE client_id='${req.session.client.id}'
+         ORDER BY id DESC`
+    );
+>>>>>>> d017bcf (Added new folder)
 
     res.render("user/my-applications", { data });
 
 });
+<<<<<<< HEAD
 
 router.get("/delete-my-application/:id", async(req,res)=>{
 
@@ -1051,4 +1223,6 @@ router.post("/reset-password", async(req,res)=>{
     res.redirect("/client-login");
 
 });
+=======
+>>>>>>> d017bcf (Added new folder)
 module.exports = router;

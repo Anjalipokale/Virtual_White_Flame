@@ -224,6 +224,33 @@ document.querySelector('input[name="phone"]').addEventListener('input', function
     Request Callback
 </button>
 
+
+<input
+    type="text"
+    name="name"
+    oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')"
+    required>
+
+<input
+    type="tel"
+    name="mobile"
+    placeholder="Mobile Number"
+    pattern="[0-9]{10}"
+    maxlength="10"
+    minlength="10"
+    title="Please enter exactly 10 digits"
+    required>
+
+<input
+    type="time"
+    name="time"
+    required>
+
+<button class="callback-btn">
+    Request Callback
+</button>
+
+
 </form>
 
 <script>

@@ -5,6 +5,7 @@ const PDFDocument = require("pdfkit");
 const { Parser } = require("json2csv"); 
 var fs = require("fs");
 const { append } = require("vary");
+<<<<<<< HEAD
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
@@ -16,11 +17,14 @@ const transporter = nodemailer.createTransport({
 });
 
 
+=======
+>>>>>>> d017bcf (Added new folder)
 
 
 var router = express.Router();
 
 router.get("/", async function(req,res){
+<<<<<<< HEAD
 
     res.render("admin/admin_register",{
         error:null
@@ -32,12 +36,20 @@ router.post("/admin-login", async (req, res) => {
 
     // console.log(req.body);
 
+=======
+    res.render("admin/admin_register")
+})
+
+router.post("/admin-login", async (req, res) => {
+
+>>>>>>> d017bcf (Added new folder)
     const data = await exe(`
         SELECT * FROM admin_login
         WHERE email='${req.body.email}'
         AND password='${req.body.password}'
     `);
 
+<<<<<<< HEAD
     // console.log(data);
 
     if(data.length > 0){
@@ -54,13 +66,28 @@ router.post("/admin-login", async (req, res) => {
     }
 
 });
+=======
+    if(data.length > 0){
+        req.session.admin = true;
+        res.redirect("/admin/index");
+    }else{
+        res.send("Invalid Email or Password");
+    }
+
+});
+
+>>>>>>> d017bcf (Added new folder)
 router.get("/forgot-password", (req, res) => {
     res.render("admin/forgot_password");
 });
 
 router.post("/forgot-password", async (req, res) => {
 
+<<<<<<< HEAD
     await exe(` 
+=======
+    await exe(`
+>>>>>>> d017bcf (Added new folder)
         UPDATE admin_login
         SET password='${req.body.new_password}'
         WHERE email='${req.body.email}'
@@ -3465,6 +3492,7 @@ router.get("/delete-client/:id", async (req, res) => {
     res.redirect("/admin/clients");
 
 });
+<<<<<<< HEAD
 
 router.get("/logout", (req, res) => {
 
@@ -3477,4 +3505,6 @@ router.get("/logout", (req, res) => {
     });
 
 });
+=======
+>>>>>>> d017bcf (Added new folder)
 module.exports = router;

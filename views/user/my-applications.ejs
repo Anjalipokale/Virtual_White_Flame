@@ -339,6 +339,80 @@
 <% }) %>
 
 </tbody>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Applied Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% data.forEach(app => { %>
+
+                <tr>
+
+                  <td class="application-id">
+                     <%= app.application_id %>
+                   </td>
+
+                   <td class="position-name">
+                 <%= app.position %></td>
+                    <td>
+
+                        <% if(app.status === 'Applied'){ %>
+
+                            <span class="status applied">
+                                Applied
+                            </span>
+
+                        <% } else if(app.status === 'Under Review'){ %>
+
+                            <span class="status review">
+                                Under Review
+                            </span>
+
+                        <% } else if(app.status === 'Selected'){ %>
+
+                            <span class="status selected">
+                                Selected
+                            </span>
+
+                        <% } else if(app.status === 'Rejected'){ %>
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="status review">
+                                <%= app.status %>
+                            </span>
+
+                        <% } %>
+
+                    </td>
+
+                  <td>
+
+    <div class="date-box">
+        <%= new Date(app.created_at).toLocaleDateString('en-IN') %>
+    </div>
+
+    <div class="time-box">
+        <%= new Date(app.created_at).toLocaleTimeString('en-IN',{
+            hour:'2-digit',
+            minute:'2-digit'
+        }) %>
+    </div>
+
+</td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
 
         </table>
 

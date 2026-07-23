@@ -1,7 +1,10 @@
 {
   "dependencies": {
     "json2csv": "^6.0.0-alpha.2",
+<<<<<<< HEAD
     "nodemailer": "^9.0.1",
+=======
+>>>>>>> d017bcf (Added new folder)
     "pdfkit": "^0.19.1"
   }
 }
