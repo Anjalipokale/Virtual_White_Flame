@@ -1,10 +1,14 @@
 {
+  "name": "virtual_white_flame",
+  "version": "1.0.0",
+  "description": "Virtual White Flame Node.js Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "dependencies": {
     "json2csv": "^6.0.0-alpha.2",
-<<<<<<< HEAD
     "nodemailer": "^9.0.1",
-=======
->>>>>>> d017bcf (Added new folder)
     "pdfkit": "^0.19.1"
   }
 }
