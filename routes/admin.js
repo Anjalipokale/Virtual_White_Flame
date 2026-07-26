@@ -2,7 +2,7 @@ var express = require("express");
 var exe = require("./connection");
 var path = require("path");
 const PDFDocument = require("pdfkit");
-const { Parser } = require("json2csv"); 
+const { Parser } = require("json2csv");
 var fs = require("fs");
 const { append } = require("vary");
 const nodemailer = require("nodemailer");
@@ -10,8 +10,8 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: "komalkhandave8720@gmail.com",
-        pass: "hpzw cvkg sili wbny"
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
     }
 });
 
@@ -28,55 +28,51 @@ router.get("/", async function(req,res){
 
 });
 
-router.post("/admin-login", async (req, res) => {
 
-    // console.log(req.body);
-
-    res.render("admin/admin_register")
-})
 
 router.post("/admin-login", async (req, res) => {
 
-    const data = await exe(`
-        SELECT * FROM admin_login
-        WHERE email='${req.body.email}'
-        AND password='${req.body.password}'
-    `);
+    try {
 
-    // console.log(data);
+        const data = await exe(
+            `SELECT * FROM admin_login WHERE email=? AND password=?`,
+            [req.body.email, req.body.password]
+        );
 
+        if (data.length > 0) {
 
-        req.session.admin = true;
-        res.redirect("/admin/index");
+            req.session.admin = true;
+            res.redirect("/admin/index");
 
-    }else{
+        } else {
 
-        res.render("admin/admin_register",{
-            error:"Invalid Email or Password"
+            res.render("admin/admin_register", {
+                error: "Invalid Email or Password"
+            });
+
+        }
+
+    } catch (err) {
+
+        console.log(err);
+        res.render("admin/admin_register", {
+            error: "Something went wrong. Please try again."
         });
 
-    }
-
-});
-    if(data.length > 0){
-        req.session.admin = true;
-    }else{
-        res.send("Invalid Email or Password");
     }
 
 });
 
 router.get("/forgot-password", (req, res) => {
     res.render("admin/forgot_password");
+});
 
 router.post("/forgot-password", async (req, res) => {
 
-    await exe(` 
-    await exe(`
-        UPDATE admin_login
-        SET password='${req.body.new_password}'
-        WHERE email='${req.body.email}'
-    `);
+    await exe(
+        `UPDATE admin_login SET password=? WHERE email=?`,
+        [req.body.new_password, req.body.email]
+    );
 
     res.redirect("/");
 });
@@ -186,54 +182,10 @@ router.get("/report/products", async function(req, res) {
 });
 
 
-router.get("/products-csv", async (req, res) => {
-
-    let products = await exe(`
-        SELECT
-            product_name,
-            short_description,
-            description,
-            feature1,
-            feature2,
-            feature3,
-            feature4,
-            main_image,
-            created_at
-        FROM products
-    `);
-
-    const { Parser } = require("json2csv");
-
-    const fields = [
-        "product_name",
-        "short_description",
-        "description",
-        "feature1",
-        "feature2",
-        "feature3",
-        "feature4",
-        "main_image",
-        "created_at"
-    ];
-
-    const parser = new Parser({ fields });
-    const csv = parser.parse(products);
-
-    res.setHeader("Content-Type", "text/csv");
-    res.setHeader(
-        "Content-Disposition",
-        "attachment; filename=products-report.csv"
-    );
-
-    res.status(200).end(csv);
-});
-
-
-
 router.get("/products-csv", async function(req, res) {
 
     let products = await exe(`
-        SELECT 
+        SELECT
             product_name,
             short_description,
             description,
@@ -515,7 +467,6 @@ router.get("/contacts-csv", async (req, res) => {
 
         let csv = [];
 
-        // HEADER
         csv.push([
             "ID",
             "Name",
@@ -527,7 +478,6 @@ router.get("/contacts-csv", async (req, res) => {
         ].join(","));
 
 
-        // DATA
         contacts.forEach(c => {
             csv.push([
                 c.id,
@@ -562,18 +512,14 @@ router.get("/contacts-csv", async (req, res) => {
 router.get("/dealers-report", async (req, res) => {
     try {
 
-        console.log("REPORT ROUTE HIT");
-
         let dealers = await exe("SELECT * FROM dealer_requests");
-
-        console.log("DATA:", dealers);
 
         res.render("admin/dealers-report.ejs", {
             dealers
         });
 
     } catch (err) {
-        console.log("❌ ACTUAL ERROR:", err);
+        console.log("ACTUAL ERROR:", err);
         res.status(500).send(err.message);
     }
 });
@@ -654,7 +600,6 @@ router.post("/save-product", async function (req, res) {
 
             let image = req.files.main_image;
 
-            // Allowed Image Types
             let allowedTypes = [
                 "image/jpeg",
                 "image/png",
@@ -665,7 +610,6 @@ router.post("/save-product", async function (req, res) {
                 return res.send("Only JPG, PNG and WEBP images are allowed");
             }
 
-            // Max Size 2 MB
             if (image.size > 2 * 1024 * 1024) {
                 return res.send("Image size must be less than 2 MB");
             }
@@ -689,20 +633,19 @@ router.post("/save-product", async function (req, res) {
             feature4,
             main_image
         )
-        VALUES
-        (
-            '${product_name}',
-            '${short_description}',
-            '${description}',
-            '${req.body.feature1 || ""}',
-            '${req.body.feature2 || ""}',
-            '${req.body.feature3 || ""}',
-            '${req.body.feature4 || ""}',
-            '${imageName}'
-        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         `;
 
-        await exe(sql);
+        await exe(sql, [
+            product_name,
+            short_description,
+            description,
+            req.body.feature1 || "",
+            req.body.feature2 || "",
+            req.body.feature3 || "",
+            req.body.feature4 || "",
+            imageName
+        ]);
 
         res.redirect("/admin/products");
 
@@ -737,7 +680,7 @@ router.get("/edit-product/:id", async function (req, res) {
     let id = req.params.id;
 
     let product = await exe(
-        `SELECT * FROM products WHERE id='${id}'`
+        `SELECT * FROM products WHERE id=?`, [id]
     );
 
     res.render("admin/edit_product.ejs", {
@@ -755,7 +698,7 @@ router.post("/update-product/:id", async function (req, res) {
         let id = req.params.id;
 
         let product = await exe(
-            `SELECT * FROM products WHERE id='${id}'`
+            `SELECT * FROM products WHERE id=?`, [id]
         );
 
         let imageName = product[0].main_image;
@@ -780,18 +723,28 @@ router.post("/update-product/:id", async function (req, res) {
         let sql = `
         UPDATE products
         SET
-        product_name='${req.body.product_name}',
-        short_description='${req.body.short_description}',
-        description='${req.body.description}',
-        feature1='${req.body.feature1}',
-        feature2='${req.body.feature2}',
-        feature3='${req.body.feature3}',
-        feature4='${req.body.feature4}',
-        main_image='${imageName}'
-        WHERE id='${id}'
+        product_name=?,
+        short_description=?,
+        description=?,
+        feature1=?,
+        feature2=?,
+        feature3=?,
+        feature4=?,
+        main_image=?
+        WHERE id=?
         `;
 
-        await exe(sql);
+        await exe(sql, [
+            req.body.product_name,
+            req.body.short_description,
+            req.body.description,
+            req.body.feature1,
+            req.body.feature2,
+            req.body.feature3,
+            req.body.feature4,
+            imageName,
+            id
+        ]);
 
         res.redirect("/admin/products");
 
@@ -813,7 +766,7 @@ router.get("/delete-product/:id", async function (req, res) {
         let id = req.params.id;
 
         let product = await exe(
-            `SELECT * FROM products WHERE id='${id}'`
+            `SELECT * FROM products WHERE id=?`, [id]
         );
 
         if (product.length > 0) {
@@ -827,7 +780,7 @@ router.get("/delete-product/:id", async function (req, res) {
             }
 
             await exe(
-                `DELETE FROM products WHERE id='${id}'`
+                `DELETE FROM products WHERE id=?`, [id]
             );
         }
 
@@ -865,7 +818,7 @@ router.get("/delete-inquiry/:id", async function(req,res){
     let id = req.params.id;
 
     await exe(
-        `DELETE FROM inquiries WHERE id='${id}'`
+        `DELETE FROM inquiries WHERE id=?`, [id]
     );
 
     res.redirect("/admin/inquiries");
@@ -907,14 +860,10 @@ router.post("/save-raw-material", async function(req,res){
             name,
             image
         )
-        VALUES
-        (
-            '${req.body.name}',
-            '${imageName}'
-        )
+        VALUES (?, ?)
         `;
 
-        await exe(sql);
+        await exe(sql, [req.body.name, imageName]);
 
         res.redirect("/admin/add-raw-material");
 
@@ -937,7 +886,7 @@ router.get("/delete-raw-material/:id", async function(req,res){
         let id = req.params.id;
 
         let material = await exe(
-            `SELECT * FROM raw_materials WHERE id='${id}'`
+            `SELECT * FROM raw_materials WHERE id=?`, [id]
         );
 
         if(material.length > 0){
@@ -950,7 +899,7 @@ router.get("/delete-raw-material/:id", async function(req,res){
             }
 
             await exe(
-                `DELETE FROM raw_materials WHERE id='${id}'`
+                `DELETE FROM raw_materials WHERE id=?`, [id]
             );
         }
 
@@ -972,7 +921,7 @@ router.get("/delete-raw-material/:id", async function(req,res){
     let id = req.params.id;
 
     let material = await exe(
-        `SELECT * FROM raw_materials WHERE id='${id}'`
+        `SELECT * FROM raw_materials WHERE id=?`, [id]
     );
 
     res.render(
@@ -992,7 +941,7 @@ router.post("/update-raw-material/:id", async function(req,res){
         let id = req.params.id;
 
         let material = await exe(
-            `SELECT * FROM raw_materials WHERE id='${id}'`
+            `SELECT * FROM raw_materials WHERE id=?`, [id]
         );
 
         let imageName = material[0].image;
@@ -1017,13 +966,10 @@ router.post("/update-raw-material/:id", async function(req,res){
             }
         }
 
-        await exe(`
-            UPDATE raw_materials
-            SET
-            name='${req.body.name}',
-            image='${imageName}'
-            WHERE id='${id}'
-        `);
+        await exe(
+            `UPDATE raw_materials SET name=?, image=? WHERE id=?`,
+            [req.body.name, imageName, id]
+        );
 
         res.redirect("/admin/add-raw-material");
 
@@ -1079,55 +1025,34 @@ router.post("/add-why-join", async (req, res) => {
 
         if (check.length == 0) {
 
-            await exe(`
-                INSERT INTO why_join
-                (
-                    title,
-                    description,
-                    image,
-                    feature1,
-                    feature2,
-                    feature3,
-                    feature4,
-                    feature5,
-                    feature6
-                )
-                VALUES
-                (
-                    '${title}',
-                    '${description}',
-                    '${imageName}',
-                    '${feature1}',
-                    '${feature2}',
-                    '${feature3}',
-                    '${feature4}',
-                    '${feature5}',
-                    '${feature6}'
-                )
-            `);
+            await exe(
+                `INSERT INTO why_join
+                (title, description, image, feature1, feature2, feature3, feature4, feature5, feature6)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [title, description, imageName, feature1, feature2, feature3, feature4, feature5, feature6]
+            );
 
         } else {
 
-            let imageQuery = "";
+            if (imageName !== "") {
 
-            if (imageName != "") {
-                imageQuery = `, image='${imageName}'`;
+                await exe(
+                    `UPDATE why_join SET
+                    title=?, description=?, feature1=?, feature2=?, feature3=?, feature4=?, feature5=?, feature6=?, image=?
+                    WHERE id=?`,
+                    [title, description, feature1, feature2, feature3, feature4, feature5, feature6, imageName, check[0].id]
+                );
+
+            } else {
+
+                await exe(
+                    `UPDATE why_join SET
+                    title=?, description=?, feature1=?, feature2=?, feature3=?, feature4=?, feature5=?, feature6=?
+                    WHERE id=?`,
+                    [title, description, feature1, feature2, feature3, feature4, feature5, feature6, check[0].id]
+                );
+
             }
-
-            await exe(`
-                UPDATE why_join
-                SET
-                    title='${title}',
-                    description='${description}',
-                    feature1='${feature1}',
-                    feature2='${feature2}',
-                    feature3='${feature3}',
-                    feature4='${feature4}',
-                    feature5='${feature5}',
-                    feature6='${feature6}'
-                    ${imageQuery}
-                WHERE id='${check[0].id}'
-            `);
 
         }
 
@@ -1149,8 +1074,6 @@ router.get("/images", async function(req,res){
 
     var result = await exe(sql);
 
-    console.log(result);
-
     res.render("admin/images.ejs", {
         gallery: result
     });
@@ -1161,20 +1084,16 @@ router.post("/save-image", function(req, res) {
 
     var data = req.body;
 
-    // Check image selected or not
     if (!req.files || !req.files.image) {
         return res.send("Please select an image");
     }
 
     var image = req.files.image;
 
-    // Unique image name
     var imageName = Date.now() + "_" + image.name;
 
-    // Upload folder path
     var uploadPath = path.join(__dirname, "../public/upload", imageName);
 
-    // Move image to upload folder
     image.mv(uploadPath, function(err) {
 
         if (err) {
@@ -1182,22 +1101,15 @@ router.post("/save-image", function(req, res) {
             return res.send("Image Upload Error");
         }
 
-        // Save data into MySQL
-        var sql = `
-        INSERT INTO gallery(title, image, category)
-        VALUES(
-            '${data.title}',
-            '/upload/${imageName}',
-            '${data.category}'
-        )
-        `;
+        var sql = `INSERT INTO gallery(title, image, category) VALUES(?, ?, ?)`;
 
-        exe(sql, function(result) {
-
-            console.log("Data Insert Successfully");
+        exe(sql, [data.title, "/upload/" + imageName, data.category]).then(function(){
 
             res.redirect("/admin/images");
 
+        }).catch(function(err){
+            console.log(err);
+            res.send("Error saving image");
         });
 
     });
@@ -1208,9 +1120,9 @@ router.get("/delete-image/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `DELETE FROM gallery WHERE id='${id}'`;
+    var sql = `DELETE FROM gallery WHERE id=?`;
 
-    await exe(sql);
+    await exe(sql, [id]);
 
     res.redirect("/admin/images");
 });
@@ -1219,9 +1131,9 @@ router.get("/edit-image/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `SELECT * FROM gallery WHERE id='${id}'`;
+    var sql = `SELECT * FROM gallery WHERE id=?`;
 
-    var result = await exe(sql);
+    var result = await exe(sql, [id]);
 
     res.render("admin/edit-image.ejs", {
         data: result[0]
@@ -1232,15 +1144,15 @@ router.post("/update-image", async function(req,res){
     var data = req.body;
 
     var sql = `
-    UPDATE gallery 
-    SET 
-        title='${data.title}',
-        image='${data.image}',
-        category='${data.category}'
-    WHERE id='${data.id}'
+    UPDATE gallery
+    SET
+        title=?,
+        image=?,
+        category=?
+    WHERE id=?
     `;
 
-    await exe(sql);
+    await exe(sql, [data.title, data.image, data.category, data.id]);
 
     res.redirect("/admin/images");
 });
@@ -1252,8 +1164,6 @@ router.get("/events", async function(req,res){
     var sql = "SELECT * FROM events";
 
     var result = await exe(sql);
-
-    console.log(result);
 
     res.render("admin/events.ejs", {
         events: result
@@ -1269,12 +1179,9 @@ router.post("/save-events", async (req, res) => {
 
     let imageName = Date.now() + image.name;
 
-    image.mv("public/uploads/" + imageName);
+    await image.mv("public/uploads/" + imageName);
 
-    await exe(`
-        INSERT INTO events(image)
-        VALUES('${imageName}')
-    `);
+    await exe(`INSERT INTO events(image) VALUES(?)`, [imageName]);
 
     res.redirect("/admin/events");
 
@@ -1286,9 +1193,9 @@ router.get("/delete-event/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `DELETE FROM events WHERE id='${id}'`;
+    var sql = `DELETE FROM events WHERE id=?`;
 
-    await exe(sql);
+    await exe(sql, [id]);
 
     res.redirect("/admin/events");
 });
@@ -1306,13 +1213,9 @@ router.post("/update-event/:id", function(req, res){
             return res.send("Upload Error");
         }
 
-        var sql = `
-        UPDATE events
-        SET image='${imageName}'
-        WHERE id='${id}'
-        `;
+        var sql = `UPDATE events SET image=? WHERE id=?`;
 
-        await exe(sql);
+        await exe(sql, [imageName, id]);
 
         res.redirect("/admin/events");
 
@@ -1324,9 +1227,9 @@ router.get("/edit-event/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `SELECT * FROM events WHERE id='${id}'`;
+    var sql = `SELECT * FROM events WHERE id=?`;
 
-    var result = await exe(sql);
+    var result = await exe(sql, [id]);
 
     res.render("admin/edit_event.ejs", {
         event: result[0]
@@ -1363,13 +1266,13 @@ router.post("/save-video", function(req,res){
             return res.send("Upload Error");
         }
 
-        var sql = `
-        INSERT INTO videos(video,category)
-        VALUES('/videos/${videoName}','${req.body.category}')
-        `;
+        var sql = `INSERT INTO videos(video,category) VALUES(?, ?)`;
 
-        exe(sql, function(){
+        exe(sql, ["/videos/" + videoName, req.body.category]).then(function(){
             res.redirect("/admin/videos");
+        }).catch(function(err){
+            console.log(err);
+            res.send("Error saving video");
         });
 
     });
@@ -1380,9 +1283,9 @@ router.get("/delete-video/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `DELETE FROM videos WHERE id='${id}'`;
+    var sql = `DELETE FROM videos WHERE id=?`;
 
-    await exe(sql);
+    await exe(sql, [id]);
 
     res.redirect("/admin/videos");
 
@@ -1405,13 +1308,9 @@ router.post("/update-video/:id", function(req,res){
             return res.send("Upload Error");
         }
 
-        var sql = `
-        UPDATE videos
-        SET video='/videos/${videoName}'
-        WHERE id='${id}'
-        `;
+        var sql = `UPDATE videos SET video=? WHERE id=?`;
 
-        await exe(sql);
+        await exe(sql, ["/videos/" + videoName, id]);
 
         res.redirect("/admin/videos");
 
@@ -1423,9 +1322,9 @@ router.get("/edit-video/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `SELECT * FROM videos WHERE id='${id}'`;
+    var sql = `SELECT * FROM videos WHERE id=?`;
 
-    var result = await exe(sql);
+    var result = await exe(sql, [id]);
 
     res.render("admin/edit_video.ejs", {
         data: result[0]
@@ -1448,12 +1347,9 @@ router.post("/save-career", async function(req,res){
 
     var d = req.body;
 
-    var sql = `
-    INSERT INTO careers(job_title,department,experience,location)
-    VALUES('${d.job_title}','${d.department}','${d.experience}','${d.location}')
-    `;
+    var sql = `INSERT INTO careers(job_title,department,experience,location) VALUES(?, ?, ?, ?)`;
 
-    await exe(sql);
+    await exe(sql, [d.job_title, d.department, d.experience, d.location]);
 
     res.redirect("/admin/careers");
 
@@ -1461,7 +1357,7 @@ router.post("/save-career", async function(req,res){
 
 router.get("/delete-career/:id", async function(req,res){
 
-    await exe(`DELETE FROM careers WHERE id='${req.params.id}'`);
+    await exe(`DELETE FROM careers WHERE id=?`, [req.params.id]);
 
     res.redirect("/admin/careers");
 
@@ -1469,7 +1365,7 @@ router.get("/delete-career/:id", async function(req,res){
 
 router.get("/edit-career/:id", async function(req,res){
 
-    var data = await exe(`SELECT * FROM careers WHERE id='${req.params.id}'`);
+    var data = await exe(`SELECT * FROM careers WHERE id=?`, [req.params.id]);
 
     res.render("admin/edit-career.ejs", {
         job: data[0]
@@ -1480,18 +1376,14 @@ router.post("/update-career/:id", async function(req,res){
 
     var d = req.body;
 
-    await exe(`
-        UPDATE careers SET
-        job_title='${d.job_title}',
-        department='${d.department}',
-        experience='${d.experience}',
-        location='${d.location}'
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `UPDATE careers SET job_title=?, department=?, experience=?, location=? WHERE id=?`,
+        [d.job_title, d.department, d.experience, d.location, req.params.id]
+    );
 
     res.redirect("/admin/careers");
 
-}); 
+});
 // culture
 router.get("/our-culture", async function(req,res){
 
@@ -1514,13 +1406,18 @@ router.post("/save-culture", function(req,res){
 
     image.mv("public/upload/"+imageName, function(err){
 
-        var sql = `
-        INSERT INTO culture(title,image)
-        VALUES('${req.body.title}','/upload/${imageName}')
-        `;
+        if (err) {
+            console.log(err);
+            return res.send("Upload Error");
+        }
 
-        exe(sql,function(){
+        var sql = `INSERT INTO culture(title,image) VALUES(?, ?)`;
+
+        exe(sql, [req.body.title, "/upload/" + imageName]).then(function(){
             res.redirect("/admin/our-culture");
+        }).catch(function(err){
+            console.log(err);
+            res.send("Error saving culture entry");
         });
 
     });
@@ -1528,14 +1425,14 @@ router.post("/save-culture", function(req,res){
 });
 router.get("/delete-culture/:id", async function(req,res){
 
-    await exe(`DELETE FROM culture WHERE id='${req.params.id}'`);
+    await exe(`DELETE FROM culture WHERE id=?`, [req.params.id]);
 
     res.redirect("/admin/our-culture");
 
 });
 router.get("/edit-culture/:id", async function(req,res){
 
-    var data = await exe(`SELECT * FROM culture WHERE id='${req.params.id}'`);
+    var data = await exe(`SELECT * FROM culture WHERE id=?`, [req.params.id]);
 
     res.render("admin/edit-culture.ejs", {
         item: data[0]
@@ -1553,12 +1450,10 @@ router.post("/update-culture/:id", function(req,res){
 
         image.mv("public/upload/"+imageName, async function(err){
 
-            await exe(`
-                UPDATE culture SET
-                title='${req.body.title}',
-                image='/upload/${imageName}'
-                WHERE id='${id}'
-            `);
+            await exe(
+                `UPDATE culture SET title=?, image=? WHERE id=?`,
+                [req.body.title, "/upload/" + imageName, id]
+            );
 
             res.redirect("/admin/our-culture");
 
@@ -1566,13 +1461,13 @@ router.post("/update-culture/:id", function(req,res){
 
     } else {
 
-        exe(`
-            UPDATE culture SET
-            title='${req.body.title}'
-            WHERE id='${id}'
-        `);
+        exe(
+            `UPDATE culture SET title=? WHERE id=?`,
+            [req.body.title, id]
+        ).then(function(){
+            res.redirect("/admin/our-culture");
+        });
 
-        res.redirect("/admin/our-culture");
     }
 
 });
@@ -1606,11 +1501,10 @@ router.get("/restore-application/:id", async function(req,res){
 
     var id = req.params.id;
 
-    await exe(`
-        UPDATE job_applications
-        SET record_status='active'
-        WHERE id='${id}'
-    `);
+    await exe(
+        `UPDATE job_applications SET record_status='active' WHERE id=?`,
+        [id]
+    );
 
     res.redirect("/admin/deleted-applications");
 
@@ -1618,26 +1512,23 @@ router.get("/restore-application/:id", async function(req,res){
 
 router.get("/delete-application/:id", async function(req,res){
 
-    await exe(`
-        UPDATE job_applications
-        SET record_status='deleted'
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `UPDATE job_applications SET record_status='deleted' WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/applications");
 });
 router.get("/permanent-delete-application/:id", async (req,res)=>{
 
-    await exe(`
-        DELETE FROM job_applications
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM job_applications WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/deleted-applications");
 });
 
-
-// careers
 
 router.get("/hr-contact", async (req, res) => {
 
@@ -1663,23 +1554,18 @@ router.post("/hr-contact", async (req, res) => {
 
     try {
 
-        await exe(`
-            UPDATE hr_contact SET
-
-            phone_title='${req.body.phone_title}',
-            phone1='${req.body.phone1}',
-            phone2='${req.body.phone2}',
-
-            email_title='${req.body.email_title}',
-            email1='${req.body.email1}',
-            email2='${req.body.email2}',
-
-            hours_title='${req.body.hours_title}',
-            working_days='${req.body.working_days}',
-            working_time='${req.body.working_time}'
-
-            WHERE id = 1
-        `);
+        await exe(
+            `UPDATE hr_contact SET
+            phone_title=?, phone1=?, phone2=?,
+            email_title=?, email1=?, email2=?,
+            hours_title=?, working_days=?, working_time=?
+            WHERE id = 1`,
+            [
+                req.body.phone_title, req.body.phone1, req.body.phone2,
+                req.body.email_title, req.body.email1, req.body.email2,
+                req.body.hours_title, req.body.working_days, req.body.working_time
+            ]
+        );
 
         res.redirect("/admin/hr-contact");
 
@@ -1724,54 +1610,31 @@ router.post("/contact-us", async (req, res) => {
 
         if (check.length > 0) {
 
-            await exe(`
-                UPDATE contact_info SET
-
-                phone_title='${req.body.phone_title}',
-                phone1='${req.body.phone1}',
-                phone2='${req.body.phone2}',
-
-                email_title='${req.body.email_title}',
-                email1='${req.body.email1}',
-                email2='${req.body.email2}',
-
-                office_title='${req.body.office_title}',
-                office1='${req.body.office1}',
-                office2='${req.body.office2}'
-
-                WHERE id=1
-            `);
+            await exe(
+                `UPDATE contact_info SET
+                phone_title=?, phone1=?, phone2=?,
+                email_title=?, email1=?, email2=?,
+                office_title=?, office1=?, office2=?
+                WHERE id=1`,
+                [
+                    req.body.phone_title, req.body.phone1, req.body.phone2,
+                    req.body.email_title, req.body.email1, req.body.email2,
+                    req.body.office_title, req.body.office1, req.body.office2
+                ]
+            );
 
         } else {
 
-            await exe(`
-                INSERT INTO contact_info
-                (
-                    id,
-                    phone_title,
-                    phone1,
-                    phone2,
-                    email_title,
-                    email1,
-                    email2,
-                    office_title,
-                    office1,
-                    office2
-                )
-                VALUES
-                (
-                    1,
-                    '${req.body.phone_title}',
-                    '${req.body.phone1}',
-                    '${req.body.phone2}',
-                    '${req.body.email_title}',
-                    '${req.body.email1}',
-                    '${req.body.email2}',
-                    '${req.body.office_title}',
-                    '${req.body.office1}',
-                    '${req.body.office2}'
-                )
-            `);
+            await exe(
+                `INSERT INTO contact_info
+                (id, phone_title, phone1, phone2, email_title, email1, email2, office_title, office1, office2)
+                VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [
+                    req.body.phone_title, req.body.phone1, req.body.phone2,
+                    req.body.email_title, req.body.email1, req.body.email2,
+                    req.body.office_title, req.body.office1, req.body.office2
+                ]
+            );
 
         }
 
@@ -1785,7 +1648,7 @@ router.post("/contact-us", async (req, res) => {
     }
 
 });
-// delar request
+// dealer request
 router.get("/dealer-requests", async (req, res) => {
 
     try {
@@ -1812,11 +1675,10 @@ router.get("/accept-dealer/:id", async (req, res) => {
 
     try {
 
-        await exe(`
-            UPDATE dealer_requests
-            SET status='Accepted'
-            WHERE id='${req.params.id}'
-        `);
+        await exe(
+            `UPDATE dealer_requests SET status='Accepted' WHERE id=?`,
+            [req.params.id]
+        );
 
         res.redirect("/admin/dealer-requests");
 
@@ -1833,10 +1695,10 @@ router.get("/delete-dealer/:id", async (req, res) => {
 
     try {
 
-        await exe(`
-            DELETE FROM dealer_requests
-            WHERE id='${req.params.id}'
-        `);
+        await exe(
+            `DELETE FROM dealer_requests WHERE id=?`,
+            [req.params.id]
+        );
 
         res.redirect("/admin/dealer-requests");
 
@@ -1870,20 +1732,12 @@ router.post("/process-cards", async (req, res) => {
 
         let imageName = Date.now() + "_" + image.name;
 
-        image.mv("public/uploads/" + imageName);
+        await image.mv("public/uploads/" + imageName);
 
-        await exe(`
-            INSERT INTO process_cards
-            (
-                image,
-                title
-            )
-            VALUES
-            (
-                '${imageName}',
-                '${req.body.title}'
-            )
-        `);
+        await exe(
+            `INSERT INTO process_cards (image, title) VALUES (?, ?)`,
+            [imageName, req.body.title]
+        );
 
         res.redirect("/admin/process-cards");
 
@@ -1898,10 +1752,10 @@ router.post("/process-cards", async (req, res) => {
 
 router.get("/delete-process-card/:id", async (req, res) => {
 
-    await exe(`
-        DELETE FROM process_cards
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM process_cards WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/process-cards");
 
@@ -1913,7 +1767,7 @@ router.get("/edit-process-card/:id", async (req, res) => {
     let id = req.params.id;
 
     let data = await exe(
-        `SELECT * FROM process_cards WHERE id='${id}'`
+        `SELECT * FROM process_cards WHERE id=?`, [id]
     );
 
     res.render("admin/edit-process-card", {
@@ -1934,19 +1788,17 @@ router.post("/update-process-card/:id", async (req, res) => {
 
         await image.mv("./public/uploads/" + imageName);
 
-        await exe(`
-            UPDATE process_cards
-            SET title='${title}', image='${imageName}'
-            WHERE id='${id}'
-        `);
+        await exe(
+            `UPDATE process_cards SET title=?, image=? WHERE id=?`,
+            [title, imageName, id]
+        );
 
     }else{
 
-        await exe(`
-            UPDATE process_cards
-            SET title='${title}'
-            WHERE id='${id}'
-        `);
+        await exe(
+            `UPDATE process_cards SET title=? WHERE id=?`,
+            [title, id]
+        );
 
     }
 
@@ -1967,11 +1819,10 @@ router.get("/support-inquiries", async (req, res) => {
 
 router.get("/accept-support/:id", async (req, res) => {
 
-    await exe(`
-        UPDATE support_inquiry
-        SET status='Accepted'
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `UPDATE support_inquiry SET status='Accepted' WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/support-inquiries");
 
@@ -1979,185 +1830,12 @@ router.get("/accept-support/:id", async (req, res) => {
 
 router.get("/delete-support/:id", async (req, res) => {
 
-    await exe(`
-        DELETE FROM support_inquiry
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM support_inquiry WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/support-inquiries");
-
-});
-
-
-
-// Careers
-// careers
-router.get("/careers", async function(req,res){
-
-    var data = await exe("SELECT * FROM careers");
-
-    res.render("admin/careers.ejs", {
-        careers: data
-    });
-
-});
-
-router.post("/save-career", async function(req,res){
-
-    var d = req.body;
-
-    var sql = `
-    INSERT INTO careers(job_title,department,experience,location)
-    VALUES('${d.job_title}','${d.department}','${d.experience}','${d.location}')
-    `;
-
-    await exe(sql);
-
-    res.redirect("/admin/careers");
-
-});
-
-router.get("/delete-career/:id", async function(req,res){
-
-    await exe(`DELETE FROM careers WHERE id='${req.params.id}'`);
-
-    res.redirect("/admin/careers");
-
-});
-
-router.get("/edit-career/:id", async function(req,res){
-
-    var data = await exe(`SELECT * FROM careers WHERE id='${req.params.id}'`);
-
-    res.render("admin/edit-career.ejs", {
-        job: data[0]
-    });
-
-});
-router.post("/update-career/:id", async function(req,res){
-
-    var d = req.body;
-
-    await exe(`
-        UPDATE careers SET
-        job_title='${d.job_title}',
-        department='${d.department}',
-        experience='${d.experience}',
-        location='${d.location}'
-        WHERE id='${req.params.id}'
-    `);
-
-    res.redirect("/admin/careers");
-
-}); 
-// culture
-router.get("/our-culture", async function(req,res){
-
-    var data = await exe("SELECT * FROM culture");
-
-    res.render("admin/our-culture.ejs", {
-        culture: data
-    });
-
-});
-
-router.post("/save-culture", function(req,res){
-
-    if(!req.files || !req.files.image){
-        return res.send("Image required");
-    }
-
-    var image = req.files.image;
-    var imageName = Date.now()+"_"+image.name;
-
-    image.mv("public/upload/"+imageName, function(err){
-
-        var sql = `
-        INSERT INTO culture(title,image)
-        VALUES('${req.body.title}','/upload/${imageName}')
-        `;
-
-        exe(sql,function(){
-            res.redirect("/admin/our-culture");
-        });
-
-    });
-
-});
-router.get("/delete-culture/:id", async function(req,res){
-
-    await exe(`DELETE FROM culture WHERE id='${req.params.id}'`);
-
-    res.redirect("/admin/our-culture");
-
-});
-router.get("/edit-culture/:id", async function(req,res){
-
-    var data = await exe(`SELECT * FROM culture WHERE id='${req.params.id}'`);
-
-    res.render("admin/edit-culture.ejs", {
-        item: data[0]
-    });
-
-});
-router.post("/update-culture/:id", function(req,res){
-
-    var id = req.params.id;
-
-    if(req.files && req.files.image){
-
-        var image = req.files.image;
-        var imageName = Date.now()+"_"+image.name;
-
-        image.mv("public/upload/"+imageName, async function(err){
-
-            await exe(`
-                UPDATE culture SET
-                title='${req.body.title}',
-                image='/upload/${imageName}'
-                WHERE id='${id}'
-            `);
-
-            res.redirect("/admin/our-culture");
-
-        });
-
-    } else {
-
-        exe(`
-            UPDATE culture SET
-            title='${req.body.title}'
-            WHERE id='${id}'
-        `);
-
-        res.redirect("/admin/our-culture");
-    }
-
-});
-// application
-
-router.get("/applications", async (req,res)=>{
-
-    let data = await exe(`
-        SELECT *
-        FROM job_applications
-        ORDER BY id DESC
-    `);
-
-    res.render("admin/applications.ejs",{
-        applications:data
-    });
-
-});
-router.get("/delete-application/:id", async function(req,res){
-
-    var id = req.params.id;
-
-    var sql = `DELETE FROM applications WHERE id='${id}'`;
-
-    await exe(sql);
-
-    res.redirect("/admin/applications");
 
 });
 
@@ -2167,13 +1845,10 @@ router.get("/change-status/:id/:status", async(req,res)=>{
         timeZone:"Asia/Kolkata"
     });
 
-    await exe(`
-        UPDATE job_applications
-        SET
-        status='${req.params.status}',
-        status_updated_at='${currentTime}'
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `UPDATE job_applications SET status=?, status_updated_at=? WHERE id=?`,
+        [req.params.status, currentTime, req.params.id]
+    );
 
     res.redirect("/admin/applications");
 
@@ -2187,27 +1862,22 @@ router.post("/save-interview-date/:id", async(req,res)=>{
             timeZone:"Asia/Kolkata"
         });
 
-        await exe(`
-            UPDATE job_applications
-            SET
-            interview_date='${req.body.interview_date}',
-            status='Interview Scheduled',
-            status_updated_at='${currentTime}'
-            WHERE id='${req.params.id}'
-        `);
+        await exe(
+            `UPDATE job_applications
+            SET interview_date=?, status='Interview Scheduled', status_updated_at=?
+            WHERE id=?`,
+            [req.body.interview_date, currentTime, req.params.id]
+        );
 
-        let application = await exe(`
-            SELECT *
-            FROM job_applications
-            WHERE id='${req.params.id}'
-        `);
+        let application = await exe(
+            `SELECT * FROM job_applications WHERE id=?`,
+            [req.params.id]
+        );
 
         let user = application[0];
 
-       
-
-        let info = await transporter.sendMail({
-            from:"komalkhandave8720@gmail.com",
+        await transporter.sendMail({
+            from: process.env.MAIL_USER,
             to:user.email,
             subject:"Interview Scheduled - Virtual White Flame",
             html:`
@@ -2247,8 +1917,7 @@ router.post("/save-interview-date/:id", async(req,res)=>{
             `
         });
 
-       
-    res.redirect("/admin/applications?schedule=1");
+        res.redirect("/admin/applications?schedule=1");
     }
     catch(err){
 
@@ -2261,10 +1930,10 @@ router.post("/save-interview-date/:id", async(req,res)=>{
 });
 router.get("/interview-form/:id", async(req,res)=>{
 
-    let application = await exe(`
-        SELECT * FROM job_applications
-        WHERE id='${req.params.id}'
-    `);
+    let application = await exe(
+        `SELECT * FROM job_applications WHERE id=?`,
+        [req.params.id]
+    );
 
     res.render("admin/interview-form",{
         application: application[0]
@@ -2297,15 +1966,15 @@ router.get("/delete-contact/:id", async function(req,res){
 
     var id = req.params.id;
 
-    var sql = `DELETE FROM contact_messages WHERE id='${id}'`;
+    var sql = `DELETE FROM contact_messages WHERE id=?`;
 
-    await exe(sql);
+    await exe(sql, [id]);
 
     res.redirect("/admin/contact-list");
 
 });
 
-// 
+//
 router.get("/callbacks", async function(req,res){
 
     var data = await exe(
@@ -2321,9 +1990,9 @@ router.get("/delete-callback/:id", async function(req, res){
 
     var id = req.params.id;
 
-    var sql = `DELETE FROM callbacks WHERE id='${id}'`;
+    var sql = `DELETE FROM callbacks WHERE id=?`;
 
-    await exe(sql);
+    await exe(sql, [id]);
 
     res.redirect("/admin/callbacks");
 
@@ -2348,20 +2017,23 @@ router.post("/save-office", async function(req,res){
     var sql = `
     UPDATE office_locations SET
 
-    office1_title='${d.office1_title}',
-    office1_address='${d.office1_address}',
-    office1_phone='${d.office1_phone}',
-    office1_map='${d.office1_map}',
+    office1_title=?,
+    office1_address=?,
+    office1_phone=?,
+    office1_map=?,
 
-    office2_title='${d.office2_title}',
-    office2_address='${d.office2_address}',
-    office2_phone='${d.office2_phone}',
-    office2_map='${d.office2_map}'
+    office2_title=?,
+    office2_address=?,
+    office2_phone=?,
+    office2_map=?
 
-    WHERE id='1'
+    WHERE id=1
     `;
 
-    await exe(sql);
+    await exe(sql, [
+        d.office1_title, d.office1_address, d.office1_phone, d.office1_map,
+        d.office2_title, d.office2_address, d.office2_phone, d.office2_map
+    ]);
 
     res.redirect("/admin/office");
 
@@ -2414,16 +2086,10 @@ router.post("/save-testimonial", async (req, res) => {
             description
         } = req.body;
 
-        await exe(`
-            INSERT INTO testimonials
-            (company_name, city, description, image)
-            VALUES (
-                '${company_name}',
-                '${city}',
-                '${description}',
-                '${imageName}'
-            )
-        `);
+        await exe(
+            `INSERT INTO testimonials (company_name, city, description, image) VALUES (?, ?, ?, ?)`,
+            [company_name, city, description, imageName]
+        );
 
         res.redirect("/admin/testimonials");
 
@@ -2441,10 +2107,10 @@ router.get("/delete-testimonial/:id", async (req, res) => {
 
     try {
 
-        await exe(`
-            DELETE FROM testimonials
-            WHERE id='${req.params.id}'
-        `);
+        await exe(
+            `DELETE FROM testimonials WHERE id=?`,
+            [req.params.id]
+        );
 
         res.redirect("/admin/testimonials");
 
@@ -2475,56 +2141,42 @@ router.post("/add-blog", function(req, res){
 
     var data = req.body;
 
-    // Image select check
     if(!req.files || !req.files.image){
         return res.send("Please select image");
     }
 
-    // Get image
     var image = req.files.image;
 
-    // Unique image name
     var imageName = Date.now() + "_" + image.name;
 
-    // Upload image
     image.mv("public/upload/" + imageName, function(err){
 
         if(err){
             return res.send("Image Upload Error");
         }
 
-        // Read old blogs
         let blogs = JSON.parse(
             fs.readFileSync("./data/blogs.json", "utf8")
         );
 
-        // Create new blog object
         let newBlog = {
 
             id: Date.now(),
-
             title: data.title,
-
             category: data.category,
-
             date: new Date().toLocaleDateString(),
-
             image: "/upload/" + imageName,
-
             content: data.content
 
         };
 
-        // Add new blog
         blogs.push(newBlog);
 
-        // Save JSON
         fs.writeFileSync(
             "./data/blogs.json",
             JSON.stringify(blogs, null, 2)
         );
 
-        // Back to admin page
         res.redirect("/admin/add-blog");
 
     });
@@ -2534,25 +2186,21 @@ router.get("/delete-blog/:id", function(req, res){
 
     var id = req.params.id;
 
-    // Read all blogs
     let blogs = JSON.parse(
         fs.readFileSync("./data/blogs.json", "utf8")
     );
 
-    // Remove selected blog
     let newBlogs = blogs.filter(function(blog){
 
         return blog.id != id;
 
     });
 
-    // Save updated data
     fs.writeFileSync(
         "./data/blogs.json",
         JSON.stringify(newBlogs, null, 2)
     );
 
-    // Redirect back
     res.redirect("/admin/add-blog");
 
 });
@@ -2599,7 +2247,6 @@ router.post("/save_about_company", async function(req, res) {
 
         if (req.files && req.files.company_image) {
 
-            // Delete old image
             if (data.old_company_image) {
 
                 var oldPath = path.join(
@@ -2613,7 +2260,6 @@ router.post("/save_about_company", async function(req, res) {
                 }
             }
 
-            // Upload new image
             company_image = Date.now() + "_" + req.files.company_image.name;
 
             await req.files.company_image.mv(
@@ -2678,68 +2324,6 @@ router.post("/save_about_company", async function(req, res) {
 
     }
 });
-router.get("/testimonials", async function(req,res){
-
-    var testimonials = await exe(
-        "SELECT * FROM testimonials ORDER BY id DESC"
-    );
-
-    res.render("admin/testimonials",{
-        testimonials
-    });
-
-});
-
-router.post("/save-testimonial", (req, res) => {
-
-    let imageName = "";
-
-    if (req.files && req.files.image) {
-        let image = req.files.image;
-
-        imageName = Date.now() + "_" + image.name;
-
-        image.mv("public/uploads/" + imageName, (err) => {
-            if (err) console.log(err);
-        });
-    }
-
-    let {
-        company_name,
-        city,
-        description
-    } = req.body;
-
-    let sql = `
-        INSERT INTO testimonials
-        (company_name, city, description, image)
-        VALUES (?, ?, ?, ?)
-    `;
-
-    db.query(
-        sql,
-        [company_name, city, description, imageName],
-        (err) => {
-            if (err) console.log(err);
-
-            res.redirect("/admin/testimonials");
-        }
-    );
-});
-
-router.get("/delete-testimonial/:id", (req, res) => {
-
-    let id = req.params.id;
-
-    db.query(
-        "DELETE FROM testimonials WHERE id=?",
-        [id],
-        (err) => {
-            res.redirect("/admin/testimonials");
-        }
-    );
-});
-
 
 
 // Manufacturing Plants section
@@ -2769,29 +2353,17 @@ router.post("/save_manufacturing_plant", async function(req,res){
 
         logo = Date.now() + "_" + req.files.plant_logo.name;
 
-        req.files.plant_logo.mv(
+        await req.files.plant_logo.mv(
             "public/uploads/" + logo
         );
     }
 
-    await exe(`
-        INSERT INTO manufacturing_plants
-        (
-            plant_logo,
-            plant_name,
-            plant_address,
-            plant_phone,
-            plant_email
-        )
-        VALUES
-        (
-            '${logo}',
-            '${d.plant_name}',
-            '${d.plant_address}',
-            '${d.plant_phone}',
-            '${d.plant_email}'
-        )
-    `);
+    await exe(
+        `INSERT INTO manufacturing_plants
+        (plant_logo, plant_name, plant_address, plant_phone, plant_email)
+        VALUES (?, ?, ?, ?, ?)`,
+        [logo, d.plant_name, d.plant_address, d.plant_phone, d.plant_email]
+    );
 
     res.redirect("/admin/manufacturing_plants");
 
@@ -2802,10 +2374,10 @@ router.post("/save_manufacturing_plant", async function(req,res){
 
 router.get("/edit_manufacturing_plant/:id", async function(req,res){
 
-    var plant = await exe(`
-        SELECT * FROM manufacturing_plants
-        WHERE id='${req.params.id}'
-    `);
+    var plant = await exe(
+        `SELECT * FROM manufacturing_plants WHERE id=?`,
+        [req.params.id]
+    );
 
     res.render("admin/edit_manufacturing_plant.ejs",{
         plant : plant[0]
@@ -2824,32 +2396,25 @@ router.post("/update_manufacturing_plant", async function(req,res){
 
         var logo = Date.now() + "_" + req.files.plant_logo.name;
 
-        req.files.plant_logo.mv(
+        await req.files.plant_logo.mv(
             "public/uploads/" + logo
         );
 
-        await exe(`
-            UPDATE manufacturing_plants
-            SET
-            plant_logo='${logo}',
-            plant_name='${d.plant_name}',
-            plant_address='${d.plant_address}',
-            plant_phone='${d.plant_phone}',
-            plant_email='${d.plant_email}'
-            WHERE id='${d.id}'
-        `);
+        await exe(
+            `UPDATE manufacturing_plants
+            SET plant_logo=?, plant_name=?, plant_address=?, plant_phone=?, plant_email=?
+            WHERE id=?`,
+            [logo, d.plant_name, d.plant_address, d.plant_phone, d.plant_email, d.id]
+        );
 
     }else{
 
-        await exe(`
-            UPDATE manufacturing_plants
-            SET
-            plant_name='${d.plant_name}',
-            plant_address='${d.plant_address}',
-            plant_phone='${d.plant_phone}',
-            plant_email='${d.plant_email}'
-            WHERE id='${d.id}'
-        `);
+        await exe(
+            `UPDATE manufacturing_plants
+            SET plant_name=?, plant_address=?, plant_phone=?, plant_email=?
+            WHERE id=?`,
+            [d.plant_name, d.plant_address, d.plant_phone, d.plant_email, d.id]
+        );
 
     }
 
@@ -2862,10 +2427,10 @@ router.post("/update_manufacturing_plant", async function(req,res){
 
 router.get("/delete_manufacturing_plant/:id", async function(req,res){
 
-    await exe(`
-        DELETE FROM manufacturing_plants
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM manufacturing_plants WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/manufacturing_plants");
 
@@ -2899,25 +2464,17 @@ router.post("/save_infrastructure", async function(req,res){
 
         image = Date.now() + "_" + req.files.infra_image.name;
 
-        req.files.infra_image.mv(
+        await req.files.infra_image.mv(
             "public/uploads/" + image
         );
     }
 
-    await exe(`
-        INSERT INTO industrial_infrastructure
-        (
-            infra_image,
-            infra_title,
-            infra_description
-        )
-        VALUES
-        (
-            '${image}',
-            '${d.infra_title}',
-            '${d.infra_description}'
-        )
-    `);
+    await exe(
+        `INSERT INTO industrial_infrastructure
+        (infra_image, infra_title, infra_description)
+        VALUES (?, ?, ?)`,
+        [image, d.infra_title, d.infra_description]
+    );
 
     res.redirect("/admin/industrial_infrastructure");
 
@@ -2925,10 +2482,10 @@ router.post("/save_infrastructure", async function(req,res){
 
 router.get("/edit_infrastructure/:id", async function(req,res){
 
-    var infrastructure = await exe(`
-        SELECT * FROM industrial_infrastructure
-        WHERE id='${req.params.id}'
-    `);
+    var infrastructure = await exe(
+        `SELECT * FROM industrial_infrastructure WHERE id=?`,
+        [req.params.id]
+    );
 
     res.render("admin/edit_infrastructure.ejs",{
         infrastructure : infrastructure[0]
@@ -2945,28 +2502,25 @@ router.post("/update_infrastructure", async function(req,res){
 
         var image = Date.now() + "_" + req.files.infra_image.name;
 
-        req.files.infra_image.mv(
+        await req.files.infra_image.mv(
             "public/uploads/" + image
         );
 
-        await exe(`
-            UPDATE industrial_infrastructure
-            SET
-            infra_image='${image}',
-            infra_title='${d.infra_title}',
-            infra_description='${d.infra_description}'
-            WHERE id='${d.id}'
-        `);
+        await exe(
+            `UPDATE industrial_infrastructure
+            SET infra_image=?, infra_title=?, infra_description=?
+            WHERE id=?`,
+            [image, d.infra_title, d.infra_description, d.id]
+        );
 
     }else{
 
-        await exe(`
-            UPDATE industrial_infrastructure
-            SET
-            infra_title='${d.infra_title}',
-            infra_description='${d.infra_description}'
-            WHERE id='${d.id}'
-        `);
+        await exe(
+            `UPDATE industrial_infrastructure
+            SET infra_title=?, infra_description=?
+            WHERE id=?`,
+            [d.infra_title, d.infra_description, d.id]
+        );
 
     }
 
@@ -2976,10 +2530,10 @@ router.post("/update_infrastructure", async function(req,res){
 
 router.get("/delete_infrastructure/:id", async function(req,res){
 
-    await exe(`
-        DELETE FROM industrial_infrastructure
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM industrial_infrastructure WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/industrial_infrastructure");
 
@@ -3017,68 +2571,41 @@ router.post("/save_company_history", async function(req,res){
 
         image = Date.now() + "_" + req.files.history_image.name;
 
-        req.files.history_image.mv(
+        await req.files.history_image.mv(
             "public/uploads/" + image
         );
     }
 
     if(history.length > 0){
 
-        if(image != ""){
+        if(image !== ""){
 
-            await exe(`
-                UPDATE company_history
-                SET
-                history_image='${image}',
-                history_badge='${d.history_badge}',
-                history_title='${d.history_title}',
-                para1='${d.para1}',
-                para2='${d.para2}',
-                para3='${d.para3}',
-                para4='${d.para4}'
-                WHERE id='${history[0].id}'
-            `);
+            await exe(
+                `UPDATE company_history SET
+                history_image=?, history_badge=?, history_title=?, para1=?, para2=?, para3=?, para4=?
+                WHERE id=?`,
+                [image, d.history_badge, d.history_title, d.para1, d.para2, d.para3, d.para4, history[0].id]
+            );
 
         }else{
 
-            await exe(`
-                UPDATE company_history
-                SET
-                history_badge='${d.history_badge}',
-                history_title='${d.history_title}',
-                para1='${d.para1}',
-                para2='${d.para2}',
-                para3='${d.para3}',
-                para4='${d.para4}'
-                WHERE id='${history[0].id}'
-            `);
+            await exe(
+                `UPDATE company_history SET
+                history_badge=?, history_title=?, para1=?, para2=?, para3=?, para4=?
+                WHERE id=?`,
+                [d.history_badge, d.history_title, d.para1, d.para2, d.para3, d.para4, history[0].id]
+            );
 
         }
 
     }else{
 
-        await exe(`
-            INSERT INTO company_history
-            (
-                history_image,
-                history_badge,
-                history_title,
-                para1,
-                para2,
-                para3,
-                para4
-            )
-            VALUES
-            (
-                '${image}',
-                '${d.history_badge}',
-                '${d.history_title}',
-                '${d.para1}',
-                '${d.para2}',
-                '${d.para3}',
-                '${d.para4}'
-            )
-        `);
+        await exe(
+            `INSERT INTO company_history
+            (history_image, history_badge, history_title, para1, para2, para3, para4)
+            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            [image, d.history_badge, d.history_title, d.para1, d.para2, d.para3, d.para4]
+        );
 
     }
 
@@ -3106,18 +2633,10 @@ router.post("/save_vision_mission", async function(req,res){
 
     var d = req.body;
 
-    await exe(`
-        INSERT INTO vision_mission
-        (
-            vision_title,
-            vision_description
-        )
-        VALUES
-        (
-            '${d.vision_title}',
-            '${d.vision_description}'
-        )
-    `);
+    await exe(
+        `INSERT INTO vision_mission (vision_title, vision_description) VALUES (?, ?)`,
+        [d.vision_title, d.vision_description]
+    );
 
     res.redirect("/admin/vision_mission");
 
@@ -3125,10 +2644,10 @@ router.post("/save_vision_mission", async function(req,res){
 
 router.get("/edit_vision_mission/:id", async function(req,res){
 
-    var vision = await exe(`
-        SELECT * FROM vision_mission
-        WHERE id='${req.params.id}'
-    `);
+    var vision = await exe(
+        `SELECT * FROM vision_mission WHERE id=?`,
+        [req.params.id]
+    );
 
     res.render("admin/edit_vision_mission.ejs",{
         vision : vision[0]
@@ -3140,23 +2659,20 @@ router.post("/update_vision_mission", async function(req,res){
 
     var d = req.body;
 
-    await exe(`
-        UPDATE vision_mission
-        SET
-        vision_title='${d.vision_title}',
-        vision_description='${d.vision_description}'
-        WHERE id='${d.id}'
-    `);
+    await exe(
+        `UPDATE vision_mission SET vision_title=?, vision_description=? WHERE id=?`,
+        [d.vision_title, d.vision_description, d.id]
+    );
 
     res.redirect("/admin/vision_mission");
 
 });
 router.get("/delete_vision_mission/:id", async function(req,res){
 
-    await exe(`
-        DELETE FROM vision_mission
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM vision_mission WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/vision_mission");
 
@@ -3179,23 +2695,21 @@ router.post("/save_future_goal", async function(req,res){
 
     var d = req.body;
 
-    await exe(`
-        INSERT INTO future_goals (goal_title, goal_description)
-        VALUES ('${d.goal_title}','${d.goal_description}')
-    `);
+    await exe(
+        `INSERT INTO future_goals (goal_title, goal_description) VALUES (?, ?)`,
+        [d.goal_title, d.goal_description]
+    );
 
-    // ✅ SAME PAGE REDIRECT
     res.redirect("/admin/future_plans");
 });
 
 router.get("/edit_future_goal/:id", async function(req,res){
 
-    var goal = await exe(`
-        SELECT * FROM future_goals
-        WHERE id='${req.params.id}'
-    `);
+    var goal = await exe(
+        `SELECT * FROM future_goals WHERE id=?`,
+        [req.params.id]
+    );
 
-    // show edit page
     res.render("admin/edit_future_goal",{
         goal: goal[0]
     });
@@ -3205,23 +2719,20 @@ router.post("/update_future_goal", async function(req,res){
 
     var d = req.body;
 
-    await exe(`
-        UPDATE future_goals
-        SET goal_title='${d.goal_title}',
-            goal_description='${d.goal_description}'
-        WHERE id='${d.id}'
-    `);
+    await exe(
+        `UPDATE future_goals SET goal_title=?, goal_description=? WHERE id=?`,
+        [d.goal_title, d.goal_description, d.id]
+    );
 
-    // ✅ Redirect to main table page
     res.redirect("/admin/future_plans");
 });
 
 router.get("/delete_future_goal/:id", async function(req,res){
 
-    await exe(`
-        DELETE FROM future_goals
-        WHERE id='${req.params.id}'
-    `);
+    await exe(
+        `DELETE FROM future_goals WHERE id=?`,
+        [req.params.id]
+    );
 
     res.redirect("/admin/future_plans");
 
@@ -3253,7 +2764,7 @@ router.post("/save_management_team", async function(req,res){
 
         image = Date.now() + "_" + req.files.image.name;
 
-        req.files.image.mv(
+        await req.files.image.mv(
             "public/uploads/" + image
         );
     }
@@ -3306,7 +2817,7 @@ router.post("/update_management_team", async function(req,res){
 
         var image = Date.now() + "_" + req.files.image.name;
 
-        req.files.image.mv(
+        await req.files.image.mv(
             "public/uploads/" + image
         );
 
@@ -3359,7 +2870,7 @@ router.post("/save_slider", async function(req,res){
 
         image = Date.now() + "_" + req.files.image.name;
 
-        req.files.image.mv(
+        await req.files.image.mv(
             "public/uploads/" + image
         );
     }
@@ -3403,7 +2914,7 @@ router.post("/update_slider", async function(req,res){
 
         var image = Date.now() + "_" + req.files.image.name;
 
-        req.files.image.mv(
+        await req.files.image.mv(
             "public/uploads/" + image
         );
 
@@ -3429,12 +2940,10 @@ router.post("/client-login", async function(req,res){
 
     var d = req.body;
 
-    var client = await exe(`
-        SELECT *
-        FROM clients
-        WHERE email='${d.email}'
-        AND password='${d.password}'
-    `);
+    var client = await exe(
+        `SELECT * FROM clients WHERE email=? AND password=?`,
+        [d.email, d.password]
+    );
 
     if(client.length == 0){
         return res.send("Invalid Email or Password");
@@ -3444,11 +2953,10 @@ router.post("/client-login", async function(req,res){
         return res.send("Client already logged in on another device");
     }
 
-    await exe(`
-        UPDATE clients
-        SET login_status='1'
-        WHERE id='${client[0].id}'
-    `);
+    await exe(
+        `UPDATE clients SET login_status='1' WHERE id=?`,
+        [client[0].id]
+    );
 
     req.session.client = client[0];
 
@@ -3472,7 +2980,7 @@ router.get("/delete-client/:id", async (req, res) => {
 
     let id = req.params.id;
 
-    await exe(`DELETE FROM client_register WHERE id='${id}'`);
+    await exe(`DELETE FROM client_register WHERE id=?`, [id]);
 
     res.redirect("/admin/clients");
 
@@ -3489,4 +2997,5 @@ router.get("/logout", (req, res) => {
     });
 
 });
+
 module.exports = router;
