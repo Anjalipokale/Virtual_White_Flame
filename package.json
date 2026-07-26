@@ -2,21 +2,14 @@
   "name": "virtual_white_flame",
   "version": "1.0.0",
   "description": "Virtual White Flame Node.js Application",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "dependencies": {
-    "body-parser": "^2.3.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "ejs": "^6.0.1",
-    "express": "^5.2.1",
-    "express-fileupload": "^1.5.2",
-    "express-session": "^1.19.0",
+    "express": "^4.21.2",
+    "ejs": "^3.1.10",
     "json2csv": "^6.0.0-alpha.2",
-    "multer": "^2.2.0",
-    "mysql2": "^3.23.1",
     "nodemailer": "^9.0.1",
     "pdfkit": "^0.19.1"
   }
